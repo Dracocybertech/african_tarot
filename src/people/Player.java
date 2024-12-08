@@ -6,6 +6,7 @@ import deck.Card;
 public class Player {
     public final static int NAME_MAX = 8;
     public final static int CARDS_MAX = 5;
+    public final static int MAX_LIFE = 10;
 
     public int life;
     public ArrayList<Card> cards;
@@ -17,7 +18,7 @@ public class Player {
     */
     public Player(){
         this.name = "";
-        this.life = 10;
+        this.life = MAX_LIFE;
         this.cards = new ArrayList<Card>(5);
     }
 
@@ -31,7 +32,7 @@ public class Player {
             throw new PlayerNameTooLongException("The name of the player is over 8 characters.");
         }
         this.name = name;
-        this.life = 10;
+        this.life = MAX_LIFE;
         this.cards = new ArrayList<Card>(5);
     }
 
@@ -95,7 +96,7 @@ public class Player {
     public boolean isAlive(){
         return this.life > 0;
     }
-    
+
     /** \brief Getter cards
      	*
 	* getCards() : Return the cards of the player.
