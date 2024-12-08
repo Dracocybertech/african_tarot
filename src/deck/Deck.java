@@ -44,6 +44,16 @@ public class Deck {
     public ArrayList<Card> getCompleteDeck(){
         return this.completeDeck;
     }
+    
+    /** \brief Getter completeDeck.size
+    *
+	* getSize() : Return the size of the deck.
+    * \return int
+    */
+    public int getSize(){
+        return this.completeDeck.size();
+    }
+    
     /** \brief Shuffling the deck
     *
 	* shuffle() : Shuffle the deck.
