@@ -51,7 +51,7 @@ public class Player {
 	* \param String name
          * @throws PlayerNameTooLongException 
             */
-        public void setName(String name) throws PlayerNameTooLongException {
+    public void setName(String name) throws PlayerNameTooLongException {
         if (name.length() > NAME_MAX){
             throw new PlayerNameTooLongException("The name of the player is over 8 characters.");
         }
