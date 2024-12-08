@@ -87,6 +87,15 @@ public class Player {
         this.life -= 1;
     }
 
+    /** \brief If the player still have one life left
+     	*
+	* isAlive() : Return true is the player has more than 0 life point.
+    * \return boolean
+    */
+    public boolean isAlive(){
+        return this.life > 0;
+    }
+    
     /** \brief Getter cards
      	*
 	* getCards() : Return the cards of the player.

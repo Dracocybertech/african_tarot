@@ -118,4 +118,14 @@ public class TestPlayer {
         player1.removeLife();
         Assert.assertEquals(player1.getLife(),previousLife - 1);
     }
+
+    @Test
+    public void testIsAlive(){
+        Assert.assertTrue(player1.isAlive());
+        int lifePlayer1 = player1.getLife();
+        for(int i=0; i < lifePlayer1 ; i++ ){
+            player1.removeLife();
+        }
+        Assert.assertFalse(player1.isAlive());
+    }
 }
