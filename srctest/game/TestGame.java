@@ -37,4 +37,15 @@ public class TestGame {
         Player player = game.createPlayer();
         Assert.assertNotEquals(player.getName(), null);
     }
+
+    @Test
+    public void testCreatePlayers(){
+        // Simulate user input "Hello World"
+        String simulatedInput = "Player1 Player2 Player3 Player4";
+        testIn = new ByteArrayInputStream(simulatedInput.getBytes());
+        System.setIn(testIn);
+        game = new Game();
+        game.createPlayers();
+        Assert.assertEquals(game.getPlayers().size(), Game.NUMBER_PLAYERS);
+    }
 }

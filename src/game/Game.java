@@ -8,9 +8,9 @@ import people.PlayerNameTooLongException;
 
 public class Game {
 
-    public ArrayList<Player> players;
+    private ArrayList<Player> players;
     private Scanner scanner;
-    private static int NUMBER_PLAYERS = 4;
+    public static int NUMBER_PLAYERS = 4;
     
     /** \brief Constructor of Game
      	*
@@ -20,6 +20,15 @@ public class Game {
     public Game(){
         players = new ArrayList<Player>(NUMBER_PLAYERS);
         scanner = new Scanner(System.in);
+    }
+
+    /** \brief Getter players
+     	*
+	* getPlayers() : Return the list of the players in the game.
+	* \return ArrayList<Player>
+    */
+    public ArrayList<Player> getPlayers(){
+        return this.players;
     }
 
     /** \brief Create a Player
@@ -41,6 +50,16 @@ public class Game {
             }
         }
         return player;
+    }
+
+    /** \brief Create all player
+     	*
+	* createPlayers() : Fill the game with all the players for launching a game.
+    */
+    public void createPlayers(){
+        for (int i  = 0 ; i < NUMBER_PLAYERS; i++){
+            players.add(createPlayer());
+        }
     }
 
     /** \brief toString
