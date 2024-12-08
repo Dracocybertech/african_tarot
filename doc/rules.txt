@@ -1,0 +1,37 @@
+
+Mise en place
+
+On commence avec 10 vies. Le jeu s'arrête quand une personne tombe à 0.
+
+On joue avec les atouts du jeu de tarot (de 1 à 21) et l'excuse. L'excuse peut valoir 0 ou 22, c'est à la personne qui la pose d'annoncer la valeur qu'elle souhaite lui donner.
+
+Au premier tour, on distribue 5 cartes à chacun·e.
+Déroulement d'un tour
+Les paris
+
+En partant de la personne à gauche de cell·ui qui a distribué, on parie chacun·e son tour sur le nombre de plis que l'on va faire.
+
+La somme totale des paris ne doit pas être égal au nombre de cartes distribuées par joueur·euse. La dernière personne qui parie ne peut pas parier sur un nombre de plis qui conduierait à cette égalité.
+Les plis
+
+Dans le même ordre que pour les paris, on pose une carte chacu·ne son tour. Cell·ui qui a posé la plus haute carte remporte le pli et relance le pli suivant s'il reste des carte en mains.
+Décompte
+
+Quand on n'a plus de carte en main, on regarde qui n'a pas réussi son pari.
+
+Chaque personne perd un nombre de vies égal à la différence entre ce qu'elle a parié et ce qu'elle a remporté.
+Et ainsi de suite
+
+On renouvelle le processus mais avec une carte en moins par joueur·euse à chaque tour jusqu'à ce qu'on n'ait qu'une carte en main.
+
+Puis on joue le tour à l'aveugle : Une carte est distribuée par personne mais au lieu de l'avoir dans la main, on la met sur son front sans la regarder. On connait donc les cartes des autres mais pas la sienne.
+
+Puis on rejoue avec une carte en main, puis deux, puis trois et ainsi de suite... on monte et on redescend l'escalier indéfiniment jusqu'à ce qu'un·e joueur·euse arrive à 0 vie !
+Notes
+
+    Attention, une fois qu'on annonce son pari, on ne peut pas revenir sur sa décision.
+
+    Pour compter les vies on a l'habitude d'utiliser les cartes restantes du jeu de tarot. Chaque joueur·euse choisit une couleur et place devant soi une pile de 10 cartes rangées dans l'ordre du 10 au 1. Lorsque l'on perd des vies on enlève simplement des cartes de la pile.
+
+    Ces règles sont pour 4 personnes, mais le jeu peut se jouer à 3 ou à 5. Le premier tour sera alors de 6 cartes pour 3 personnes, et 4 cartes pour 5 personnes.
+
