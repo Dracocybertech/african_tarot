@@ -78,7 +78,7 @@ public class Players {
         return this.players.get(index);
     }
 
-    /** \brief Setter cards
+    /** \brief Add player
      	*
 	* addPlayer(Player player) : Add a player to the list.
 	* \param Player player
