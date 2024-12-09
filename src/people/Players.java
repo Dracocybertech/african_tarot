@@ -60,5 +60,19 @@ public class Players {
         }
         return true;
     }
-
+    
+    /** \brief Remove player with 0 life points
+     	*
+	* removeDeadPlayers() : Remove any player with 0 life points from the list and return them
+    * \return Players
+    */
+    public ArrayList<Player> removeDeadPlayers(){
+        ArrayList<Player> deadPlayers = new ArrayList<Player>();
+        for(Player player : this.players){
+            if(!player.isAlive()){
+                deadPlayers.add(player);
+            }
+        }
+        return deadPlayers;
+    }
 }
