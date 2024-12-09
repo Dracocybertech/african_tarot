@@ -22,13 +22,12 @@ public class Players {
      	*
 	* Players() : Create a list of players with specific name, default life and empty hand.
     * If one player can't be created, the process stops and the list of players stay empty. 
-    * \param int numberPlayers
     * \param String[] namePlayers
        */
-    public Players(int numberPlayers, String[] namePlayers) throws PlayerNameTooLongException{
+    public Players(String[] namePlayers) throws PlayerNameTooLongException{
         try{
-            this.players = new ArrayList<Player>(numberPlayers);
-            for (int i = 0 ; i < numberPlayers ; i++){
+            this.players = new ArrayList<Player>(namePlayers.length);
+            for (int i = 0 ; i < namePlayers.length ; i++){
                 this.players.add(new Player(namePlayers[i]));
             }
         }
@@ -124,6 +123,29 @@ public class Players {
             this.players.removeIf(playerDead -> playerDead.getLife() <= 0);
         }
         return deadPlayers;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (o == this){
+            return true;
+        }
+        if (o == null || o.getClass() != this.getClass()){
+            return false;
+        }
+        if (o.hashCode() == this.hashCode()){
+            return true;
+        }
+        return false;
+    }
+
+    /** \brief hashCode
+     	*
+	* hashCode() : Return the hashcode of Players.
+	* \return int
+    */
+    public int hashCode(){
+        return 13 * this.players.hashCode();
     }
 
     /** \brief toString
