@@ -38,6 +38,17 @@ public class Players {
         }
     }
 
+    /** \brief Constructor of Players
+     	*
+	* Players() : Fill the list with a pre existing list if players.
+    * \param ArrayList<Player> players
+       */
+    public Players(ArrayList<Player> players){
+        for (Player player : players){
+            this.players.add(player);
+        }
+    }
+    
     /** \brief Getter Deck
         *
     * getPlayers() : Return the players.
@@ -60,7 +71,7 @@ public class Players {
         }
         return true;
     }
-    
+
     /** \brief Remove player with 0 life points
      	*
 	* removeDeadPlayers() : Remove any player with 0 life points from the list and return them
