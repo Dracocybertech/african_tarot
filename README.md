@@ -1,7 +1,7 @@
 # Introduction
 This repository contains a project of an African Tarot in Java. It's variation of the tarot.
 
-Every player starts with 10. Each turn, players need to predict the number of trick they will make to avoid losing life points. The last player standing is the winner. 
+Every player starts with 10 life points. Each turn, players need to predict the number of trick they will make to avoid losing life points. The last player standing is the winner. 
 
 This game is entirely playable through the terminal console.
 
