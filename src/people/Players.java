@@ -78,6 +78,15 @@ public class Players {
         return this.players.get(index);
     }
 
+    /** \brief Getter size
+        *
+    * getSize() : return the size of the list of players.
+    * \return int
+    */
+    public int getSize(){
+        return this.players.size();
+    }
+
     /** \brief Add player
      	*
 	* addPlayer(Player player) : Add a player to the list.
