@@ -33,15 +33,10 @@ public class TestGame {
         players.add(new Player("Player4"));
         game.setPlayers(players);
     }
-
-    @AfterEach
-    public void restoreSystemIn() {
-        // Restore System.in after each test
-        System.setIn(originalSystemIn);
-    }
-
+    
     @After
     public void afterTest(){ 
+        System.setIn(originalSystemIn);
         System.out.println("Test Game over");
     }
 
