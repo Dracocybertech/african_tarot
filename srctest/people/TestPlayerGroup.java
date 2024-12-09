@@ -129,8 +129,8 @@ public class TestPlayerGroup {
     @Test
     public void testEquals() throws PlayerNameTooLongException{
         String[] namePlayers = {"Player1", "Player2"};
-       PlayerGroup players1 = new PlayerGroup(namePlayers);
-       PlayerGroup players2 = new PlayerGroup(namePlayers);
+        PlayerGroup players1 = new PlayerGroup(namePlayers);
+        PlayerGroup players2 = new PlayerGroup(namePlayers);
         Assert.assertEquals(players1, players2);
     }
 }
