@@ -12,7 +12,7 @@ public class Players {
     * \param int numberPlayers
     */
     public Players(int numberPlayers){
-        players = new ArrayList<Player>(numberPlayers);
+        this.players = new ArrayList<Player>(numberPlayers);
         for (int i = 0 ; i < numberPlayers ; i++){
             players.add(new Player());
         }
@@ -26,15 +26,17 @@ public class Players {
     * \param String[] namePlayers
        */
     public Players(int numberPlayers, String[] namePlayers) throws PlayerNameTooLongException{
-        players = new ArrayList<Player>(numberPlayers);
         try{
+            this.players = new ArrayList<Player>(numberPlayers);
             for (int i = 0 ; i < numberPlayers ; i++){
-                players.add(new Player(namePlayers[0]));
+                this.players.add(new Player(namePlayers[i]));
             }
         }
         catch(PlayerNameTooLongException e){
             System.out.println(e.getMessage());
-            players.clear();
+            if (this.players  != null && this.players.size() != 0 ){
+                this.players.clear();
+            }
         }
     }
 
