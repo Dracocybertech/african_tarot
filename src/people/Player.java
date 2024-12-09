@@ -142,6 +142,29 @@ public class Player {
         return this.cards.remove(index -1);
     }
     
+    @Override
+    public boolean equals(Object o){
+        if (o == this){
+            return true;
+        }
+        if (o == null || o.getClass() != this.getClass()){
+            return false;
+        }
+        if (o.hashCode() == this.hashCode()){
+            return true;
+        }
+        return false;
+    }
+
+    /** \brief hashCode
+     	*
+	* hashCode() : Return the hashcode of a Player.
+	* \return int
+    */
+    public int hashCode(){
+        return 13 * this.life + 17 * this.name.hashCode()+ 7 * this.cards.hashCode();
+    }
+
     /** \brief toString
      	*
 	* toString() : Return the string representation of a Deck.

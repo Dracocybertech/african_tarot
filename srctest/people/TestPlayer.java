@@ -128,4 +128,14 @@ public class TestPlayer {
         }
         Assert.assertFalse(player1.isAlive());
     }
+
+    @Test
+    public void testIsEquals() throws PlayerNameTooLongException{
+        String name = "Player";
+        Player player3 = new Player(name);
+        Player player4 = new Player(name);
+        Player player5 = new Player(name+"1");
+        Assert.assertEquals(player3, player4);
+        Assert.assertNotEquals(player3, player5);
+    }
 }
