@@ -10,21 +10,21 @@ import org.junit.Test;
 import people.NegativeOrNullLifeValueException;
 import people.Player;
 import people.PlayerNameTooLongException;
-import people.Players;
+import people.PlayerGroup;
 
-public class TestPlayers {
+public class TestPlayerGroup {
     
-    Players players;
+    PlayerGroup players;
     static int NUMBER_PLAYERS = 4;
     
     @Before
     public void beforeTest(){
-        players = new Players(NUMBER_PLAYERS);
+        players = new PlayerGroup(NUMBER_PLAYERS);
     }
 
     @After
     public void afterTest(){ 
-        System.out.println("Test Players over");
+        System.out.println("Test PlayerGroup over");
     }
 
     @Test 
@@ -33,10 +33,10 @@ public class TestPlayers {
         int numberPlayers = 1;
         String[] namePlayers = {namePlayer};
         //Create the players
-        Players playersTest = new Players(namePlayers);
+       PlayerGroup playersTest = new PlayerGroup(namePlayers);
         
         
-        //Create the arrayList we expect to have in Players
+        //Create the arrayList we expect to have inPlayerGroup
         ArrayList<Player> playersExpected = new ArrayList<Player>(numberPlayers);
         Player Player1 = new Player(namePlayer);
         playersExpected.add(Player1);
@@ -129,8 +129,8 @@ public class TestPlayers {
     @Test
     public void testEquals() throws PlayerNameTooLongException{
         String[] namePlayers = {"Player1", "Player2"};
-        Players players1 = new Players(namePlayers);
-        Players players2 = new Players(namePlayers);
+       PlayerGroup players1 = new PlayerGroup(namePlayers);
+       PlayerGroup players2 = new PlayerGroup(namePlayers);
         Assert.assertEquals(players1, players2);
     }
 }

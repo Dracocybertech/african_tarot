@@ -2,29 +2,29 @@ package people;
 
 import java.util.ArrayList;
 
-public class Players {
+public class PlayerGroup {
     
     ArrayList<Player> players;
 
     /** \brief Constructor of Player
      	*
-	* Players() : Create a list of players with default life and empty handc.
+	* PlayerGroup() : Create a list of players with default life and empty handc.
     * \param int numberPlayers
     */
-    public Players(int numberPlayers){
+    public PlayerGroup(int numberPlayers){
         this.players = new ArrayList<Player>(numberPlayers);
         for (int i = 0 ; i < numberPlayers ; i++){
             players.add(new Player());
         }
     }
 
-    /** \brief Constructor of Players
+    /** \brief Constructor of PlayerGroup
      	*
-	* Players() : Create a list of players with specific name, default life and empty hand.
+	* PlayerGroup() : Create a list of players with specific name, default life and empty hand.
     * If one player can't be created, the process stops and the list of players stay empty. 
     * \param String[] namePlayers
        */
-    public Players(String[] namePlayers) throws PlayerNameTooLongException{
+    public PlayerGroup(String[] namePlayers) throws PlayerNameTooLongException{
         try{
             this.players = new ArrayList<Player>(namePlayers.length);
             for (int i = 0 ; i < namePlayers.length ; i++){
@@ -39,12 +39,12 @@ public class Players {
         }
     }
 
-    /** \brief Constructor of Players
+    /** \brief Constructor of PlayerGroup
      	*
-	* Players() : Fill the list with a pre existing list if players.
+	* PlayerGroup() : Fill the list with a pre existing list if players.
     * \param ArrayList<Player> players
        */
-    public Players(ArrayList<Player> players){
+    public PlayerGroup(ArrayList<Player> players){
         for (Player player : players){
             this.players.add(player);
         }
