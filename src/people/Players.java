@@ -48,7 +48,7 @@ public class Players {
             this.players.add(player);
         }
     }
-    
+
     /** \brief Getter Deck
         *
     * getPlayers() : Return the players.
@@ -85,5 +85,19 @@ public class Players {
             }
         }
         return deadPlayers;
+    }
+
+    /** \brief toString
+     	*
+	* toString() : Return the string representation of Players.
+	* \return String
+    */
+    public String toString(){
+        String result = "";
+        for(Player player: this.players){
+            result += player.toString();
+            result +="\n";
+        }
+        return result;
     }
 }
