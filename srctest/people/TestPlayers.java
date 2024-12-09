@@ -1,7 +1,5 @@
 package srctest.people;
 
-import static org.junit.Assert.assertArrayEquals;
-
 import java.util.ArrayList;
 
 import org.junit.After;
