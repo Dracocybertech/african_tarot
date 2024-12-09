@@ -18,14 +18,14 @@ public class Players {
         }
     }
 
-    /** \brief Constructor of Player
+    /** \brief Constructor of Players
      	*
 	* Players() : Create a list of players with specific name, default life and empty hand.
     * If one player can't be created, the process stops and the list of players stay empty. 
     * \param int numberPlayers
     * \param String[] namePlayers
        */
-        public Players(int numberPlayers, String[] namePlayers) throws PlayerNameTooLongException{
+    public Players(int numberPlayers, String[] namePlayers) throws PlayerNameTooLongException{
         players = new ArrayList<Player>(numberPlayers);
         try{
             for (int i = 0 ; i < numberPlayers ; i++){
@@ -36,6 +36,15 @@ public class Players {
             System.out.println(e.getMessage());
             players.clear();
         }
+    }
+
+    /** \brief Getter Deck
+        *
+    * getPlayers() : Return the players.
+    * \return ArrayList<Player>
+    */
+    public ArrayList<Player> getPlayers(){
+        return this.players;
     }
 
     /** \brief If a list of players is alive
@@ -51,4 +60,5 @@ public class Players {
         }
         return true;
     }
+
 }
