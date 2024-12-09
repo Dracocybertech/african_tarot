@@ -51,13 +51,22 @@ public class Players {
         }
     }
 
-    /** \brief Getter Deck
+    /** \brief Getter Players
         *
     * getPlayers() : Return the players.
     * \return ArrayList<Player>
     */
     public ArrayList<Player> getPlayers(){
         return this.players;
+    }
+
+    /** \brief Getter Player
+        *
+    * getPlayer() : Return a specific player.
+    * \return Player
+    */
+    public Player getPlayer(int index){
+        return this.players.get(index);
     }
 
     /** \brief If a list of players is alive
