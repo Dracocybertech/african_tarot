@@ -60,6 +60,15 @@ public class Players {
         return this.players;
     }
 
+    /** \brief Setter Players
+        *
+    * setPlayers(ArrayList<Player> players) : Set the new list of players.
+    * \param ArrayList<Player> players
+    */
+    public void setPlayers(ArrayList<Player> players){
+        this.players = players;
+    }
+
     /** \brief Getter Player
         *
     * getPlayer() : Return a specific player.
@@ -67,6 +76,15 @@ public class Players {
     */
     public Player getPlayer(int index){
         return this.players.get(index);
+    }
+
+    /** \brief Setter cards
+     	*
+	* addPlayer(Player player) : Add a player to the list.
+	* \param Player player
+    */
+    public void addPlayer(Player player){
+        this.players.add(player);
     }
 
     /** \brief If a list of players is alive
