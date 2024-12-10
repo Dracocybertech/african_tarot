@@ -4,11 +4,14 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import javax.swing.DebugGraphics;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import deck.Deck;
 import deck.RemovingTooManyCards;
 import game.BadNumberOfPlayersException;
 import game.Game;
@@ -109,6 +112,13 @@ public class TestGame {
     @Test
     public void testGetNumberPlayersAlive(){
         Assert.assertEquals(gameWithPlayer.getNumberPlayersAlive(), Game.NUMBER_PLAYERS);
+    }
+
+    @Test
+    public void testGetDeck(){
+        Deck deckExpected = new Deck();
+        deckExpected.buildDeck();
+        Assert.assertEquals(gameWithPlayer.getDeck(), deckExpected);
     }
 
     @Test
