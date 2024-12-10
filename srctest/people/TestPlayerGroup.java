@@ -18,12 +18,20 @@ public class TestPlayerGroup {
     static int NUMBER_PLAYERS = 4;
     
     @Before
-    public void beforeTest(){
+    public void beforeTest() throws PlayerNameTooLongException{
         players = new PlayerGroup(NUMBER_PLAYERS);
+        Player Player1 = new Player("Player1");
+        Player Player2 = new Player("Player2");
+        Player Player3 = new Player("Player3");
+        Player Player4 = new Player("Player4");
+        players.addPlayer(Player1);
+        players.addPlayer(Player2);
+        players.addPlayer(Player3);
+        players.addPlayer(Player4);
     }
 
     @After
-    public void afterTest(){ 
+    public void afterTest(){
         System.out.println("Test PlayerGroup over");
     }
 
@@ -36,16 +44,17 @@ public class TestPlayerGroup {
         String namePlayer = "Player1";
         numberPlayers = 1;
         String[] namePlayers = {namePlayer};
-        //Create the players
-        PlayerGroup playersTest = new PlayerGroup(namePlayers);
+        //Create the players with a array of string
+        PlayerGroup playersWithString = new PlayerGroup(namePlayers);
         
-        //Create the arrayList we expect to have inPlayerGroup
+        //Create the arrayList we expect to have in PlayerGroup
         ArrayList<Player> playersExpected = new ArrayList<Player>(numberPlayers);
         Player Player1 = new Player(namePlayer);
         playersExpected.add(Player1);
 
-        Assert.assertTrue(playersExpected.equals(playersTest.getPlayers()));
+        Assert.assertTrue(playersExpected.equals(playersWithString.getPlayers()));
 
+        //Create the players with a list of players
         ArrayList<Player> playersToCreate = new ArrayList<Player>(numberPlayers);
         playersToCreate.add(Player1);
         PlayerGroup playersWithArray = new PlayerGroup(playersToCreate);
