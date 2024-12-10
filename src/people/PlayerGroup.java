@@ -77,12 +77,12 @@ public class PlayerGroup {
         return this.players.get(index);
     }
 
-    /** \brief Getter size
+    /** \brief Number of player
         *
-    * getSize() : return the size of the list of players.
+    * getSize() : return the number of players.
     * \return int
     */
-    public int getSize(){
+    public int getNumberPlayers(){
         return this.players.size();
     }
 
