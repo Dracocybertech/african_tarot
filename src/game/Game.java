@@ -24,6 +24,7 @@ public class Game {
      */
     public Game(){
         players = new PlayerGroup(NUMBER_PLAYERS);
+        playersAlive = new PlayerGroup(NUMBER_PLAYERS);
         scanner = new Scanner(System.in);
         deck = new Deck();
         deck.buildDeck();
