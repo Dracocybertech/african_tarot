@@ -75,6 +75,24 @@ public class Game {
         this.playersAlive.setPlayers(playersAlive);
     }
 
+    /** \brief Number players
+        *
+    * getNumberPlayers() : Return the number of total players in the game.
+    * \return int
+    */
+    public int getNumberPlayers(){
+        return this.players.getNumberPlayers();
+    }
+    
+    /** \brief Number players alive
+        *
+    * getNumberPlayers() : Return the number of total players in the game.
+    * \return int
+    */
+    public int getNumberPlayersAlive(){
+        return this.players.getNumberPlayers();
+    }
+
     /** \brief Getter Deck
         *
     * getDeck() : Return the current deck in the game.
