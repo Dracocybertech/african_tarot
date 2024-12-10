@@ -3,6 +3,8 @@ package game;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import deck.CardException;
+import deck.CardNameTooLongException;
 import deck.Deck;
 import deck.RemovingTooManyCards;
 import people.Player;
@@ -22,11 +24,13 @@ public class Game {
     /** \brief Constructor of Game
     *
     * Game() : Initialize the game.
+     * @throws CardNameTooLongException 
         * @throws CardException 
     */
     public Game(){
         players = new PlayerGroup(NUMBER_PLAYERS);
         scanner = new Scanner(System.in);
+        deck = new Deck();
         deck.buildDeck();
     }
 
@@ -162,7 +166,7 @@ public class Game {
             player.setCards(deck.removeCards(numberCards));
         }
     }
-
+    
     /** \brief toString
      	*
 	* toString() : Return the string representation of a Deck.

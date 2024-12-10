@@ -9,10 +9,8 @@ public class Deck {
     /** \brief Constructor of Deck
     *
 	* Deck() : Create an empty deck.
-         * @throws CardException 
-              * @throws CardNameTooLongException 
     */
-    public Deck() throws CardException, CardNameTooLongException{
+    public Deck(){
         completeDeck = new ArrayList<Card>(Card.MAX_VALUE);
     }
 
