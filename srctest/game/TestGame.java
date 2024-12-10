@@ -63,6 +63,7 @@ public class TestGame {
         gameWithPlayer.setPlayers(playersTest);
 
         Assert.assertEquals(gameWithPlayer.getPlayers(), playersTest);
+        Assert.assertEquals(gameWithPlayer.getPlayersAlive(), playersTest);
     }
     
     @Test(expected=BadNumberOfPlayersException.class)
