@@ -122,6 +122,13 @@ public class TestGame {
     }
 
     @Test
+    public void testGetDeckSize(){
+        Deck deckExpected = new Deck();
+        deckExpected.buildDeck();
+        Assert.assertEquals(gameWithPlayer.getDeckSize(), deckExpected.getSize());
+    }
+
+    @Test
     public void testCreatePlayer(){
         String simulatedInput = "Player1";
         testIn = new ByteArrayInputStream(simulatedInput.getBytes());
