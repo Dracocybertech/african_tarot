@@ -168,10 +168,10 @@ public class Game {
 	* \return String
     */
     public String toString(){
-        String result = "Players : ";
-        for(Player player: this.players.getPlayers()){
-            result += player.toString();
-        }
+        String result = "\n Players: ";
+        result += this.players.toString();
+        result += "\n Players alive: ";
+        result += this.playersAlive.toString();
 
         return result;
     }
