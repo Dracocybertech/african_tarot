@@ -20,9 +20,9 @@ public class Game {
     public static int NUMBER_PLAYERS = 4;
     
     /** \brief Constructor of Game
-        *
+    *
     * Game() : Initialize the game.
-         * @throws CardException 
+        * @throws CardException 
     */
     public Game(){
         players = new PlayerGroup(NUMBER_PLAYERS);
@@ -35,8 +35,8 @@ public class Game {
     * getPlayers() : Return the list of the players in the game.
     * \return ArrayList<Player>
     */
-    public PlayerGroup getPlayers(){
-        return players;
+    public ArrayList<Player> getPlayers(){
+        return this.players.getPlayers();
     }
 
     /** \brief Setter players
@@ -55,10 +55,10 @@ public class Game {
     /** \brief Getter playersAlive
         *
     * getPlayersAlive() : Return the list of the players  alive in the game.
-    * \return PlayerGroup
+    * \return ArrayList<Player>
     */
-    public PlayerGroup getPlayersAlive(){
-        return this.playersAlive;
+    public ArrayList<Player> getPlayersAlive(){
+        return this.playersAlive.getPlayers();
     }
 
     /** \brief Setter playersAlive
@@ -86,7 +86,7 @@ public class Game {
     
     /** \brief Number players alive
         *
-    * getNumberPlayers() : Return the number of total players in the game.
+    * getNumberPlayersAlive() : Return the number of total players in the game.
     * \return int
     */
     public int getNumberPlayersAlive(){
@@ -113,7 +113,7 @@ public class Game {
 
     /** \brief Create a Player
         *
-    * createPlayer() : Create an instance of a new Player with a specific name.
+    * createPlayer() : Allow the user to create a new Player with a specific name.
     * \return Player
     */
     public Player createPlayer(){
