@@ -102,6 +102,11 @@ public class TestGame {
     }
 
     @Test
+    public void testGetNumberPlayers(){
+        Assert.assertEquals(gameWithPlayer.getNumberPlayers(), Game.NUMBER_PLAYERS);
+    }
+
+    @Test
     public void testCreatePlayer(){
         String simulatedInput = "Player1";
         testIn = new ByteArrayInputStream(simulatedInput.getBytes());
