@@ -8,14 +8,11 @@ public class PlayerGroup {
 
     /** \brief Constructor of Player
      	*
-	* PlayerGroup() : Create a list of players with default life and empty handc.
+	* PlayerGroup() : Create a empty list of players.
     * \param int numberPlayers
     */
     public PlayerGroup(int numberPlayers){
         this.players = new ArrayList<Player>(numberPlayers);
-        for (int i = 0 ; i < numberPlayers ; i++){
-            players.add(new Player());
-        }
     }
 
     /** \brief Constructor of PlayerGroup
@@ -45,6 +42,7 @@ public class PlayerGroup {
     * \param ArrayList<Player> players
        */
     public PlayerGroup(ArrayList<Player> players){
+        this.players = new ArrayList<Player>(players.size());
         for (Player player : players){
             this.players.add(player);
         }

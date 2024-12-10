@@ -29,12 +29,15 @@ public class TestPlayerGroup {
 
     @Test 
     public void testConstructor() throws PlayerNameTooLongException{
+        int numberPlayers = 4;
+        PlayerGroup playersTestEmpty = new PlayerGroup(numberPlayers);
+        Assert.assertEquals(playersTestEmpty.getNumberPlayers(), 0);
+
         String namePlayer = "Player1";
-        int numberPlayers = 1;
+        numberPlayers = 1;
         String[] namePlayers = {namePlayer};
         //Create the players
-       PlayerGroup playersTest = new PlayerGroup(namePlayers);
-        
+        PlayerGroup playersTest = new PlayerGroup(namePlayers);
         
         //Create the arrayList we expect to have inPlayerGroup
         ArrayList<Player> playersExpected = new ArrayList<Player>(numberPlayers);
@@ -42,6 +45,12 @@ public class TestPlayerGroup {
         playersExpected.add(Player1);
 
         Assert.assertTrue(playersExpected.equals(playersTest.getPlayers()));
+
+        ArrayList<Player> playersToCreate = new ArrayList<Player>(numberPlayers);
+        playersToCreate.add(Player1);
+        PlayerGroup playersWithArray = new PlayerGroup(playersToCreate);
+
+        Assert.assertTrue(playersExpected.equals(playersWithArray.getPlayers()));
     }
 
     @Test
