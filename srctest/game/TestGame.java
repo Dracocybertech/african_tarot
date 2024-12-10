@@ -13,6 +13,7 @@ import deck.RemovingTooManyCards;
 import game.BadNumberOfPlayersException;
 import game.Game;
 import game.NotEnoughCardsInDeckException;
+import people.NegativeLifeValueException;
 import people.Player;
 import people.PlayerNameTooLongException;
 import people.TooManyCardsException;
@@ -23,6 +24,9 @@ public class TestGame {
     private ByteArrayInputStream testIn;
     Game gameWithPlayer;
     Player player1;
+    Player player2;
+    Player player3;
+    Player player4;
     ArrayList<Player> players;
 
     @Before
@@ -30,10 +34,13 @@ public class TestGame {
         gameWithPlayer = new Game();
         players = new ArrayList<Player>(Game.NUMBER_PLAYERS);
         player1 = new Player("Player1");
+        player2 = new Player("Player2");
+        player3 = new Player("Player3");
+        player4 = new Player("Player4");
         players.add(player1);
-        players.add(new Player("Player2"));
-        players.add(new Player("Player3"));
-        players.add(new Player("Player4"));
+        players.add(player2);
+        players.add(player3);
+        players.add(player4);
         gameWithPlayer.setPlayers(players);
     }
     
@@ -74,6 +81,24 @@ public class TestGame {
             playersTest.add(player1);
         }
         gameWithPlayer.setPlayers(playersTest);
+    }
+
+    @Test
+    public void testGetPlayersAlive() throws NegativeLifeValueException, BadNumberOfPlayersException{
+        //Case where every player of the game is alive
+        Assert.assertEquals(gameWithPlayer.getPlayersAlive(), players);
+        
+        //Set the life of one player to 0 to see if the number of player alive is the right one 
+        //even with dead players
+        player1.setLife(0);
+        ArrayList<Player> playersTest = new ArrayList<Player>(2);
+        playersTest.add(player1);
+        playersTest.add(player2);
+        gameWithPlayer.setPlayers(playersTest);
+        ArrayList<Player> playersAliveExpected = new ArrayList<Player>(1);
+        playersAliveExpected.add(player2);
+
+        Assert.assertEquals(playersAliveExpected, gameWithPlayer.getPlayersAlive());
     }
 
     @Test
