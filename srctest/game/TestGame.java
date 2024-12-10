@@ -50,6 +50,11 @@ public class TestGame {
     }
 
     @Test
+    public void testGetPlayers(){
+        Assert.assertEquals(gameWithPlayer.getPlayers(), players);
+    }
+
+    @Test
     public void testCreatePlayer(){
         String simulatedInput = "Player1";
         testIn = new ByteArrayInputStream(simulatedInput.getBytes());
