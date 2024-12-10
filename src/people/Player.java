@@ -71,11 +71,11 @@ public class Player {
      	*
 	* setLife() : Set the life of the player.
 	* \param int life
-         * @throws NegativeOrNullLifeValueException 
+         * @throws NegativeLifeValueException 
             */
-    public void setLife(int life) throws NegativeOrNullLifeValueException {
-        if (life <= 0){
-            throw new NegativeOrNullLifeValueException("Life can't be equal or less than 0.");
+    public void setLife(int life) throws NegativeLifeValueException {
+        if (life < 0){
+            throw new NegativeLifeValueException("Life can't be less than 0.");
         }
         this.life = life;
     }
