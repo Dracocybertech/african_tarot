@@ -6,13 +6,14 @@ import java.util.Scanner;
 import deck.Deck;
 import deck.RemovingTooManyCards;
 import people.Player;
+import people.PlayerGroup;
 import people.PlayerNameTooLongException;
 import people.TooManyCardsException;
 
 public class Game {
 
-    private ArrayList<Player> players;
-    private ArrayList<Player> playersStillAlive;
+    private PlayerGroup players;
+    private PlayerGroup playersAlive;
     private Scanner scanner;
     private Deck deck;
     
@@ -24,7 +25,7 @@ public class Game {
          * @throws CardException 
     */
     public Game(){
-        players = new ArrayList<Player>(NUMBER_PLAYERS);
+        players = new PlayerGroup(NUMBER_PLAYERS);
         scanner = new Scanner(System.in);
         deck.buildDeck();
     }
@@ -34,8 +35,8 @@ public class Game {
     * getPlayers() : Return the list of the players in the game.
     * \return ArrayList<Player>
     */
-    public ArrayList<Player> getPlayers(){
-        return this.players;
+    public PlayerGroup getPlayers(){
+        return players;
     }
 
     /** \brief Setter players
@@ -45,33 +46,33 @@ public class Game {
          * @throws BadNumberOfPlayersException 
         */
     public void setPlayers(ArrayList<Player> players) throws BadNumberOfPlayersException{
-        if (players.size() != this.players.size()){
+        if (players.size() != this.players.getNumberPlayers()){
             throw new BadNumberOfPlayersException("The number of player must be :"+NUMBER_PLAYERS);
         }
-        this.players = players;
+        this.players.setPlayers(players);
     }
 
-    /** \brief Getter playersStillAlive
+    /** \brief Getter playersAlive
         *
-    * getPlayersStillAlive() : Return the list of the players still alive in the game.
-    * \return ArrayList<Player>
+    * getPlayersAlive() : Return the list of the players  alive in the game.
+    * \return PlayerGroup
     */
-    public ArrayList<Player> getPlayersStillAlive(){
-        return this.playersStillAlive;
+    public PlayerGroup getPlayersAlive(){
+        return this.playersAlive;
     }
 
-    /** \brief Setter playersStillAlive
+    /** \brief Setter playersAlive
         *
-    * setPlayersStillAlive(ArrayList<Player> players) : Set a new list of players still alive. 
-    * \param ArrayList<Player> playersStillAlive
+    * setPlayersAlive(ArrayList<Player> players) : Set a new list of players  alive. 
+    * \param ArrayList<Player> playersAlive
          * @throws BadNumberOfPlayersException 
         */
-    public void setPlayersStillAlive(ArrayList<Player> playersStillAlive) throws BadNumberOfPlayersException{
-        if (playersStillAlive.size() > this.playersStillAlive.size()){
+    public void setPlayersAlive(ArrayList<Player> playersAlive) throws BadNumberOfPlayersException{
+        if (playersAlive.size() > this.playersAlive.getNumberPlayers()){
             throw new BadNumberOfPlayersException("The number of player must be less or equal than :"+NUMBER_PLAYERS);
         }
         
-        this.playersStillAlive = playersStillAlive;
+        this.playersAlive.setPlayers(playersAlive);
     }
 
     /** \brief Getter Deck
@@ -120,14 +121,14 @@ public class Game {
     public void createPlayers(){
         for (int i  = 0 ; i < NUMBER_PLAYERS; i++){
             Player player = createPlayer();
-            players.add(player);
-            playersStillAlive.add(player);
+            players.addPlayer(player);
+            playersAlive.addPlayer(player);
         }
     }
 
     /** \brief Distribute cards to players
     *
-    * distributeCards(int numberCards) : Distribute exactly numberCards to each player still alive.
+    * distributeCards(int numberCards) : Distribute exactly numberCards to each player alive.
     * @throws NotEnoughCardsInDeckException 
     * @throws RemovingTooManyCards 
     * @throws TooManyCardsException 
@@ -138,7 +139,7 @@ public class Game {
             numberCards +" to each player.");
         }
 
-        for(Player player : playersStillAlive){
+        for(Player player : playersAlive.getPlayers()){
             //Card removed from the deck are added to the player's hand
             player.setCards(deck.removeCards(numberCards));
         }
@@ -151,7 +152,7 @@ public class Game {
     */
     public String toString(){
         String result = "Players : ";
-        for(Player player: this.players){
+        for(Player player: this.players.getPlayers()){
             result += player.toString();
         }
 
