@@ -3,6 +3,7 @@ package game;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import deck.Card;
 import deck.Deck;
 import deck.RemovingTooManyCards;
 import people.Player;
@@ -18,6 +19,7 @@ public class Game {
     private Deck deck;
     
     public static int NUMBER_PLAYERS = 4;
+    public static int ROUND_MAX = 5;
     
     /** \brief Constructor Game
      * Game(): create the players and the deck of cards.
@@ -141,7 +143,7 @@ public class Game {
     * @throws TooManyCardsException 
     */
     public void distributeCards(int numberCards) throws NotEnoughCardsInDeckException, TooManyCardsException, RemovingTooManyCards{
-        if (numberCards * NUMBER_PLAYERS > this.deck.getSize()){
+        if (numberCards * getNumberPlayersAlive() > this.deck.getSize()){
             throw new NotEnoughCardsInDeckException("There isn't enough cards left in the deck to distribute "+ 
             numberCards +" to each player.");
         }
@@ -152,6 +154,68 @@ public class Game {
         }
     }
     
+    /** \brief Player play
+    * play(int playerNumber) : The player can play any card from their hands.
+    * \param int playerNumber
+    */
+    public void play(int playerNumber){
+        try{
+            //Should be a shallow copy, so any changed made to current player
+            //will be reflected in the list of players
+            Player currentPlayer = players.getPlayer(playerNumber);
+            System.out.println("Which card would you like to play ?");
+            System.out.println(currentPlayer.getCards().toString());
+            Card cardPlayed = null;
+            while (cardPlayed == null){
+                int indexCard = scanner.nextInt();
+                try{
+                    cardPlayed = currentPlayer.removeCard(indexCard);
+                }
+                catch(Exception e){
+                    System.out.println("The card can't be played.");
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+        catch(Exception e){
+
+        }
+    }
+
+    /** \brief Round process
+    * round(int numberRound) : Start a round by distributing cards according to the current number of round.
+    * Allow player to play until there is no card left in hands. Compute which player lose or not a life points.
+    * Remove players with no life points.
+    * \param int numberRound
+         * @throws BadNumberOfRoundException 
+        */
+        public void round(int numberRound) throws BadNumberOfRoundException{
+        if (numberRound > ROUND_MAX || numberRound < 0){
+            throw new BadNumberOfRoundException("The current number of round must be between "+ROUND_MAX+" and 0.");
+        }
+        try {
+            //distribute cards to every player
+            distributeCards(numberRound);
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return;
+        }
+        play(numberRound);
+    }
+
+    /** \brief Start the game
+    * start() : Start the game by creating every player and distributing the cards. Process to 
+    * play every round until there is only one player alive.
+    */
+    public void start(){
+        createPlayers();
+        boolean endOfGame = false;
+        while (!endOfGame){
+            endOfGame = true;
+        }
+    }
+
     /** \brief toString
      	*
 	* toString() : Return the string representation of a Deck.

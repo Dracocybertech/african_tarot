@@ -161,4 +161,27 @@ public class TestGame {
             Assert.assertEquals(player.getNumberCards(), maxCardsDistributable);
         }
     }
+
+    @Test
+    public void testPlay() throws NotEnoughCardsInDeckException, TooManyCardsException, RemovingTooManyCards, BadNumberOfPlayersException{
+        String simulatedInput = "1";
+        testIn = new ByteArrayInputStream(simulatedInput.getBytes());
+        System.setIn(testIn);
+        Game game = new Game();
+
+        ArrayList<Player> listPlayer = new ArrayList<Player>();
+        listPlayer.add(player1);
+        listPlayer.add(player2);
+        listPlayer.add(player3);
+        listPlayer.add(player4);
+        game.setPlayers(listPlayer);
+
+        int deckSize = game.getDeckSize();
+        int maxCardsDistributable = deckSize / game.getNumberPlayersAlive();
+        System.out.println("maxCardsDistributable "+maxCardsDistributable);
+        System.out.println("game.getDeckSize() "+ game.getDeckSize());
+        game.distributeCards(maxCardsDistributable);
+        game.play(0);
+
+    }
 }
