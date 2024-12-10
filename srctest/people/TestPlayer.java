@@ -10,7 +10,7 @@ import org.junit.Assert;
 import deck.Card;
 import deck.CardException;
 import deck.CardNameTooLongException;
-import people.NegativeOrNullLifeValueException;
+import people.NegativeLifeValueException;
 import people.Player;
 import people.PlayerNameTooLongException;
 import people.TooManyCardsException;
@@ -55,18 +55,18 @@ public class TestPlayer {
     }
 
     @Test
-    public void testSetLife() throws NegativeOrNullLifeValueException{
+    public void testSetLife() throws NegativeLifeValueException{
         player1.setLife(5);
         Assert.assertEquals(player1.getLife(), 5);
     }
 
-    @Test(expected=NegativeOrNullLifeValueException.class)
-    public void testNegativeOrNullLifeValueException() throws NegativeOrNullLifeValueException{
+    @Test(expected=NegativeLifeValueException.class)
+    public void testNegativeOrNullLifeValueException() throws NegativeLifeValueException{
         player1.setLife(-5);
     }
 
     @Test
-    public void testGetCards() throws NegativeOrNullLifeValueException{
+    public void testGetCards() throws NegativeLifeValueException{
         Assert.assertTrue(player1.getCards().equals(new ArrayList<Card>(0)));
     }
 
@@ -96,7 +96,7 @@ public class TestPlayer {
     public void testGetNumberCards(){
         Assert.assertEquals(player1.getNumberCards(), 0);
     }
-    
+
     @Test
     public void addCard() throws CardException, CardNameTooLongException{
         Card card0 = new Card("Fool",0);

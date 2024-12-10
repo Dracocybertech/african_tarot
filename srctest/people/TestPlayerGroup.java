@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import people.NegativeOrNullLifeValueException;
+import people.NegativeLifeValueException;
 import people.Player;
 import people.PlayerNameTooLongException;
 import people.PlayerGroup;
@@ -109,7 +109,7 @@ public class TestPlayerGroup {
     }
 
     @Test
-    public void testRemoveDeadPlayers() throws PlayerNameTooLongException, NegativeOrNullLifeValueException{
+    public void testRemoveDeadPlayers() throws PlayerNameTooLongException, NegativeLifeValueException{
         Player player1 = new Player("Player1");
         Player player2 = new Player("Player2");
         ArrayList<Player> playersTest = new ArrayList<Player>();
