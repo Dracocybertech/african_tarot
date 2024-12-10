@@ -74,8 +74,8 @@ public class TestPlayerGroup {
     }
  
     @Test
-    public void testGetSize(){
-        int size = players.getSize();
+    public void testGetNumberPlayers(){
+        int size = players.getNumberPlayers();
         Assert.assertEquals(size, NUMBER_PLAYERS);
     }
 
@@ -83,7 +83,7 @@ public class TestPlayerGroup {
     public void testAddPlayer() throws PlayerNameTooLongException{
         Player player1 = new Player("Player1");
         players.addPlayer(player1);
-        Player playerExpected = players.getPlayer(players.getSize() -1);
+        Player playerExpected = players.getPlayer(players.getNumberPlayers() -1);
 
         Assert.assertEquals(playerExpected, player1);
     }
