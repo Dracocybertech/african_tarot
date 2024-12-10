@@ -3,8 +3,6 @@ package game;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import deck.CardException;
-import deck.CardNameTooLongException;
 import deck.Deck;
 import deck.RemovingTooManyCards;
 import people.Player;
