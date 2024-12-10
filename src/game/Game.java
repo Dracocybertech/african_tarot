@@ -42,7 +42,7 @@ public class Game {
     /** \brief Setter players
         *
     * setPlayers(ArrayList<Player> players) : Set a new list of players. Update the current list of 
-    * players alive.
+    * players alive so the list of players alive is only made with players in the game.
     * \param ArrayList<Player> players
          * @throws BadNumberOfPlayersException 
         */
