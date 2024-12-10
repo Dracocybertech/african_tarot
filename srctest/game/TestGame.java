@@ -53,25 +53,30 @@ public class TestGame {
 
     @Test
     public void testCreatePlayers(){
-        // Simulate user input "Hello World"
         String simulatedInput = "Player1 Player2 Player3 Player4";
         testIn = new ByteArrayInputStream(simulatedInput.getBytes());
         System.setIn(testIn);
         game = new Game();
         game.createPlayers();
-        Assert.assertEquals(game.getPlayers().getNumberPlayers(), Game.NUMBER_PLAYERS);
+        Assert.assertEquals(game.getNumberPlayers(), Game.NUMBER_PLAYERS);
     }
 
     @Test
     public void testDistributeCards() throws NotEnoughCardsInDeckException, TooManyCardsException, RemovingTooManyCards{
-        // Simulate user input "Hello World"
         String simulatedInput = "Player1 Player2 Player3 Player4";
         testIn = new ByteArrayInputStream(simulatedInput.getBytes());
         System.setIn(testIn);
         game = new Game();
         game.createPlayers();
         int deckSize = game.getDeckSize();
-        //int maxCardsDistributable = deckSize / game.getPl
-        game.distributeCards(5);
+        int maxCardsDistributable = deckSize / game.getNumberPlayersAlive();
+        game.distributeCards(maxCardsDistributable);
+        int deckSizeAfterDistribution = game.getDeckSize();
+        int expectedDeckSize = deckSize - maxCardsDistributable * game.getNumberPlayersAlive();
+        Assert.assertEquals(deckSizeAfterDistribution, expectedDeckSize);
+
+        for (Player player: game.getPlayersAlive()){
+            Assert.assertEquals(player.getCards(), simulatedInput);
+        }
     }
 }
