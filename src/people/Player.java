@@ -19,7 +19,7 @@ public class Player {
     public Player(){
         this.name = "";
         this.life = MAX_LIFE;
-        this.cards = new ArrayList<Card>(5);
+        this.cards = new ArrayList<Card>(CARDS_MAX);
     }
 
     /** \brief Constructor of Player
@@ -33,7 +33,7 @@ public class Player {
         }
         this.name = name;
         this.life = MAX_LIFE;
-        this.cards = new ArrayList<Card>(5);
+        this.cards = new ArrayList<Card>(CARDS_MAX);
     }
 
     /** \brief Getter name
@@ -112,14 +112,23 @@ public class Player {
 	* \param ArrayList<Card> cards
          * @throws TooManyCardsException 
             */
-        public void setCards(ArrayList<Card> cards) throws TooManyCardsException{
+    public void setCards(ArrayList<Card> cards) throws TooManyCardsException{
             if (cards.size() > CARDS_MAX){
-            throw new TooManyCardsException("Players can only have 5 cards at max in their hands.");
+            throw new TooManyCardsException("Players can only have "+CARDS_MAX+" cards at max in their hands.");
         }
         this.cards.clear();
         this.cards.addAll(cards);
 
         this.cards = cards;
+    }
+
+    /** \brief Get number cards
+     	*
+	* getNumberCards() : Return the number of cards the player has in his hand.
+	* \return int
+    */
+    public int getNumberCards(){
+        return this.cards.size();
     }
 
     /** \brief Add a card

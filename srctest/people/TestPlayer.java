@@ -93,6 +93,11 @@ public class TestPlayer {
     }
 
     @Test
+    public void testGetNumberCards(){
+        Assert.assertEquals(player1.getNumberCards(), 0);
+    }
+    
+    @Test
     public void addCard() throws CardException, CardNameTooLongException{
         Card card0 = new Card("Fool",0);
         player1.addCard(card0);
