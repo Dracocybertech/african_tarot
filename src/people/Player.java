@@ -113,7 +113,7 @@ public class Player {
          * @throws TooManyCardsException 
             */
     public void setCards(ArrayList<Card> cards) throws TooManyCardsException{
-            if (cards.size() > CARDS_MAX){
+        if (cards.size() > CARDS_MAX){
             throw new TooManyCardsException("Players can only have "+CARDS_MAX+" cards at max in their hands.");
         }
         this.cards.clear();
@@ -146,7 +146,6 @@ public class Player {
 	* \param int index
     * \return Card card
     */
-    
     public Card removeCard(int index){
         return this.cards.remove(index -1);
     }
