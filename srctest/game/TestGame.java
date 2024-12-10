@@ -4,8 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import javax.swing.DebugGraphics;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
