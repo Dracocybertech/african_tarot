@@ -22,13 +22,15 @@ public class TestGame {
     private final InputStream originalSystemIn = System.in;
     private ByteArrayInputStream testIn;
     Game gameWithPlayer;
+    Player player1;
     ArrayList<Player> players;
 
     @Before
     public void beforeTest() throws PlayerNameTooLongException, BadNumberOfPlayersException{
         gameWithPlayer = new Game();
         players = new ArrayList<Player>(Game.NUMBER_PLAYERS);
-        players.add(new Player("Player1"));
+        player1 = new Player("Player1");
+        players.add(player1);
         players.add(new Player("Player2"));
         players.add(new Player("Player3"));
         players.add(new Player("Player4"));
@@ -52,6 +54,25 @@ public class TestGame {
     @Test
     public void testGetPlayers(){
         Assert.assertEquals(gameWithPlayer.getPlayers(), players);
+    }
+
+    @Test
+    public void testSetPlayers() throws PlayerNameTooLongException, BadNumberOfPlayersException{
+        ArrayList<Player> playersTest = new ArrayList<Player>(1);
+        playersTest.add(new Player("Player1"));
+        gameWithPlayer.setPlayers(playersTest);
+
+        Assert.assertEquals(gameWithPlayer.getPlayers(), playersTest);
+    }
+    
+    @Test(expected=BadNumberOfPlayersException.class)
+    public void testBadNumberOfPlayersException() throws BadNumberOfPlayersException{
+        ArrayList<Player> playersTest = new ArrayList<Player>(Game.NUMBER_PLAYERS);
+        //Add an extra player to go over the limit of max players
+        for(int i = 0 ; i < Game.NUMBER_PLAYERS + 1 ; i++){
+            playersTest.add(player1);
+        }
+        gameWithPlayer.setPlayers(playersTest);
     }
 
     @Test
