@@ -107,6 +107,6 @@ public class Card {
 	* \return String
      	*/
     public String toString(){
-        return "Card " + this.name + " "+ this.value ;
+        return "Card " + this.name ;
     }
 }
