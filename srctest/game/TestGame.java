@@ -59,7 +59,7 @@ public class TestGame {
         System.setIn(testIn);
         game = new Game();
         game.createPlayers();
-        Assert.assertEquals(game.getPlayers().size(), Game.NUMBER_PLAYERS);
+        Assert.assertEquals(game.getPlayers().getNumberPlayers(), Game.NUMBER_PLAYERS);
     }
 
     @Test
