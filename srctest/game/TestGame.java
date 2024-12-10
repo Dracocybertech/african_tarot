@@ -21,17 +21,18 @@ public class TestGame {
 
     private final InputStream originalSystemIn = System.in;
     private ByteArrayInputStream testIn;
-    Game game;
+    Game gameWithPlayer;
     ArrayList<Player> players;
+
     @Before
     public void beforeTest() throws PlayerNameTooLongException, BadNumberOfPlayersException{
-        game = new Game();
-        players = new ArrayList<>(Game.NUMBER_PLAYERS);
+        gameWithPlayer = new Game();
+        players = new ArrayList<Player>(Game.NUMBER_PLAYERS);
         players.add(new Player("Player1"));
         players.add(new Player("Player2"));
         players.add(new Player("Player3"));
         players.add(new Player("Player4"));
-        game.setPlayers(players);
+        gameWithPlayer.setPlayers(players);
     }
     
     @After
@@ -41,42 +42,46 @@ public class TestGame {
     }
 
     @Test
+    public void testConstructor(){
+        Game gameInit = new Game();
+        Assert.assertEquals(gameInit.getNumberPlayers(), 0);
+        Assert.assertEquals(gameInit.getNumberPlayersAlive(), 0);
+        Assert.assertNotEquals(gameInit.getDeckSize(), 0);
+    }
+
+    @Test
     public void testCreatePlayer(){
-        // Simulate user input "Hello World"
         String simulatedInput = "Player1";
         testIn = new ByteArrayInputStream(simulatedInput.getBytes());
         System.setIn(testIn);
-        game = new Game();
+        Game game = new Game();
         Player player = game.createPlayer();
         Assert.assertNotEquals(player.getName(), null);
     }
 
     @Test
     public void testCreatePlayers(){
-        String simulatedInput = "Player1 Player2 Player3 Player4";
+        String simulatedInput = "Player1 Player2 PlayerWithANameTooLong Player3 Player4";
         testIn = new ByteArrayInputStream(simulatedInput.getBytes());
         System.setIn(testIn);
-        game = new Game();
+        Game game = new Game();
         game.createPlayers();
+        System.out.println(game.toString());
         Assert.assertEquals(game.getNumberPlayers(), Game.NUMBER_PLAYERS);
+        Assert.assertEquals(game.getNumberPlayersAlive(), Game.NUMBER_PLAYERS);
     }
 
     @Test
     public void testDistributeCards() throws NotEnoughCardsInDeckException, TooManyCardsException, RemovingTooManyCards{
-        String simulatedInput = "Player1 Player2 Player3 Player4";
-        testIn = new ByteArrayInputStream(simulatedInput.getBytes());
-        System.setIn(testIn);
-        game = new Game();
-        game.createPlayers();
-        int deckSize = game.getDeckSize();
-        int maxCardsDistributable = deckSize / game.getNumberPlayersAlive();
-        game.distributeCards(maxCardsDistributable);
-        int deckSizeAfterDistribution = game.getDeckSize();
-        int expectedDeckSize = deckSize - maxCardsDistributable * game.getNumberPlayersAlive();
+        int deckSize = gameWithPlayer.getDeckSize();
+        int maxCardsDistributable = deckSize / gameWithPlayer.getNumberPlayersAlive();
+        gameWithPlayer.distributeCards(maxCardsDistributable);
+        int deckSizeAfterDistribution = gameWithPlayer.getDeckSize();
+        int expectedDeckSize = deckSize - maxCardsDistributable * gameWithPlayer.getNumberPlayersAlive();
         Assert.assertEquals(deckSizeAfterDistribution, expectedDeckSize);
 
-        for (Player player: game.getPlayersAlive()){
-            Assert.assertEquals(player.getCards(), simulatedInput);
+        for (Player player: gameWithPlayer.getPlayersAlive()){
+            Assert.assertEquals(player.getNumberCards(), maxCardsDistributable);
         }
     }
 }
