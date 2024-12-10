@@ -41,15 +41,18 @@ public class Game {
 
     /** \brief Setter players
         *
-    * setPlayers(ArrayList<Player> players) : Set a new list of players.
+    * setPlayers(ArrayList<Player> players) : Set a new list of players. Update the current list of 
+    * players alive.
     * \param ArrayList<Player> players
          * @throws BadNumberOfPlayersException 
         */
     public void setPlayers(ArrayList<Player> players) throws BadNumberOfPlayersException{
-        if (players.size() != this.players.getNumberPlayers()){
-            throw new BadNumberOfPlayersException("The number of player must be :"+NUMBER_PLAYERS);
+        if (players.size() > NUMBER_PLAYERS){
+            throw new BadNumberOfPlayersException("The number of player must be less or equal than :"+NUMBER_PLAYERS);
         }
         this.players.setPlayers(players);
+        this.playersAlive.setPlayers(players);
+        this.playersAlive.removeDeadPlayers();
     }
 
     /** \brief Getter playersAlive
@@ -59,20 +62,6 @@ public class Game {
     */
     public ArrayList<Player> getPlayersAlive(){
         return this.playersAlive.getPlayers();
-    }
-
-    /** \brief Setter playersAlive
-        *
-    * setPlayersAlive(ArrayList<Player> players) : Set a new list of players  alive. 
-    * \param ArrayList<Player> playersAlive
-         * @throws BadNumberOfPlayersException 
-        */
-    public void setPlayersAlive(ArrayList<Player> playersAlive) throws BadNumberOfPlayersException{
-        if (playersAlive.size() > this.playersAlive.getNumberPlayers()){
-            throw new BadNumberOfPlayersException("The number of player must be less or equal than :"+NUMBER_PLAYERS);
-        }
-        
-        this.playersAlive.setPlayers(playersAlive);
     }
 
     /** \brief Number players
