@@ -21,12 +21,9 @@ public class Game {
     
     public static int NUMBER_PLAYERS = 4;
     
-    /** \brief Constructor of Game
-    *
-    * Game() : Initialize the game.
-     * @throws CardNameTooLongException 
-        * @throws CardException 
-    */
+    /** \brief Constructor Game
+     * Game(): create the players and the deck of cards.
+     */
     public Game(){
         players = new PlayerGroup(NUMBER_PLAYERS);
         scanner = new Scanner(System.in);
