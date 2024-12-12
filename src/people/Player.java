@@ -106,6 +106,15 @@ public class Player {
         return this.cards.contains(card);
     }
 
+    /** \brief Getter card
+     	*
+	* getCard(int index) : Return the card with a specific index of the player.
+	* \return Card
+    */
+    public Card getCard(int index){
+        return this.cards.get(index);
+    }
+
     /** \brief Getter cards
      	*
 	* getCards() : Return the cards of the player.
