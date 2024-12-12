@@ -164,7 +164,7 @@ public class TestGame {
     }
 
     @Test
-    public void testOnePlayer() throws NotEnoughCardsInDeckException, TooManyCardsException, RemovingTooManyCards, BadNumberOfPlayersException{
+    public void testPlayOnePlayer() throws NotEnoughCardsInDeckException, TooManyCardsException, RemovingTooManyCards, BadNumberOfPlayersException{
         String simulatedInput = "1";
         testIn = new ByteArrayInputStream(simulatedInput.getBytes());
         System.setIn(testIn);
