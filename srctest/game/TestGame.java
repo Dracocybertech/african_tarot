@@ -151,8 +151,12 @@ public class TestGame {
         Game game = new Game();
         game.createPlayers();
         System.out.println(game.toString());
+        //Check that both lists have the same players
         Assert.assertEquals(game.getNumberPlayers(), Game.NUMBER_PLAYERS);
         Assert.assertEquals(game.getNumberPlayersAlive(), Game.NUMBER_PLAYERS);
+
+        //Check that players and playersAlive are two distincts lists
+        
     }
 
     @Test
