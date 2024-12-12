@@ -66,6 +66,13 @@ public class TestPlayer {
     }
 
     @Test
+    public void testContainCard() throws CardException, CardNameTooLongException{
+        Card card0 = new Card("Fool",0);
+        player1.addCard(card0);
+        Assert.assertTrue(player1.containsCard(card0));
+    }
+
+    @Test
     public void testGetCards() throws NegativeLifeValueException{
         Assert.assertTrue(player1.getCards().equals(new ArrayList<Card>(0)));
     }

@@ -97,6 +97,15 @@ public class Player {
         return this.life > 0;
     }
 
+    /** \brief Player has a specific card
+     	*
+	* containsCard(Card card): Return true if the cards is in the hand of the player.
+	* \return boolean
+    */
+    public boolean containsCard(Card card){
+        return this.cards.contains(card);
+    }
+
     /** \brief Getter cards
      	*
 	* getCards() : Return the cards of the player.
