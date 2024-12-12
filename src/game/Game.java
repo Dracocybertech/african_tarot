@@ -13,6 +13,8 @@ import people.TooManyCardsException;
 
 public class Game {
 
+    //Keep a trace of the players at the start of the game in case we need
+    //to use them again for another game
     private PlayerGroup players;
     private PlayerGroup playersAlive;
     private Scanner scanner;
@@ -30,6 +32,7 @@ public class Game {
         scanner = new Scanner(System.in);
         deck = new Deck();
         deck.buildDeck();
+        deck.shuffle();
     }
 
     /** \brief Getter players
@@ -66,6 +69,14 @@ public class Game {
         return this.playersAlive.getPlayers();
     }
 
+    /** \brief Getter player
+        *
+    * getPlayer() : Return the a specific player
+    * \return Player
+    */
+    public Player getPlayer(int index){
+        return this.players.getPlayer(index);
+    }
     /** \brief Number players
         *
     * getNumberPlayers() : Return the number of total players in the game.
@@ -154,32 +165,29 @@ public class Game {
         }
     }
     
-    /** \brief Player play
+    /** \brief One player play
     * play(int playerNumber) : The player can play any card from their hands.
     * \param int playerNumber
+    * \return Card
     */
-    public void play(int playerNumber){
-        try{
-            //Should be a shallow copy, so any changed made to current player
-            //will be reflected in the list of players
-            Player currentPlayer = players.getPlayer(playerNumber);
-            System.out.println("Which card would you like to play ?");
-            System.out.println(currentPlayer.getCards().toString());
-            Card cardPlayed = null;
-            while (cardPlayed == null){
-                int indexCard = scanner.nextInt();
-                try{
-                    cardPlayed = currentPlayer.removeCard(indexCard);
-                }
-                catch(Exception e){
-                    System.out.println("The card can't be played.");
-                    System.out.println(e.getMessage());
-                }
+    public Card playOnePlayer(int playerNumber){
+        //Should be a shallow copy, so any changed made to current player
+        //will be reflected in the list of players
+        Player currentPlayer = players.getPlayer(playerNumber);
+        System.out.println("Which card would you like to play ?");
+        System.out.println(currentPlayer.getCards().toString());
+        Card cardPlayed = null;
+        while (cardPlayed == null){
+            int indexCard = scanner.nextInt();
+            try{
+                cardPlayed = currentPlayer.removeCard(indexCard);
+            }
+            catch(Exception e){
+                System.out.println("The card can't be played.");
+                System.out.println(e.getMessage());
             }
         }
-        catch(Exception e){
-
-        }
+        return cardPlayed;
     }
 
     /** \brief Round process
@@ -201,7 +209,7 @@ public class Game {
             System.out.println(e.getMessage());
             return;
         }
-        play(numberRound);
+        playOnePlayer(numberRound);
     }
 
     /** \brief Start the game

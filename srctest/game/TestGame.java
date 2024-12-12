@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import deck.Card;
 import deck.Deck;
 import deck.RemovingTooManyCards;
 import game.BadNumberOfPlayersException;
@@ -163,7 +164,7 @@ public class TestGame {
     }
 
     @Test
-    public void testPlay() throws NotEnoughCardsInDeckException, TooManyCardsException, RemovingTooManyCards, BadNumberOfPlayersException{
+    public void testOnePlayer() throws NotEnoughCardsInDeckException, TooManyCardsException, RemovingTooManyCards, BadNumberOfPlayersException{
         String simulatedInput = "1";
         testIn = new ByteArrayInputStream(simulatedInput.getBytes());
         System.setIn(testIn);
@@ -181,7 +182,11 @@ public class TestGame {
         System.out.println("maxCardsDistributable "+maxCardsDistributable);
         System.out.println("game.getDeckSize() "+ game.getDeckSize());
         game.distributeCards(maxCardsDistributable);
-        game.play(0);
-
+        int indexCard = 0;
+        int indexPlayer = 0;
+        Card cardExpected = player1.getCard(indexCard);
+        Card cardPlayed = game.playOnePlayer(indexPlayer);
+        Assert.assertEquals(cardExpected, cardPlayed);
+        Assert.assertFalse(game.getPlayer(indexPlayer).containsCard(cardPlayed));
     }
 }
