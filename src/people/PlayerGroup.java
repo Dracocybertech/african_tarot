@@ -137,6 +137,19 @@ public class PlayerGroup {
         return false;
     }
 
+    /** \brief Deep clone
+     	*
+	* clone() : Return a deep clone of a PlayerGroup
+    * \return PlayerGroup
+    */
+    @Override
+    public PlayerGroup clone(){
+        ArrayList<Player> players;
+        players = new ArrayList<Player>(this.players);
+        PlayerGroup playerGroup = new PlayerGroup(players);
+        return playerGroup;
+    }
+
     /** \brief hashCode
      	*
 	* hashCode() : Return the hashcode of Players.
