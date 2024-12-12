@@ -77,6 +77,7 @@ public class Game {
     public Player getPlayer(int index){
         return this.players.getPlayer(index);
     }
+    
     /** \brief Number players
         *
     * getNumberPlayers() : Return the number of total players in the game.
