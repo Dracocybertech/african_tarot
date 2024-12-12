@@ -66,13 +66,20 @@ public class TestGame {
     }
 
     @Test
-    public void testSetPlayers() throws PlayerNameTooLongException, BadNumberOfPlayersException{
-        ArrayList<Player> playersTest = new ArrayList<Player>(1);
-        playersTest.add(new Player("Player1"));
+    public void testSetPlayers() throws PlayerNameTooLongException, BadNumberOfPlayersException, NegativeLifeValueException{
+        ArrayList<Player> playersTest = new ArrayList<Player>(2);
+        playersTest.add(player1);
+        player2.setLife(0);
+        playersTest.add(player2);
+        ArrayList<Player> playersAliveTest = new ArrayList<Player>(1);
+        playersAliveTest.add(player1);
         gameWithPlayer.setPlayers(playersTest);
 
         Assert.assertEquals(gameWithPlayer.getPlayers(), playersTest);
-        Assert.assertEquals(gameWithPlayer.getPlayersAlive(), playersTest);
+        Assert.assertEquals(gameWithPlayer.getPlayersAlive(), playersAliveTest);
+        System.out.println("getPlayers() : " + gameWithPlayer.getPlayers());
+        System.out.println("getPlayersAlive() : " + gameWithPlayer.getPlayersAlive());
+        Assert.assertNotEquals(gameWithPlayer.getPlayers(), gameWithPlayer.getPlayersAlive());
     }
     
     @Test(expected=BadNumberOfPlayersException.class)
@@ -99,7 +106,6 @@ public class TestGame {
         gameWithPlayer.setPlayers(playersTest);
         ArrayList<Player> playersAliveExpected = new ArrayList<Player>(1);
         playersAliveExpected.add(player2);
-
         Assert.assertEquals(playersAliveExpected, gameWithPlayer.getPlayersAlive());
     }
 
@@ -179,11 +185,11 @@ public class TestGame {
 
         int deckSize = game.getDeckSize();
         int maxCardsDistributable = deckSize / game.getNumberPlayersAlive();
-        System.out.println("maxCardsDistributable "+maxCardsDistributable);
-        System.out.println("game.getDeckSize() "+ game.getDeckSize());
         game.distributeCards(maxCardsDistributable);
+
         int indexCard = 0;
         int indexPlayer = 0;
+        //It works because every plaer1 is a shallow copy inside the list in the game
         Card cardExpected = player1.getCard(indexCard);
         Card cardPlayed = game.playOnePlayer(indexPlayer);
         Assert.assertEquals(cardExpected, cardPlayed);

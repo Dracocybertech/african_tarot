@@ -56,7 +56,7 @@ public class Game {
             throw new BadNumberOfPlayersException("The number of player must be less or equal than :"+NUMBER_PLAYERS);
         }
         this.players.setPlayers(players);
-        this.playersAlive.setPlayers(players);
+        this.playersAlive.setPlayers(new ArrayList<Player>(players));
         this.playersAlive.removeDeadPlayers();
     }
 
