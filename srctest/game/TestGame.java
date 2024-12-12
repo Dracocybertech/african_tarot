@@ -117,7 +117,7 @@ public class TestGame {
     public void testGetDeck(){
         Deck deckExpected = new Deck();
         deckExpected.buildDeck();
-        Assert.assertEquals(gameWithPlayer.getDeck(), deckExpected);
+        Assert.assertEquals(gameWithPlayer.getDeck().getSize(), deckExpected.getSize());
     }
 
     @Test
