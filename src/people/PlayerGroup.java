@@ -93,6 +93,15 @@ public class PlayerGroup {
         this.players.add(player);
     }
 
+    /** \brief Remove player
+     	*
+	* removePlayer(Player player) : Remove a player from the list.
+	* \param Player player
+    */
+    public void removePlayer(Player player){
+        this.players.remove(player);
+    }
+
     /** \brief If a list of players is alive
      	*
 	* isAlive() : Return true is all the players have more than 0 life point.

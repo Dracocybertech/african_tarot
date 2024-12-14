@@ -18,6 +18,7 @@ public class TestPlayerGroup {
     static int NUMBER_PLAYERS = 4;
     Player player1 ;
     Player player2 ;
+    ArrayList<Player> playersList;
 
     @Before
     public void beforeTest() throws PlayerNameTooLongException{
@@ -26,6 +27,11 @@ public class TestPlayerGroup {
         player2 = new Player("Player2");
         Player player3 = new Player("Player3");
         Player player4 = new Player("Player4");
+        playersList = new ArrayList<Player>(NUMBER_PLAYERS);
+        playersList.add(player1);
+        playersList.add(player2);
+        playersList.add(player3);
+        playersList.add(player4);
         players.addPlayer(player1);
         players.addPlayer(player2);
         players.addPlayer(player3);
@@ -103,6 +109,16 @@ public class TestPlayerGroup {
         Player playerExpected = players.getPlayer(players.getNumberPlayers() -1);
 
         Assert.assertEquals(playerExpected, player1);
+    }
+
+    @Test
+    public void testRemovePlayer(){
+        players.removePlayer(player1);
+        ArrayList<Player> playerExpectedList = playersList;
+        playerExpectedList.remove(player1);
+        PlayerGroup playerExpected = new PlayerGroup(playerExpectedList);
+
+        Assert.assertEquals(playerExpected, players);
     }
 
     @Test
