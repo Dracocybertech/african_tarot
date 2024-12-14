@@ -168,21 +168,20 @@ public class Game {
     }
     
     /** \brief One player play
-    * play(int playerNumber) : The player can play any card from their hands.
-    * \param int playerNumber
+    * play(Player player) : The player can play any card from their hands.
+    * \param Player player
     * \return Card
     */
-    public Card playOnePlayer(int playerNumber){
+    public Card playOnePlayer(Player player){
         //Should be a shallow copy, so any changed made to current player
         //will be reflected in the list of players
-        Player currentPlayer = players.getPlayer(playerNumber);
         System.out.println("Which card would you like to play ?");
-        System.out.println(currentPlayer.getCards().toString());
+        System.out.println(player.getCards().toString());
         Card cardPlayed = null;
         while (cardPlayed == null){
             int indexCard = scanner.nextInt();
             try{
-                cardPlayed = currentPlayer.removeCard(indexCard);
+                cardPlayed = player.removeCard(indexCard);
             }
             catch(Exception e){
                 System.out.println("The card can't be played.");
@@ -211,7 +210,7 @@ public class Game {
             System.out.println(e.getMessage());
             return;
         }
-        playOnePlayer(numberRound);
+
     }
 
     /** \brief Start the game

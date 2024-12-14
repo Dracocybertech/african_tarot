@@ -202,8 +202,10 @@ public class TestGame {
         int indexPlayer = 0;
         //It works because every plaer1 is a shallow copy inside the list in the game
         Card cardExpected = player1.getCard(indexCard);
-        Card cardPlayed = game.playOnePlayer(indexPlayer);
+        Card cardPlayed = game.playOnePlayer(player1);
         Assert.assertEquals(cardExpected, cardPlayed);
         Assert.assertFalse(game.getPlayer(indexPlayer).containsCard(cardPlayed));
     }
+
+    
 }
