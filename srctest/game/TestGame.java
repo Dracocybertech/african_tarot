@@ -18,6 +18,7 @@ import game.Game;
 import game.NotEnoughCardsInDeckException;
 import people.NegativeLifeValueException;
 import people.Player;
+import people.PlayerGroup;
 import people.PlayerNameTooLongException;
 import people.TooManyCardsException;
 
@@ -31,11 +32,13 @@ public class TestGame {
     Player player3;
     Player player4;
     ArrayList<Player> players;
+    PlayerGroup playerGroup;
 
     Card card1;
     Card card2;
     Card card3;
     Card card4;
+    ArrayList<Card> cardsList;
 
     @Before
     public void beforeTest() throws PlayerNameTooLongException, BadNumberOfPlayersException{
@@ -50,7 +53,7 @@ public class TestGame {
         players.add(player3);
         players.add(player4);
         gameWithPlayer.setPlayers(players);
-
+        playerGroup = new PlayerGroup(players);
         try{
             card1 = new Card("1",1);
             card2 = new Card("2",2);
@@ -60,6 +63,11 @@ public class TestGame {
         catch(Exception e){
             System.out.println(e.getMessage());
         }
+        cardsList = new ArrayList<Card>();
+        cardsList.add(card1);
+        cardsList.add(card2);
+        cardsList.add(card3);
+        cardsList.add(card4);
     }
     
     @After
@@ -86,6 +94,15 @@ public class TestGame {
         }
     }
 
+    /** \brief Init players with cards in their hand
+    * initPlayersCards(): Every player get add one unique card to their hand.
+    */
+    public void initPlayersCards(){
+        player1.addCard(card1);
+        player2.addCard(card2);
+        player3.addCard(card3);
+        player4.addCard(card4);
+    }
     @Test
     public void testConstructor(){
         Game gameInit = new Game();
@@ -285,11 +302,21 @@ public class TestGame {
     public void testPlayOnePlayerLastRound(){
         //Valid input
         initGameWithInput("1");
-        HashMap<Player, Card> opponentsCards = new HashMap<Player, Card>();
-        opponentsCards.put(player1, card1);
-        opponentsCards.put(player2, card2);
-        opponentsCards.put(player3, card3);
-        opponentsCards.put(player4, card4);
+        HashMap<Player, ArrayList<Card>> opponentsCards = new HashMap<Player, ArrayList<Card>>();
+
+        ArrayList<Card> card1List = new ArrayList<Card>();
+        card1List.add(card1);
+        ArrayList<Card> card2List = new ArrayList<Card>();
+        card1List.add(card2);
+        ArrayList<Card> card3List = new ArrayList<Card>();
+        card1List.add(card3);
+        ArrayList<Card> card4List = new ArrayList<Card>();
+        card1List.add(card4);
+
+        opponentsCards.put(player1, card1List);
+        opponentsCards.put(player2, card2List);
+        opponentsCards.put(player3, card3List);
+        opponentsCards.put(player4, card4List);
 
         HashMap<Player, Boolean> opponentsDecisions = new HashMap<Player, Boolean>();
         opponentsDecisions.put(player1, true);
@@ -303,5 +330,15 @@ public class TestGame {
         decisionTaken = gameWithPlayer.playOnePlayerLastRound(player2, opponentsCards,opponentsDecisions);
 
         Assert.assertEquals(decisionTaken, decisionExpected);
+    }
+
+    @Test
+    public void testBuildOpponentsCards(){
+        initPlayersCards();
+        HashMap<Player, ArrayList<Card>> opponentsCards = gameWithPlayer.buildOpponentsCards(player1, playerGroup);
+        Assert.assertFalse(opponentsCards.containsKey(player1));
+        Assert.assertFalse(opponentsCards.containsValue(player1.getCards()));
+        Assert.assertTrue(opponentsCards.containsKey(player2));
+        Assert.assertTrue(opponentsCards.containsValue(player2.getCards()));
     }
 }

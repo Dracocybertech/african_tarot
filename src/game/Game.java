@@ -211,7 +211,7 @@ public class Game {
     * \param Player player, HashMap<Player, Card> opponentsCards, HashMap<Player, Boolean> opponentsDecisions
     * \return Boolean
     */
-    public Boolean playOnePlayerLastRound(Player player, HashMap<Player, Card> opponentsCards, HashMap<Player, Boolean> opponentsDecisions){
+    public Boolean playOnePlayerLastRound(Player player, HashMap<Player, ArrayList<Card>> opponentsCards, HashMap<Player, Boolean> opponentsDecisions){
         System.out.println("Your opponents have those cards:");
         System.out.println(opponentsCards);
         System.out.println("Those are the decision taken so far:");
@@ -238,6 +238,22 @@ public class Game {
             }
         }
         return decision;
+    }
+
+    /** \brief The cards of the opponents that are currently displayed
+    * buildOpponentsCards(Player currentPlayer, PlayerGroup opponentsPlayers) : 
+    * Return a hashmap of every card currently in the opponents' hand of one specific player.
+    * \param Player currentPlayer, PlayerGroup opponentsPlayers
+    * \return HashMap<Player, Card>
+    */
+    public HashMap<Player, ArrayList<Card>> buildOpponentsCards(Player currentPlayer, PlayerGroup playersAlive){
+        HashMap<Player, ArrayList<Card>> opponentsCards = new HashMap<Player, ArrayList<Card>>();
+        PlayerGroup opponents = playersAlive.clone();
+        opponents.removePlayer(currentPlayer);
+        for (Player player : opponents.getPlayers()){
+            opponentsCards.put(player, player.getCards());
+        }
+        return opponentsCards;
     }
 
     /** \brief Round process
