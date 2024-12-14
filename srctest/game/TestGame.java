@@ -156,7 +156,14 @@ public class TestGame {
         Assert.assertEquals(game.getNumberPlayersAlive(), Game.NUMBER_PLAYERS);
 
         //Check that players and playersAlive are two distincts lists
-        
+        ArrayList<Player> players = game.getPlayers();
+        ArrayList<Player> playersAlive = game.getPlayersAlive();
+        //Modify one list and not the other
+        playersAlive.add(player1);
+
+        //Check if both lists are different now that there is a changment on one of them and not the other
+        Assert.assertNotEquals(players, playersAlive);
+
     }
 
     @Test

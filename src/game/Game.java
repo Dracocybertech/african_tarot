@@ -143,7 +143,8 @@ public class Game {
         for (int i  = 0 ; i < NUMBER_PLAYERS; i++){
             Player player = createPlayer();
             players.addPlayer(player);
-            playersAlive.addPlayer(player);
+            //To have a distinct list of alive players, we need to create a new instance of player
+            playersAlive.addPlayer(player.clone());
         }
     }
 
