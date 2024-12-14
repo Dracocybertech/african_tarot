@@ -1,6 +1,7 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import deck.Card;
@@ -189,6 +190,18 @@ public class Game {
             }
         }
         return cardPlayed;
+    }
+
+    /** \brief All players play
+    * playAllPlayers() : All players must play one card from their hand.
+    * \return Card
+    */
+    public HashMap<Player, Card> playAllPlayers(){
+        HashMap<Player, Card> results = new HashMap<Player, Card>();
+        for (Player player: playersAlive.getPlayers()){
+            results.put(player, playOnePlayer(player));
+        }
+        return results;
     }
 
     /** \brief Round process

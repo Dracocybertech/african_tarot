@@ -3,6 +3,7 @@ package srctest.game;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -205,5 +206,49 @@ public class TestGame {
         Card cardPlayed = game.playOnePlayer(player1);
         Assert.assertEquals(cardExpected, cardPlayed);
         Assert.assertFalse(game.getPlayer(indexPlayer).containsCard(cardPlayed));
+    }
+
+    @Test
+    public void testPlayAllPlayers() throws NotEnoughCardsInDeckException, TooManyCardsException, RemovingTooManyCards, BadNumberOfPlayersException{
+        String simulatedInput = "1 1 1 1";
+        testIn = new ByteArrayInputStream(simulatedInput.getBytes());
+        System.setIn(testIn);
+        Game game = new Game();
+
+        ArrayList<Player> listPlayer = new ArrayList<Player>();
+        listPlayer.add(player1);
+        listPlayer.add(player2);
+        listPlayer.add(player3);
+        listPlayer.add(player4);
+        game.setPlayers(listPlayer);
+
+        //Creating cards of the players
+        try{
+            Card card1 = new Card("1",1);
+            Card card2 = new Card("2",2);
+            Card card3 = new Card("3",3);
+            Card card4 = new Card("4",4);
+            player1.addCard(card1);
+            player2.addCard(card2);
+            player3.addCard(card3);
+            player4.addCard(card4);
+        }
+        catch(Exception e){
+            System.out.println("Error in testPlayAllPlayers" + e.getMessage());
+        }
+        
+        int indexCard = 0;
+        HashMap<Player, Card> cardExpected = new HashMap<Player, Card>();
+        for(Player player: listPlayer){
+            cardExpected.put(player,player.getCard(indexCard));
+        }
+        
+        HashMap<Player, Card> cardPlayed = game.playAllPlayers();
+        Assert.assertEquals(cardExpected, cardPlayed);
+        for(var entry : cardPlayed.entrySet()){
+            Player currentPlayer = entry.getKey();
+            Card currentCard = entry.getValue();
+            Assert.assertFalse(currentPlayer.containsCard(currentCard));
+        }
     }
 }
