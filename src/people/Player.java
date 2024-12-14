@@ -191,6 +191,20 @@ public class Player {
         return 13 * this.life + 17 * this.name.hashCode()+ 7 * this.cards.hashCode();
     }
 
+    /** \brief Deep clone
+     	*
+	* clone() : Return a deep clone of a Player
+    * \return Player
+    */
+    @Override
+    public Player clone(){
+        Player playerCloned = new Player();
+        playerCloned.life = this.life;
+        playerCloned.cards = this.cards;
+        playerCloned.name = this.name;
+        return playerCloned;
+    }
+
     /** \brief toString
      	*
 	* toString() : Return the string representation of a Deck.

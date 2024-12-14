@@ -150,6 +150,13 @@ public class TestPlayer {
     }
 
     @Test
+    public void testClone() throws NegativeLifeValueException{
+        Player player1Cloned = player1.clone();
+        Assert.assertEquals(player1Cloned, player1);
+        player1Cloned.setLife(player1.getLife()+1);
+        Assert.assertNotEquals(player1Cloned, player1);
+    }
+    @Test
     public void testIsEquals() throws PlayerNameTooLongException{
         String name = "Player";
         Player player3 = new Player(name);
