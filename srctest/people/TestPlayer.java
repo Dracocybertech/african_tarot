@@ -156,6 +156,7 @@ public class TestPlayer {
         player1Cloned.setLife(player1.getLife()+1);
         Assert.assertNotEquals(player1Cloned, player1);
     }
+    
     @Test
     public void testIsEquals() throws PlayerNameTooLongException{
         String name = "Player";
