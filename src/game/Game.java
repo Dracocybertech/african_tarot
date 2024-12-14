@@ -204,6 +204,42 @@ public class Game {
         return results;
     }
 
+    /** \brief One player play for the last round
+    * playOnePlayerLastRound(Player player, HashMap<Player, Card> opponentsCards, HashMap<Player, Boolean> opponentsDecisions) : 
+    * The player bet if they won or lose this round by typing 0 for win or 1 for lose. Win return true, Lose return false.
+    * They will know their opponents cards and each decision players have made so far.
+    * \param Player player, HashMap<Player, Card> opponentsCards, HashMap<Player, Boolean> opponentsDecisions
+    * \return Boolean
+    */
+    public Boolean playOnePlayerLastRound(Player player, HashMap<Player, Card> opponentsCards, HashMap<Player, Boolean> opponentsDecisions){
+        System.out.println("Your opponents have those cards:");
+        System.out.println(opponentsCards);
+        System.out.println("Those are the decision taken so far:");
+        System.out.println(opponentsDecisions);
+        System.out.println("Do you bet that you win or lose this round?");
+        System.out.println("Enter 0 for win, 1 for lose.");
+        Boolean decision = null;
+        while (decision == null){
+            try{
+                int input = scanner.nextInt();
+                if (input == 0){
+                    decision = true;
+                }
+                else if (input == 1){
+                    decision = false;
+                }
+                else {
+                    System.out.println("Choose an number between 1 or 2.");
+                }
+            }
+            catch(Exception e){
+                System.out.println("Error while processing input: "+e.getMessage());
+                scanner.next();
+            }
+        }
+        return decision;
+    }
+
     /** \brief Round process
     * round(int numberRound) : Start a round by distributing cards according to the current number of round.
     * Allow player to play until there is no card left in hands. Compute which player lose or not a life points.

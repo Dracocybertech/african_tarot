@@ -32,6 +32,11 @@ public class TestGame {
     Player player4;
     ArrayList<Player> players;
 
+    Card card1;
+    Card card2;
+    Card card3;
+    Card card4;
+
     @Before
     public void beforeTest() throws PlayerNameTooLongException, BadNumberOfPlayersException{
         gameWithPlayer = new Game();
@@ -45,12 +50,40 @@ public class TestGame {
         players.add(player3);
         players.add(player4);
         gameWithPlayer.setPlayers(players);
+
+        try{
+            card1 = new Card("1",1);
+            card2 = new Card("2",2);
+            card3 = new Card("3",3);
+            card4 = new Card("4",4);
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
     
     @After
     public void afterTest(){ 
         System.setIn(originalSystemIn);
         System.out.println("Test Game over");
+    }
+
+    public void initGameWithInput(String simulatedInput){
+        testIn = new ByteArrayInputStream(simulatedInput.getBytes());
+        System.setIn(testIn);
+        gameWithPlayer = new Game();
+
+        try{
+            ArrayList<Player> listPlayer = new ArrayList<Player>();
+            listPlayer.add(player1);
+            listPlayer.add(player2);
+            listPlayer.add(player3);
+            listPlayer.add(player4);
+            gameWithPlayer.setPlayers(listPlayer);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
@@ -224,10 +257,6 @@ public class TestGame {
 
         //Creating cards of the players
         try{
-            Card card1 = new Card("1",1);
-            Card card2 = new Card("2",2);
-            Card card3 = new Card("3",3);
-            Card card4 = new Card("4",4);
             player1.addCard(card1);
             player2.addCard(card2);
             player3.addCard(card3);
@@ -250,5 +279,29 @@ public class TestGame {
             Card currentCard = entry.getValue();
             Assert.assertFalse(currentPlayer.containsCard(currentCard));
         }
+    }
+
+    @Test
+    public void testPlayOnePlayerLastRound(){
+        //Valid input
+        initGameWithInput("1");
+        HashMap<Player, Card> opponentsCards = new HashMap<Player, Card>();
+        opponentsCards.put(player1, card1);
+        opponentsCards.put(player2, card2);
+        opponentsCards.put(player3, card3);
+        opponentsCards.put(player4, card4);
+
+        HashMap<Player, Boolean> opponentsDecisions = new HashMap<Player, Boolean>();
+        opponentsDecisions.put(player1, true);
+        Boolean decisionTaken = gameWithPlayer.playOnePlayerLastRound(player2, opponentsCards,opponentsDecisions);
+        Boolean decisionExpected = false;
+
+        Assert.assertEquals(decisionTaken, decisionExpected);
+
+        //Invalid and valid inputs
+        initGameWithInput("3 string & 1");
+        decisionTaken = gameWithPlayer.playOnePlayerLastRound(player2, opponentsCards,opponentsDecisions);
+
+        Assert.assertEquals(decisionTaken, decisionExpected);
     }
 }
