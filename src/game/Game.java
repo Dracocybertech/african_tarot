@@ -240,6 +240,25 @@ public class Game {
         return decision;
     }
 
+    /** \brief All players play the last round
+    * playAllPlayersLastRound() : All players must bet if they win or lose this round.
+    * \return HashMap<Player, Boolean>
+    */
+    public HashMap<Player, Boolean> playAllPlayersLastRound(){
+        HashMap<Player, Boolean> results = new HashMap<Player, Boolean>();
+        HashMap<Player, Boolean> opponentsDecisions = new HashMap<Player, Boolean>();
+        //According to the rules, the turn where players have one card 
+        //is special: players must bet if they win or lose and not a number of trick
+        //they would win by the end of the round
+        for (Player player: this.playersAlive.getPlayers()){
+            HashMap<Player, ArrayList<Card>> opponentsCards = buildOpponentsCards(player, this.playersAlive);
+            Boolean decision = playOnePlayerLastRound(player,opponentsCards, opponentsDecisions);
+            opponentsDecisions.put(player, decision);
+            results.put(player, decision);
+        }
+        return results;
+    }
+
     /** \brief The cards of the opponents that are currently displayed
     * buildOpponentsCards(Player currentPlayer, PlayerGroup opponentsPlayers) : 
     * Return a hashmap of every card currently in the opponents' hand of one specific player.

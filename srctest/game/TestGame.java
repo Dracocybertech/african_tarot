@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -340,5 +341,26 @@ public class TestGame {
         Assert.assertFalse(opponentsCards.containsValue(player1.getCards()));
         Assert.assertTrue(opponentsCards.containsKey(player2));
         Assert.assertTrue(opponentsCards.containsValue(player2.getCards()));
+    }
+
+    @Test
+    public void testPlayAllPlayersLastRound(){
+        HashMap<Player, Boolean> resultsExpected = new HashMap<Player, Boolean>();
+        resultsExpected.put(player1, true);
+        resultsExpected.put(player2, false);
+        resultsExpected.put(player3, false);
+        resultsExpected.put(player4, false);
+
+        initPlayersCards();
+        //Invalid and valid inputs
+        initGameWithInput("3 string & 0 2 string & 1 1 1");
+        HashMap<Player, Boolean> results = gameWithPlayer.playAllPlayersLastRound();
+        System.out.println("results : "+results);
+        System.out.println("resultsExpected : "+resultsExpected);
+        for(Map.Entry<Player,Boolean> entry :resultsExpected.entrySet()){
+            Boolean resultValue = results.get(entry.getKey());
+            Assert.assertNotNull(resultValue);
+            Assert.assertEquals(resultValue, entry.getValue());
+        }
     }
 }
