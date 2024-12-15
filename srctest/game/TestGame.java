@@ -104,6 +104,7 @@ public class TestGame {
         player3.addCard(card3);
         player4.addCard(card4);
     }
+    
     @Test
     public void testConstructor(){
         Game gameInit = new Game();
