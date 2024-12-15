@@ -127,8 +127,8 @@ public class PlayerGroup {
             if(!player.isAlive()){
                 deadPlayers.add(player);
             }
-            this.players.removeIf(playerDead -> playerDead.getLife() <= 0);
         }
+        this.players.removeIf(playerDead -> playerDead.getLife() <= 0);
         return deadPlayers;
     }
 
