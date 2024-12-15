@@ -86,12 +86,16 @@ public class Player {
         this.life = life;
     }
 
-    /** \brief Remove a life
+    /** \brief Remove life points
      	*
-	* removeLife() : Remove one life to the player.
+	* removeLife(int lifepoints) : Remove life points to the player.
+    * \param int lifepoints
     */
-    public void removeLife(){
-        this.life -= 1;
+    public void removeLife(int lifepoints){
+        this.life -= lifepoints;
+        if (this.life < 0){
+            this.life = 0;
+        }
     }
 
     /** \brief If the player still have one life left

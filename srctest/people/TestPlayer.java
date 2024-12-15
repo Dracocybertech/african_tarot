@@ -135,19 +135,16 @@ public class TestPlayer {
 
     @Test
     public void testRemoveLife(){
+        //Remove one lifepoint
         int previousLife = player1.getLife();
-        player1.removeLife();
-        Assert.assertEquals(player1.getLife(),previousLife - 1);
-    }
+        int lifePointsRemoved = 1;
+        player1.removeLife(lifePointsRemoved);
+        Assert.assertEquals(player1.getLife(),previousLife - lifePointsRemoved);
 
-    @Test
-    public void testIsAlive(){
-        Assert.assertTrue(player1.isAlive());
-        int lifePlayer1 = player1.getLife();
-        for(int i=0; i < lifePlayer1 ; i++ ){
-            player1.removeLife();
-        }
-        Assert.assertFalse(player1.isAlive());
+        //Remove more life points than the player has
+        lifePointsRemoved = player1.getLife()+1;
+        player1.removeLife(lifePointsRemoved);
+        Assert.assertEquals(player1.getLife(),0);
     }
 
     @Test

@@ -124,10 +124,7 @@ public class TestPlayerGroup {
     @Test
     public void testIsAlive(){
         Assert.assertTrue(players.isAlive());
-
-        for (int i = 0; i < Player.MAX_LIFE; i++){
-            players.getPlayer(0).removeLife();
-        }
+        players.getPlayer(0).removeLife(Player.MAX_LIFE);
 
         Assert.assertFalse(players.isAlive());
     }
@@ -139,10 +136,9 @@ public class TestPlayerGroup {
         playersTest.add(player2);
         players.setPlayers(playersTest);
 
-        for (int i = 0; i < Player.MAX_LIFE; i++){
-            players.getPlayer(0).removeLife();
-            player1.removeLife();
-        }
+        int lifePoints = Player.MAX_LIFE;
+        players.getPlayer(0).removeLife(lifePoints);
+        player1.removeLife(lifePoints);
 
         ArrayList<Player> playersAliveExpected = new ArrayList<Player>();
         ArrayList<Player> playersDeadExpected = new ArrayList<Player>();
