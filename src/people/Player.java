@@ -195,6 +195,28 @@ public class Player {
         }
         this.betTricks = betTricks;
     }
+
+    /** \brief Getter current tricks
+     	*
+	* getCurrentTricks() : Return the tricks the player currently has won.
+	* \return int
+    */
+    public int getCurrentTricks(){
+        return this.currentTricks;
+    }
+
+    /** \brief Setter current life
+     	*
+	* setCurrentTricks(int currentTricks) : Set the number of tricks the player currently has.
+	* \param int currentTricks
+         * @throws NegativeTricksValueException 
+            */
+    public void setCurrentTricks(int currentTricks) throws NegativeTricksValueException{
+        if (currentTricks < 0){
+            throw new NegativeTricksValueException("Bet can't have negative value.");
+        }
+        this.currentTricks = currentTricks;
+    }
         
     @Override
     public boolean equals(Object o){

@@ -168,6 +168,23 @@ public class TestPlayer {
     }
 
     @Test
+    public void testGetCurrentTricks(){
+        Assert.assertEquals(player1.getCurrentTricks(), 0);
+    }
+
+    @Test
+    public void testSetCurrentTricks() throws NegativeTricksValueException{
+        int expectedCurrentTricks = player1.getCurrentTricks()+1;
+        player1.setCurrentTricks(player1.getCurrentTricks()+1);
+        Assert.assertEquals(player1.getCurrentTricks(), expectedCurrentTricks);
+    }
+
+    @Test(expected=NegativeTricksValueException.class)
+    public void testCurrentTricksNegativeTricksValueException() throws NegativeTricksValueException{
+        player1.setCurrentTricks(-1);
+    }
+
+    @Test
     public void testClone() throws NegativeLifeValueException{
         Player player1Cloned = player1.clone();
         Assert.assertEquals(player1Cloned, player1);
