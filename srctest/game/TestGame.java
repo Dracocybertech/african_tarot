@@ -360,4 +360,41 @@ public class TestGame {
             Assert.assertEquals(resultValue, entry.getValue());
         }
     }
+
+    @Test
+    public void testBetTricks(){
+        initPlayersCards();
+        int expectedBetPlayer1 = 1;
+        int expectedBetPlayer2 = 1;
+        int expectedBetPlayer3 = 2;
+        int expectedBetPlayer4 = 2;
+        int numberRound = 5;
+
+        //Invalid and valid inputs
+        String input = expectedBetPlayer1 + " string & " 
+        + expectedBetPlayer2 + " "
+        + expectedBetPlayer3 + " "
+        + expectedBetPlayer4;
+        initGameWithInput(input);
+        
+        gameWithPlayer.betTricks(numberRound);
+        Assert.assertEquals(player1.getBetTricks(), expectedBetPlayer1);
+        Assert.assertEquals(player2.getBetTricks(), expectedBetPlayer2);
+        Assert.assertEquals(player3.getBetTricks(), expectedBetPlayer3);
+        Assert.assertEquals(player4.getBetTricks(), expectedBetPlayer4);
+
+        //Valid inputs but total is equal to the number of cards distributed
+        int wrongValue = 1;
+        input = expectedBetPlayer1 + " string & " 
+        + expectedBetPlayer2 + " "
+        + expectedBetPlayer3 + " "
+        + wrongValue +  " "
+        + expectedBetPlayer4;
+        initGameWithInput(input);
+        gameWithPlayer.betTricks(numberRound);
+        Assert.assertEquals(player1.getBetTricks(), expectedBetPlayer1);
+        Assert.assertEquals(player2.getBetTricks(), expectedBetPlayer2);
+        Assert.assertEquals(player3.getBetTricks(), expectedBetPlayer3);
+        Assert.assertEquals(player4.getBetTricks(), expectedBetPlayer4);
+    }
 }

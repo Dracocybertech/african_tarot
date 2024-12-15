@@ -275,6 +275,43 @@ public class Game {
         return opponentsCards;
     }
 
+    /** \brief Bet part of the game
+    * betTricks(int numberRound): Every player can see their cards and bet a number of tricks they think they will win. 
+    * The total of the bets can't be equal to the number of cards distributed per player.
+    * \param int numberRound
+    */
+    public void betTricks(int numberRound){
+        //The total of the bets can't be equal to the number of cards distributed per player
+        int totalBet = 0;
+        for(Player player: this.getPlayersAlive()){
+            System.out.println("Player "+ player.getName());
+            System.out.println(player.getCards());
+            System.out.println("How many tricks do you want to bet?");
+            System.out.println("Current total bet: "+totalBet);
+            boolean isDone = false;
+            while(!isDone){
+                try{
+                    int betTricks = scanner.nextInt();
+                    System.out.println("betTricks "+betTricks);
+                    if (totalBet + betTricks == numberRound){
+                        System.out.println("The total of the bets can't be equal"+ 
+                        " to the number of cards distributed per player.");
+                    }
+                    else {
+                        player.setBetTricks(betTricks);
+                        totalBet+= betTricks;
+                        isDone = true;
+                    }
+                }
+                catch(Exception e){
+                    System.out.println(e.getMessage());
+                    //Skip to the next input
+                    scanner.next();
+                }
+            }
+       }
+    }
+
     /** \brief Round process
     * round(int numberRound) : Start a round by distributing cards according to the current number of round.
     * Allow player to play until there is no card left in hands. Compute which player lose or not a life points.
@@ -287,8 +324,11 @@ public class Game {
             throw new BadNumberOfRoundException("The current number of round must be between "+ROUND_MAX+" and 0.");
         }
         try {
-            //distribute cards to every player
+            //Distribute cards to every player
             distributeCards(numberRound);
+
+            //Every player can bet the number of tricks they think they will win
+
             //Case of the last round where players have one card
             if (numberRound == 1){
                 playAllPlayersLastRound();
