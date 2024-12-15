@@ -129,8 +129,6 @@ public class TestGame {
 
         Assert.assertEquals(gameWithPlayer.getPlayers(), playersTest);
         Assert.assertEquals(gameWithPlayer.getPlayersAlive(), playersAliveTest);
-        System.out.println("getPlayers() : " + gameWithPlayer.getPlayers());
-        System.out.println("getPlayersAlive() : " + gameWithPlayer.getPlayersAlive());
         Assert.assertNotEquals(gameWithPlayer.getPlayers(), gameWithPlayer.getPlayersAlive());
     }
     
@@ -202,7 +200,6 @@ public class TestGame {
         System.setIn(testIn);
         Game game = new Game();
         game.createPlayers();
-        System.out.println(game.toString());
         //Check that both lists have the same players
         Assert.assertEquals(game.getNumberPlayers(), Game.NUMBER_PLAYERS);
         Assert.assertEquals(game.getNumberPlayersAlive(), Game.NUMBER_PLAYERS);
@@ -355,8 +352,7 @@ public class TestGame {
         //Invalid and valid inputs
         initGameWithInput("3 string & 0 2 string & 1 1 1");
         HashMap<Player, Boolean> results = gameWithPlayer.playAllPlayersLastRound();
-        System.out.println("results : "+results);
-        System.out.println("resultsExpected : "+resultsExpected);
+
         for(Map.Entry<Player,Boolean> entry :resultsExpected.entrySet()){
             Boolean resultValue = results.get(entry.getKey());
             Assert.assertNotNull(resultValue);
