@@ -11,6 +11,7 @@ import deck.Card;
 import deck.CardException;
 import deck.CardNameTooLongException;
 import people.NegativeLifeValueException;
+import people.NegativeTricksValueException;
 import people.Player;
 import people.PlayerNameTooLongException;
 import people.TooManyCardsException;
@@ -147,6 +148,23 @@ public class TestPlayer {
             player1.removeLife();
         }
         Assert.assertFalse(player1.isAlive());
+    }
+
+    @Test
+    public void testGetBetTricks(){
+        Assert.assertEquals(player1.getBetTricks(), 0);
+    }
+
+    @Test
+    public void testSetBetTricks() throws NegativeTricksValueException{
+        int expectedBetTricks = player1.getBetTricks()+1;
+        player1.setBetTricks(player1.getBetTricks()+1);
+        Assert.assertEquals(player1.getBetTricks(), expectedBetTricks);
+    }
+
+    @Test(expected=NegativeTricksValueException.class)
+    public void testNegativeTricksValueException() throws NegativeTricksValueException{
+        player1.setBetTricks(-1);
     }
 
     @Test

@@ -11,6 +11,8 @@ public class Player {
     public int life;
     public ArrayList<Card> cards;
     public String name;
+    public int currentTricks;
+    public int betTricks;
 
     /** \brief Constructor of Player
      	*
@@ -20,6 +22,8 @@ public class Player {
         this.name = "";
         this.life = MAX_LIFE;
         this.cards = new ArrayList<Card>(CARDS_MAX);
+        this.betTricks = 0;
+        this.currentTricks = 0;
     }
 
     /** \brief Constructor of Player
@@ -34,6 +38,8 @@ public class Player {
         this.name = name;
         this.life = MAX_LIFE;
         this.cards = new ArrayList<Card>(CARDS_MAX);
+        this.betTricks = 0;
+        this.currentTricks = 0;
     }
 
     /** \brief Getter name
@@ -168,6 +174,28 @@ public class Player {
         return this.cards.remove(index -1);
     }
     
+    /** \brief Getter bet tricks
+     	*
+	* getBetTricks() : Return the tricks the player bet.
+	* \return int
+    */
+    public int getBetTricks(){
+        return this.betTricks;
+    }
+
+    /** \brief Setter bet life
+     	*
+	* setBetTricks(int betTricks) : Set the number of tricks the player bet.
+	* \param int betTricks
+         * @throws NegativeTricksValueException 
+            */
+    public void setBetTricks(int betTricks) throws NegativeTricksValueException{
+        if (betTricks < 0){
+            throw new NegativeTricksValueException("Bet can only be done with positive or null value.");
+        }
+        this.betTricks = betTricks;
+    }
+        
     @Override
     public boolean equals(Object o){
         if (o == this){
