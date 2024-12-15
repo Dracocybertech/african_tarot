@@ -204,6 +204,30 @@ public class Game {
         return results;
     }
 
+    /** \brief Evaluate the round
+    * evaluate() : Remove life points to any player who bet the wrong amount of tricks.
+    * Display the name of the player(s) who reach 0 life points.
+    */
+    public void evaluate(){
+        //Remove lifepoints
+        for (Player player: getPlayersAlive()){
+            int lifePointsRemoved = Math.abs(player.getBetTricks() - player.getCurrentTricks());
+            if (lifePointsRemoved != 0){
+                player.removeLife(lifePointsRemoved);
+            }
+        }
+
+        ArrayList<Player> playersDead = playersAlive.removeDeadPlayers();
+
+        //If any player reach 0 life points
+        if (playersDead.size() != 0){
+            for (Player player: playersDead){
+                System.out.println("Player "+ player.getName()+
+                "has 0 life points! They can't play anymore.");
+            }
+        }
+    }
+
     /** \brief One player play for the last round
     * playOnePlayerLastRound(Player player, HashMap<Player, Card> opponentsCards, HashMap<Player, Boolean> opponentsDecisions) : 
     * The player bet if they won or lose this round by typing 0 for win or 1 for lose. Win return true, Lose return false.
@@ -330,7 +354,7 @@ public class Game {
 
             //Every player can bet the number of tricks they think they will win
             betTricks(numberRound);
-            
+
             //Case of the last round where players have one card
             if (numberRound == 1){
                 playAllPlayersLastRound();

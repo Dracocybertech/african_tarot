@@ -298,6 +298,65 @@ public class TestGame {
     }
 
     @Test
+    public void testEvaluate(){
+        int rightBet = 2;
+        int wrongBet = 3;
+        int currentTricks = 2;
+
+        int player1Life = player1.getLife();
+        int player2Life = player2.getLife();
+        int player3Life = player3.getLife();
+        int player4Life = player4.getLife();
+
+        try{
+            //players who predicted right
+            player1.setBetTricks(rightBet);
+            player1.setCurrentTricks(currentTricks);
+            player2.setBetTricks(rightBet);
+            player2.setCurrentTricks(currentTricks);
+            player3.setBetTricks(rightBet);
+            player3.setCurrentTricks(currentTricks);
+
+            //Players who predicted wrong
+            player4.setBetTricks(wrongBet);
+            player4.setCurrentTricks(currentTricks);
+        }
+        catch(Exception e){
+            System.out.println("Error for testEvaluate: "+ e.getLocalizedMessage());
+        }
+        
+        gameWithPlayer.evaluate();
+        
+        Assert.assertEquals(player1.getLife(), player1Life);
+        Assert.assertEquals(player2.getLife(), player2Life);
+        Assert.assertEquals(player3.getLife(), player3Life);
+        Assert.assertEquals(player4.getLife(), player4Life - (Math.abs(wrongBet - currentTricks)));
+    wrongBet = Player.MAX_LIFE + currentTricks;
+        //Case where a player has 0 life points
+        wrongBet = Player.MAX_LIFE + currentTricks;
+        try{
+            //Players who predicted wrong
+            player4.setBetTricks(wrongBet);
+        }
+        catch(Exception e){
+            System.out.println("Error for testEvaluate when player has 0 life points: "+ e.getLocalizedMessage());
+        }
+        
+        gameWithPlayer.evaluate();
+
+        Assert.assertEquals(player1.getLife(), player1Life);
+        Assert.assertEquals(player2.getLife(), player2Life);
+        Assert.assertEquals(player3.getLife(), player3Life);
+        Assert.assertEquals(player4.getLife(),0);
+
+        ArrayList<Player> playersAlive = gameWithPlayer.getPlayersAlive();
+        ArrayList<Player> players = gameWithPlayer.getPlayers();
+
+        Assert.assertNotEquals(playersAlive, players);
+        Assert.assertFalse(playersAlive.contains(player4));
+    }
+
+    @Test
     public void testPlayOnePlayerLastRound(){
         //Valid input
         initGameWithInput("1");
