@@ -305,6 +305,7 @@ public class Game {
                 }
                 catch(Exception e){
                     System.out.println(e.getMessage());
+
                     //Skip to the next input
                     scanner.next();
                 }
@@ -328,7 +329,8 @@ public class Game {
             distributeCards(numberRound);
 
             //Every player can bet the number of tricks they think they will win
-
+            betTricks(numberRound);
+            
             //Case of the last round where players have one card
             if (numberRound == 1){
                 playAllPlayersLastRound();
