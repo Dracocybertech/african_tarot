@@ -163,7 +163,7 @@ public class TestPlayer {
     }
 
     @Test(expected=NegativeTricksValueException.class)
-    public void testNegativeTricksValueException() throws NegativeTricksValueException{
+    public void testBetTricksNegativeTricksValueException() throws NegativeTricksValueException{
         player1.setBetTricks(-1);
     }
 
