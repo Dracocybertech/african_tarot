@@ -289,12 +289,18 @@ public class Game {
         try {
             //distribute cards to every player
             distributeCards(numberRound);
+            //Case of the last round where players have one card
+            if (numberRound == 1){
+                playAllPlayersLastRound();
+            }
+            else {
+                playAllPlayers();
+            }
         }
         catch(Exception e){
             System.out.println(e.getMessage());
             return;
         }
-
     }
 
     /** \brief Start the game
