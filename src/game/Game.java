@@ -434,10 +434,11 @@ public class Game {
                     evaluateCards(cardsPlayed);
                 }
             }
+            //Remove players with 0 life points
+            evaluateDeadPlayers();
         }
         catch(Exception e){
             System.out.println(e.getMessage());
-            return;
         }
     }
 
