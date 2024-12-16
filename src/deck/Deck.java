@@ -19,6 +19,7 @@ public class Deck {
 	* buildDeck() : Build the deck with all the trump cards.
     */
     public void buildDeck(){
+        this.completeDeck.clear();
         try{
             for(int value = Card.MIN_VALUE; value < Card.MAX_VALUE ; value++ ){ 
                 if (value == Card.MIN_VALUE){
