@@ -27,7 +27,7 @@ public class TestGame {
 
     private final InputStream originalSystemIn = System.in;
     private ByteArrayInputStream testIn;
-    Game gameWithPlayer;
+    Game game;
     Player player1;
     Player player2;
     Player player3;
@@ -43,7 +43,7 @@ public class TestGame {
 
     @Before
     public void beforeTest() throws PlayerNameTooLongException, BadNumberOfPlayersException{
-        gameWithPlayer = new Game();
+        game = new Game();
         players = new ArrayList<Player>(Game.NUMBER_PLAYERS);
         player1 = new Player("Player1");
         player2 = new Player("Player2");
@@ -53,7 +53,7 @@ public class TestGame {
         players.add(player2);
         players.add(player3);
         players.add(player4);
-        gameWithPlayer.setPlayers(players);
+        game.setPlayers(players);
         playerGroup = new PlayerGroup(players);
         try{
             card1 = new Card("1",1);
@@ -80,7 +80,7 @@ public class TestGame {
     public void initGameWithInput(String simulatedInput){
         testIn = new ByteArrayInputStream(simulatedInput.getBytes());
         System.setIn(testIn);
-        gameWithPlayer = new Game();
+        game = new Game();
 
         try{
             ArrayList<Player> listPlayer = new ArrayList<Player>();
@@ -88,7 +88,7 @@ public class TestGame {
             listPlayer.add(player2);
             listPlayer.add(player3);
             listPlayer.add(player4);
-            gameWithPlayer.setPlayers(listPlayer);
+            game.setPlayers(listPlayer);
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -115,7 +115,7 @@ public class TestGame {
 
     @Test
     public void testGetPlayers(){
-        Assert.assertEquals(gameWithPlayer.getPlayers(), players);
+        Assert.assertEquals(game.getPlayers(), players);
     }
 
     @Test
@@ -126,11 +126,11 @@ public class TestGame {
         playersTest.add(player2);
         ArrayList<Player> playersAliveTest = new ArrayList<Player>(1);
         playersAliveTest.add(player1);
-        gameWithPlayer.setPlayers(playersTest);
+        game.setPlayers(playersTest);
 
-        Assert.assertEquals(gameWithPlayer.getPlayers(), playersTest);
-        Assert.assertEquals(gameWithPlayer.getPlayersAlive(), playersAliveTest);
-        Assert.assertNotEquals(gameWithPlayer.getPlayers(), gameWithPlayer.getPlayersAlive());
+        Assert.assertEquals(game.getPlayers(), playersTest);
+        Assert.assertEquals(game.getPlayersAlive(), playersAliveTest);
+        Assert.assertNotEquals(game.getPlayers(), game.getPlayersAlive());
     }
     
     @Test(expected=BadNumberOfPlayersException.class)
@@ -140,13 +140,13 @@ public class TestGame {
         for(int i = 0 ; i < Game.NUMBER_PLAYERS + 1 ; i++){
             playersTest.add(player1);
         }
-        gameWithPlayer.setPlayers(playersTest);
+        game.setPlayers(playersTest);
     }
 
     @Test
     public void testGetPlayersAlive() throws NegativeLifeValueException, BadNumberOfPlayersException{
         //Case where every player of the game is alive
-        Assert.assertEquals(gameWithPlayer.getPlayersAlive(), players);
+        Assert.assertEquals(game.getPlayersAlive(), players);
         
         //Set the life of one player to 0 to see if the number of player alive is the right one 
         //even with dead players
@@ -154,52 +154,55 @@ public class TestGame {
         ArrayList<Player> playersTest = new ArrayList<Player>(2);
         playersTest.add(player1);
         playersTest.add(player2);
-        gameWithPlayer.setPlayers(playersTest);
+        game.setPlayers(playersTest);
         ArrayList<Player> playersAliveExpected = new ArrayList<Player>(1);
         playersAliveExpected.add(player2);
-        Assert.assertEquals(playersAliveExpected, gameWithPlayer.getPlayersAlive());
+        Assert.assertEquals(playersAliveExpected, game.getPlayersAlive());
     }
 
     @Test
     public void testGetNumberPlayers(){
-        Assert.assertEquals(gameWithPlayer.getNumberPlayers(), Game.NUMBER_PLAYERS);
+        Assert.assertEquals(game.getNumberPlayers(), Game.NUMBER_PLAYERS);
     }
 
     @Test
     public void testGetNumberPlayersAlive(){
-        Assert.assertEquals(gameWithPlayer.getNumberPlayersAlive(), Game.NUMBER_PLAYERS);
+        Assert.assertEquals(game.getNumberPlayersAlive(), Game.NUMBER_PLAYERS);
     }
 
     @Test
     public void testGetDeck(){
         Deck deckExpected = new Deck();
         deckExpected.buildDeck();
-        Assert.assertEquals(gameWithPlayer.getDeck().getSize(), deckExpected.getSize());
+        Assert.assertEquals(game.getDeck().getSize(), deckExpected.getSize());
     }
 
     @Test
     public void testGetDeckSize(){
         Deck deckExpected = new Deck();
         deckExpected.buildDeck();
-        Assert.assertEquals(gameWithPlayer.getDeckSize(), deckExpected.getSize());
+        Assert.assertEquals(game.getDeckSize(), deckExpected.getSize());
     }
 
     @Test
     public void testCreatePlayer(){
-        String simulatedInput = "Player1";
-        testIn = new ByteArrayInputStream(simulatedInput.getBytes());
-        System.setIn(testIn);
-        Game game = new Game();
-        Player player = game.createPlayer();
-        Assert.assertNotEquals(player.getName(), null);
+        //Invalid and valid input
+        String simulatedInput = "PlayerWithANameTooLong Player1";
+        initGameWithInput(simulatedInput);
+
+        //Check if player1 was created
+        Assert.assertTrue(game.getPlayers().contains(player1));
     }
 
     @Test
     public void testCreatePlayers(){
+        //Invalid and valid input
         String simulatedInput = "Player1 Player2 PlayerWithANameTooLong Player3 Player4";
         testIn = new ByteArrayInputStream(simulatedInput.getBytes());
         System.setIn(testIn);
-        Game game = new Game();
+        game = new Game();
+    
+        //Create allplayers
         game.createPlayers();
         //Check that both lists have the same players
         Assert.assertEquals(game.getNumberPlayers(), Game.NUMBER_PLAYERS);
@@ -213,19 +216,23 @@ public class TestGame {
 
         //Check if both lists are different now that there is a changment on one of them and not the other
         Assert.assertNotEquals(players, playersAlive);
-
     }
 
     @Test
     public void testDistributeCards() throws NotEnoughCardsInDeckException, TooManyCardsException, RemovingTooManyCards{
-        int deckSize = gameWithPlayer.getDeckSize();
-        int maxCardsDistributable = deckSize / gameWithPlayer.getNumberPlayersAlive();
-        gameWithPlayer.distributeCards(maxCardsDistributable);
-        int deckSizeAfterDistribution = gameWithPlayer.getDeckSize();
-        int expectedDeckSize = deckSize - maxCardsDistributable * gameWithPlayer.getNumberPlayersAlive();
+        int deckSize = game.getDeckSize();
+        //Compute the number of cards that can be distributed
+        int maxCardsDistributable = deckSize / game.getNumberPlayersAlive();
+        //Distribute cards
+        game.distributeCards(maxCardsDistributable);
+        int deckSizeAfterDistribution = game.getDeckSize();
+        int expectedDeckSize = deckSize - maxCardsDistributable * game.getNumberPlayersAlive();
+        
+        //Check that the size of the deck has been reduced of the correct amount
         Assert.assertEquals(deckSizeAfterDistribution, expectedDeckSize);
 
-        for (Player player: gameWithPlayer.getPlayersAlive()){
+        //Check if each player received the correct number of cards
+        for (Player player: game.getPlayersAlive()){
             Assert.assertEquals(player.getNumberCards(), maxCardsDistributable);
         }
     }
@@ -233,17 +240,9 @@ public class TestGame {
     @Test
     public void testPlayOnePlayer() throws NotEnoughCardsInDeckException, TooManyCardsException, RemovingTooManyCards, BadNumberOfPlayersException{
         String simulatedInput = "1";
-        testIn = new ByteArrayInputStream(simulatedInput.getBytes());
-        System.setIn(testIn);
-        Game game = new Game();
+        initGameWithInput(simulatedInput);
 
-        ArrayList<Player> listPlayer = new ArrayList<Player>();
-        listPlayer.add(player1);
-        listPlayer.add(player2);
-        listPlayer.add(player3);
-        listPlayer.add(player4);
-        game.setPlayers(listPlayer);
-
+        //Distribute cards to every player
         int deckSize = game.getDeckSize();
         int maxCardsDistributable = deckSize / game.getNumberPlayersAlive();
         game.distributeCards(maxCardsDistributable);
@@ -253,46 +252,37 @@ public class TestGame {
         //It works because every player1 is a shallow copy inside the list in the game
         Card cardExpected = player1.getCard(indexCard);
         Card cardPlayed = game.playOnePlayer(player1);
+
+        //Check if the card returned is the card played 
         Assert.assertEquals(cardExpected, cardPlayed);
+        //Check if the card is no longer in the hand of the player
         Assert.assertFalse(game.getPlayer(indexPlayer).containsCard(cardPlayed));
     }
 
     @Test
     public void testPlayAllPlayers() throws NotEnoughCardsInDeckException, TooManyCardsException, RemovingTooManyCards, BadNumberOfPlayersException{
         String simulatedInput = "1 1 1 1";
-        testIn = new ByteArrayInputStream(simulatedInput.getBytes());
-        System.setIn(testIn);
-        Game game = new Game();
+        initGameWithInput(simulatedInput);
 
-        ArrayList<Player> listPlayer = new ArrayList<Player>();
-        listPlayer.add(player1);
-        listPlayer.add(player2);
-        listPlayer.add(player3);
-        listPlayer.add(player4);
-        game.setPlayers(listPlayer);
-
-        //Creating cards of the players
-        try{
-            player1.addCard(card1);
-            player2.addCard(card2);
-            player3.addCard(card3);
-            player4.addCard(card4);
-        }
-        catch(Exception e){
-            System.out.println("Error in testPlayAllPlayers" + e.getMessage());
-        }
+        //Give one specific card to every player
+        initPlayersCards();
         
         int indexCard = 0;
         HashMap<Player, Card> cardExpected = new HashMap<Player, Card>();
-        for(Player player: listPlayer){
+        //Each player should play the only card they have in their hand
+        for(Player player: players){
             cardExpected.put(player,player.getCard(indexCard));
         }
         
+        //Every player play one card
         HashMap<Player, Card> cardPlayed = game.playAllPlayers();
+
+        //Check if the card returned is the card played 
         Assert.assertEquals(cardExpected, cardPlayed);
         for(var entry : cardPlayed.entrySet()){
             Player currentPlayer = entry.getKey();
             Card currentCard = entry.getValue();
+            //Check if the card is no longer in the hand of the player
             Assert.assertFalse(currentPlayer.containsCard(currentCard));
         }
     }
@@ -319,24 +309,30 @@ public class TestGame {
 
         HashMap<Player, Boolean> opponentsDecisions = new HashMap<Player, Boolean>();
         opponentsDecisions.put(player1, true);
-        Boolean decisionTaken = gameWithPlayer.playOnePlayerLastRound(player2, opponentsCards,opponentsDecisions);
+        Boolean decisionTaken = game.playOnePlayerLastRound(player2, opponentsCards,opponentsDecisions);
         Boolean decisionExpected = false;
 
+        //Check if the decision the player took is the one returned
         Assert.assertEquals(decisionTaken, decisionExpected);
 
         //Invalid and valid inputs
         initGameWithInput("3 string & 1");
-        decisionTaken = gameWithPlayer.playOnePlayerLastRound(player2, opponentsCards,opponentsDecisions);
+        decisionTaken = game.playOnePlayerLastRound(player2, opponentsCards,opponentsDecisions);
 
+        //Check if the decision the player took is the one returned
         Assert.assertEquals(decisionTaken, decisionExpected);
     }
 
     @Test
     public void testBuildOpponentsCards(){
         initPlayersCards();
-        HashMap<Player, ArrayList<Card>> opponentsCards = gameWithPlayer.buildOpponentsCards(player1, playerGroup);
+        //Cards opponents have in their hands
+        HashMap<Player, ArrayList<Card>> opponentsCards = game.buildOpponentsCards(player1, playerGroup);
+        
+        //Check if among the cards, there is not the card of the player displayed
         Assert.assertFalse(opponentsCards.containsKey(player1));
         Assert.assertFalse(opponentsCards.containsValue(player1.getCards()));
+        //Check if among the cards, there is those of one of the opponents
         Assert.assertTrue(opponentsCards.containsKey(player2));
         Assert.assertTrue(opponentsCards.containsValue(player2.getCards()));
     }
@@ -352,11 +348,13 @@ public class TestGame {
         initPlayersCards();
         //Invalid and valid inputs
         initGameWithInput("3 string & 0 2 string & 1 1 1");
-        HashMap<Player, Boolean> results = gameWithPlayer.playAllPlayersLastRound();
+        HashMap<Player, Boolean> results = game.playAllPlayersLastRound();
 
         for(Map.Entry<Player,Boolean> entry :resultsExpected.entrySet()){
             Boolean resultValue = results.get(entry.getKey());
+            //Check if every player have made a decision
             Assert.assertNotNull(resultValue);
+            //Check if the decision returned is the one in the input
             Assert.assertEquals(resultValue, entry.getValue());
         }
     }
@@ -377,7 +375,9 @@ public class TestGame {
         + expectedBetPlayer4;
         initGameWithInput(input);
         
-        gameWithPlayer.betTricks(numberRound);
+        game.betTricks(numberRound);
+
+        //Check if all players have made a bet
         Assert.assertEquals(player1.getBetTricks(), expectedBetPlayer1);
         Assert.assertEquals(player2.getBetTricks(), expectedBetPlayer2);
         Assert.assertEquals(player3.getBetTricks(), expectedBetPlayer3);
@@ -391,7 +391,9 @@ public class TestGame {
         + wrongValue +  " "
         + expectedBetPlayer4;
         initGameWithInput(input);
-        gameWithPlayer.betTricks(numberRound);
+        game.betTricks(numberRound);
+
+        //Check if all players have made a bet
         Assert.assertEquals(player1.getBetTricks(), expectedBetPlayer1);
         Assert.assertEquals(player2.getBetTricks(), expectedBetPlayer2);
         Assert.assertEquals(player3.getBetTricks(), expectedBetPlayer3);
@@ -426,8 +428,9 @@ public class TestGame {
             System.out.println("Error for testEvaluate: "+ e.getLocalizedMessage());
         }
         
-        gameWithPlayer.evaluateRound();
+        game.evaluateRound();
         
+        //Check if players loose life if prediction was wrong
         Assert.assertEquals(player1.getLife(), player1Life);
         Assert.assertEquals(player2.getLife(), player2Life);
         Assert.assertEquals(player3.getLife(), player3Life);
@@ -443,8 +446,9 @@ public class TestGame {
             System.out.println("Error for testEvaluate when player has 0 life points: "+ e.getLocalizedMessage());
         }
         
-        gameWithPlayer.evaluateRound();
+        game.evaluateRound();
 
+        //Check if players loose life if prediction was wrong
         Assert.assertEquals(player1.getLife(), player1Life);
         Assert.assertEquals(player2.getLife(), player2Life);
         Assert.assertEquals(player3.getLife(), player3Life);
@@ -463,8 +467,9 @@ public class TestGame {
         int expectedCurrentTricksPlayer2 = player2.getCurrentTricks();
         int expectedCurrentTricksPlayer3 = player3.getCurrentTricks();
         int expectedCurrentTricksPlayer4 = player4.getCurrentTricks()+1;
-        gameWithPlayer.evaluateCards(cardsPlayed);
+        game.evaluateCards(cardsPlayed);
 
+        //Check if the player who won this turn got +1 in they tricks
         Assert.assertEquals(expectedCurrentTricksPlayer1, player1.getCurrentTricks());
         Assert.assertEquals(expectedCurrentTricksPlayer2, player2.getCurrentTricks());
         Assert.assertEquals(expectedCurrentTricksPlayer3, player3.getCurrentTricks());
@@ -488,8 +493,9 @@ public class TestGame {
         int expectedLifePointsPlayer3 = player3.getLife() -1;
         int expectedLifePointsPlayer4 = player4.getLife();
 
-        gameWithPlayer.evaluateCardsLastRound(decisions);
+        game.evaluateCardsLastRound(decisions);
 
+        //Check if the player loose life points if theyr predicted wrong
         Assert.assertEquals(expectedLifePointsPlayer1, player1.getLife());
         Assert.assertEquals(expectedLifePointsPlayer2, player2.getLife());
         Assert.assertEquals(expectedLifePointsPlayer3, player3.getLife());
@@ -499,12 +505,12 @@ public class TestGame {
     @Test
     public void testEvaluateDeadPlayers() throws NegativeLifeValueException{
         //List of players alive before the evaluation
-        ArrayList<Player> playersAlive = gameWithPlayer.getPlayersAlive();
-        ArrayList<Player> players = gameWithPlayer.getPlayers();
+        ArrayList<Player> playersAlive = game.getPlayersAlive();
+        ArrayList<Player> players = game.getPlayers();
 
         //Let player4 the player who got 0 life points at the end of the round
         player4.setLife(0);
-        gameWithPlayer.evaluateDeadPlayers();
+        game.evaluateDeadPlayers();
 
         //Check if player4 is removed from the list of players alive
         Assert.assertNotEquals(playersAlive, players);
