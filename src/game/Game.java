@@ -477,8 +477,20 @@ public class Game {
         createPlayers();
         boolean endOfGame = false;
         while (!endOfGame){
-            endOfGame = true;
+            for (int numberRound = ROUND_MAX ; numberRound > 0 ; numberRound --){
+                try{
+                    round(numberRound);
+                }
+                catch(Exception e){
+                    System.err.println(e.getMessage());
+                }
+            }
+            if (isVictory()){
+                endOfGame = true;
+            }
         }
+        System.out.println("The game is over.");
+        
     }
 
     /** \brief Condition of victory
