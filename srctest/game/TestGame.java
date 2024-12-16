@@ -449,12 +449,6 @@ public class TestGame {
         Assert.assertEquals(player2.getLife(), player2Life);
         Assert.assertEquals(player3.getLife(), player3Life);
         Assert.assertEquals(player4.getLife(),0);
-
-        ArrayList<Player> playersAlive = gameWithPlayer.getPlayersAlive();
-        ArrayList<Player> players = gameWithPlayer.getPlayers();
-
-        Assert.assertNotEquals(playersAlive, players);
-        Assert.assertFalse(playersAlive.contains(player4));
     }
 
     @Test
@@ -500,5 +494,20 @@ public class TestGame {
         Assert.assertEquals(expectedLifePointsPlayer2, player2.getLife());
         Assert.assertEquals(expectedLifePointsPlayer3, player3.getLife());
         Assert.assertEquals(expectedLifePointsPlayer4, player4.getLife());
+    }
+
+    @Test
+    public void testEvaluateDeadPlayers() throws NegativeLifeValueException{
+        //List of players alive before the evaluation
+        ArrayList<Player> playersAlive = gameWithPlayer.getPlayersAlive();
+        ArrayList<Player> players = gameWithPlayer.getPlayers();
+
+        //Let player4 the player who got 0 life points at the end of the round
+        player4.setLife(0);
+        gameWithPlayer.evaluateDeadPlayers();
+
+        //Check if player4 is removed from the list of players alive
+        Assert.assertNotEquals(playersAlive, players);
+        Assert.assertFalse(playersAlive.contains(player4));
     }
 }

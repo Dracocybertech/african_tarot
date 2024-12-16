@@ -385,7 +385,13 @@ public class Game {
                 player.removeLife(lifePointsRemoved);
             }
         }
+    }
 
+    /** \brief Evaluate the players life points
+    * evaluateDeadPlayers() : Remove and display the name of the players who reached 0 life points.
+    */
+    public void evaluateDeadPlayers(){
+        //Remove players who reach 0 life points
         ArrayList<Player> playersDead = playersAlive.removeDeadPlayers();
 
         //If any player reach 0 life points
