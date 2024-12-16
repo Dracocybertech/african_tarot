@@ -77,6 +77,10 @@ public class TestGame {
         System.out.println("Test Game over");
     }
 
+    /** \brief Init buffer with input
+    * initGameWithInput(String simulatedInput): Initialize the game with a buffer already set with the input.
+    * \param String simulatedInput
+    */
     public void initGameWithInput(String simulatedInput){
         testIn = new ByteArrayInputStream(simulatedInput.getBytes());
         System.setIn(testIn);
