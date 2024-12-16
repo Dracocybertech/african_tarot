@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Level; 
+import java.util.logging.Logger; 
 
 import deck.Card;
 import deck.Deck;
@@ -27,6 +30,9 @@ public class Game {
     public static int NUMBER_PLAYERS = 4;
     public static int ROUND_MAX = 5;
     
+    // Create a Logger 
+    Logger logger = Logger.getLogger(Game.class.getName()); 
+
     /** \brief Constructor Game
      * Game(): create the players and the deck of cards.
      */
@@ -133,7 +139,10 @@ public class Game {
                 player = new Player(userName);
             }
             catch(PlayerNameTooLongException e){
-                System.out.println(e.getMessage());
+                System.err.println("The name of the player is too long.");
+                logger.log(Level.WARNING
+                , "The length of the string is > "+ Player.NAME_MAX + "."
+                , new PlayerNameTooLongException());
             }
         }
         return player;
@@ -188,8 +197,10 @@ public class Game {
                 cardPlayed = player.removeCard(indexCard);
             }
             catch(Exception e){
-                System.out.println("The card can't be played.");
-                System.out.println(e.getMessage());
+                System.err.println("The card can't be played.");
+                logger.log(Level.WARNING
+                , "The input is not an int."
+                , new InputMismatchException());
                 scanner.next();
             }
         }
@@ -233,12 +244,15 @@ public class Game {
                     decision = false;
                 }
                 else {
-                    System.out.println("Choose an number between 1 or 2.");
+                    System.err.println("Choose an number between 1 or 2.");
                 }
             }
             catch(Exception e){
-                System.out.println("Error while processing input: "+e.getMessage());
+                System.err.println("Error while processing input: "+e.getMessage());
                 scanner.next();
+                logger.log(Level.WARNING
+                , "The input is not an int "
+                , new InputMismatchException());
             }
         }
         return decision;
@@ -308,10 +322,13 @@ public class Game {
                     }
                 }
                 catch(Exception e){
-                    System.out.println(e.getMessage());
+                    System.err.println("Error while processing bet tricks " + e.getMessage());
 
                     //Skip to the next input
                     scanner.next();
+                    logger.log(Level.WARNING
+                    , "The input is not a int"
+                    , new InputMismatchException ());
                 }
             }
        }
@@ -445,7 +462,10 @@ public class Game {
 
         }
         catch(Exception e){
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
+            logger.log(Level.WARNING
+                    , "Error while processing the round"
+                    , new Exception (e.getMessage()));
         }
     }
 
