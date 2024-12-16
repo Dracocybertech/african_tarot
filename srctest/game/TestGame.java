@@ -243,7 +243,8 @@ public class TestGame {
 
     @Test
     public void testPlayOnePlayer() throws NotEnoughCardsInDeckException, TooManyCardsException, RemovingTooManyCards, BadNumberOfPlayersException{
-        String simulatedInput = "1";
+        //Invalid and valid input
+        String simulatedInput = "String & 1";
         initGameWithInput(simulatedInput);
 
         //Distribute cards to every player

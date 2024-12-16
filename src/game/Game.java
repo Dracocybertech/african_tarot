@@ -183,13 +183,14 @@ public class Game {
         System.out.println(player.getCards().toString());
         Card cardPlayed = null;
         while (cardPlayed == null){
-            int indexCard = scanner.nextInt();
             try{
+                int indexCard = scanner.nextInt();
                 cardPlayed = player.removeCard(indexCard);
             }
             catch(Exception e){
                 System.out.println("The card can't be played.");
                 System.out.println(e.getMessage());
+                scanner.next();
             }
         }
         return cardPlayed;
