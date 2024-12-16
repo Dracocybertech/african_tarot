@@ -325,7 +325,7 @@ public class TestGame {
             System.out.println("Error for testEvaluate: "+ e.getLocalizedMessage());
         }
         
-        gameWithPlayer.evaluate();
+        gameWithPlayer.evaluateRound();
         
         Assert.assertEquals(player1.getLife(), player1Life);
         Assert.assertEquals(player2.getLife(), player2Life);
@@ -342,7 +342,7 @@ public class TestGame {
             System.out.println("Error for testEvaluate when player has 0 life points: "+ e.getLocalizedMessage());
         }
         
-        gameWithPlayer.evaluate();
+        gameWithPlayer.evaluateRound();
 
         Assert.assertEquals(player1.getLife(), player1Life);
         Assert.assertEquals(player2.getLife(), player2Life);

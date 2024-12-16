@@ -208,7 +208,7 @@ public class Game {
     * evaluate() : Remove life points to any player who bet the wrong amount of tricks.
     * Display the name of the player(s) who reach 0 life points.
     */
-    public void evaluate(){
+    public void evaluateRound(){
         //Remove lifepoints
         for (Player player: getPlayersAlive()){
             int lifePointsRemoved = Math.abs(player.getBetTricks() - player.getCurrentTricks());
