@@ -476,4 +476,29 @@ public class TestGame {
         Assert.assertEquals(expectedCurrentTricksPlayer3, player3.getCurrentTricks());
         Assert.assertEquals(expectedCurrentTricksPlayer4, player4.getCurrentTricks());
     }
+
+    @Test
+    public void testEvaluateCardsLastRound(){
+        initPlayersCards();
+        HashMap<Player, Boolean> decisions = new HashMap<Player, Boolean>();
+        decisions.put(player1, false);
+        decisions.put(player2, false);
+        //Wrong prediction
+        decisions.put(player3, true);
+        //Winner
+        decisions.put(player4, true);
+
+        int expectedLifePointsPlayer1 = player1.getLife();
+        int expectedLifePointsPlayer2 = player2.getLife();
+        //Should lose a life point for predicting wrongfully
+        int expectedLifePointsPlayer3 = player3.getLife() -1;
+        int expectedLifePointsPlayer4 = player4.getLife();
+
+        gameWithPlayer.evaluateCardsLastRound(decisions);
+
+        Assert.assertEquals(expectedLifePointsPlayer1, player1.getLife());
+        Assert.assertEquals(expectedLifePointsPlayer2, player2.getLife());
+        Assert.assertEquals(expectedLifePointsPlayer3, player3.getLife());
+        Assert.assertEquals(expectedLifePointsPlayer4, player4.getLife());
+    }
 }

@@ -337,6 +337,42 @@ public class Game {
         player.addCurrentTricks();
     }
 
+    /** \brief Evaluate the cards for the last round
+    * evaluateCardsLastRound(HashMap<Player, Boolean> decisions) : Display all cards the players have in their hands. 
+    * Display the winner of the trick. Remove life points according to the bet.
+    * \param HashMap<Player, Boolean> decisions
+    */
+    public void evaluateCardsLastRound(HashMap<Player, Boolean> decisions){
+        HashMap<Player, Card> cardsPlayed = new HashMap<Player, Card>();
+        //Display all the cards the players have this turn
+        for (Player player: getPlayersAlive()){
+            Card cardCurrent = player.getCard(0);
+            System.out.println("Player "+ player.getName() +" Card: "+ cardCurrent);
+            cardsPlayed.put(player, cardCurrent);
+        }
+
+        //Get the player who won the trick
+        Player winner = Collections.max(cardsPlayed.entrySet(), Map.Entry.comparingByValue(
+            Comparator.comparing(Card::getValue)
+        )).getKey();
+
+        //Display the player who won the trick
+        System.out.println("Player "+winner.getName() + "won the trick!");
+
+        //Remove life to those who didn't predict right
+        for (Map.Entry<Player, Boolean> entries: decisions.entrySet()){
+            int lifePointsRemoved = 1;
+            Player currentPlayer = entries.getKey();
+            Boolean predictedBet = entries.getValue();
+            //If the player is the winner but didn't predict that they would won
+            //or if any played predicted they would won but didn't
+            if (currentPlayer == winner && predictedBet == false 
+            || currentPlayer != winner && predictedBet == true){
+                currentPlayer.removeLife(lifePointsRemoved);
+            }
+        }
+    }
+
     /** \brief Evaluate the round
     * evaluateRound() : Remove life points to any player who bet the wrong amount of tricks.
     * Display the name of the player(s) who reach 0 life points.
