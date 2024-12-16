@@ -521,4 +521,43 @@ public class TestGame {
         Assert.assertNotEquals(playersAlive, players);
         Assert.assertFalse(playersAlive.contains(player4));
     }
+
+    @Test
+    public void testIsVictory(){
+        //Check that the victory condition is not achieved yet
+        Assert.assertFalse(game.isVictory());
+
+        //Set all life of players to 0 except to one
+        try{
+            player1.setLife(0);
+            player2.setLife(0);
+            player3.setLife(0);
+            ArrayList<Player> playersTest = new ArrayList<Player>();
+            playersTest.add(player1);
+            playersTest.add(player2);
+            playersTest.add(player3);
+            playersTest.add(player4);
+            game.setPlayers(playersTest);
+        }
+        catch(Exception e){
+            System.err.println("Error while processing testIsVictory "+e.getMessage());
+        }
+        
+        System.out.println(game.getPlayersAlive());
+        System.out.println(game.getNumberPlayersAlive());
+
+        //Check that the victory condition is achieved
+        Assert.assertTrue(game.isVictory());
+
+        //Set all life of players to 0
+        try{
+            player4.setLife(0);
+        }
+        catch(Exception e){
+            System.err.println("Error while processing testIsVictory "+e.getMessage());
+        }
+        
+        //Check that the victory condition is achieved
+        Assert.assertTrue(game.isVictory());
+    }
 }

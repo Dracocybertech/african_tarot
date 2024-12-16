@@ -103,7 +103,7 @@ public class Game {
     * \return int
     */
     public int getNumberPlayersAlive(){
-        return this.players.getNumberPlayers();
+        return this.playersAlive.getNumberPlayers();
     }
 
     /** \brief Getter Deck
@@ -479,6 +479,18 @@ public class Game {
         while (!endOfGame){
             endOfGame = true;
         }
+    }
+
+    /** \brief Condition of victory
+    * isVictory() : Return true if there is only one with life points, or no more players with lifepoints in case all players 
+    * lose their life points at the same time.
+    */
+    public boolean isVictory(){
+        if(getNumberPlayersAlive() == 1 || getNumberPlayersAlive() == 0){
+            return true;
+        }
+        //If there is more than one player with life points
+        return false;
     }
 
     /** \brief toString
