@@ -1,7 +1,10 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import deck.Card;
@@ -204,30 +207,6 @@ public class Game {
         return results;
     }
 
-    /** \brief Evaluate the round
-    * evaluate() : Remove life points to any player who bet the wrong amount of tricks.
-    * Display the name of the player(s) who reach 0 life points.
-    */
-    public void evaluateRound(){
-        //Remove lifepoints
-        for (Player player: getPlayersAlive()){
-            int lifePointsRemoved = Math.abs(player.getBetTricks() - player.getCurrentTricks());
-            if (lifePointsRemoved != 0){
-                player.removeLife(lifePointsRemoved);
-            }
-        }
-
-        ArrayList<Player> playersDead = playersAlive.removeDeadPlayers();
-
-        //If any player reach 0 life points
-        if (playersDead.size() != 0){
-            for (Player player: playersDead){
-                System.out.println("Player "+ player.getName()+
-                "has 0 life points! They can't play anymore.");
-            }
-        }
-    }
-
     /** \brief One player play for the last round
     * playOnePlayerLastRound(Player player, HashMap<Player, Card> opponentsCards, HashMap<Player, Boolean> opponentsDecisions) : 
     * The player bet if they won or lose this round by typing 0 for win or 1 for lose. Win return true, Lose return false.
@@ -337,6 +316,52 @@ public class Game {
        }
     }
 
+    /** \brief Evaluate the cards
+    * evaluateCards(HashMap<Player, Card> cardsPlayed) : Display all cards played this turn.
+    * \param HashMap<Player, Card> cardsPlayed
+    */
+
+    public void evaluateCards(HashMap<Player, Card> cardsPlayed){
+        //Display all the cards played for this turn
+        for (Map.Entry<Player,Card> entries: cardsPlayed.entrySet()){
+            System.out.println("Player "+ entries.getKey().getName() +" Card: "+ entries.getValue().getValue());
+        }
+
+        //Get the player who won the trick
+        Player player = Collections.max(cardsPlayed.entrySet(), Map.Entry.comparingByValue(
+            Comparator.comparing(Card::getValue)
+        )).getKey();
+
+        //Display the player who won the trick
+        System.out.println("Player "+player.getName() + "won the trick!");
+        //Add a trick to the those won this round
+        player.addCurrentTricks();
+    }
+
+    /** \brief Evaluate the round
+    * evaluateRound() : Remove life points to any player who bet the wrong amount of tricks.
+    * Display the name of the player(s) who reach 0 life points.
+    */
+    public void evaluateRound(){
+        //Remove lifepoints
+        for (Player player: getPlayersAlive()){
+            int lifePointsRemoved = Math.abs(player.getBetTricks() - player.getCurrentTricks());
+            if (lifePointsRemoved != 0){
+                player.removeLife(lifePointsRemoved);
+            }
+        }
+
+        ArrayList<Player> playersDead = playersAlive.removeDeadPlayers();
+
+        //If any player reach 0 life points
+        if (playersDead.size() != 0){
+            for (Player player: playersDead){
+                System.out.println("Player "+ player.getName()+
+                "has 0 life points! They can't play anymore.");
+            }
+        }
+    }
+
     /** \brief Round process
     * round(int numberRound) : Start a round by distributing cards according to the current number of round.
     * Allow player to play until there is no card left in hands. Compute which player lose or not a life points.
@@ -360,7 +385,8 @@ public class Game {
                 playAllPlayersLastRound();
             }
             else {
-                playAllPlayers();
+                HashMap<Player, Card> cardsPlayed = playAllPlayers();
+                evaluateCards(cardsPlayed);
             }
         }
         catch(Exception e){

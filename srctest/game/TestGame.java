@@ -399,7 +399,7 @@ public class TestGame {
     }
 
     @Test
-    public void testEvaluate(){
+    public void testEvaluateRound(){
         int rightBet = 2;
         int wrongBet = 3;
         int currentTricks = 2;
@@ -455,5 +455,25 @@ public class TestGame {
 
         Assert.assertNotEquals(playersAlive, players);
         Assert.assertFalse(playersAlive.contains(player4));
+    }
+
+    @Test
+    public void testEvaluateCards(){
+        HashMap<Player, Card> cardsPlayed = new HashMap<Player, Card>();
+        cardsPlayed.put(player1,card1);
+        cardsPlayed.put(player2,card2);
+        cardsPlayed.put(player3,card3);
+        cardsPlayed.put(player4,card4);
+
+        int expectedCurrentTricksPlayer1 = player1.getCurrentTricks();
+        int expectedCurrentTricksPlayer2 = player2.getCurrentTricks();
+        int expectedCurrentTricksPlayer3 = player3.getCurrentTricks();
+        int expectedCurrentTricksPlayer4 = player4.getCurrentTricks()+1;
+        gameWithPlayer.evaluateCards(cardsPlayed);
+
+        Assert.assertEquals(expectedCurrentTricksPlayer1, player1.getCurrentTricks());
+        Assert.assertEquals(expectedCurrentTricksPlayer2, player2.getCurrentTricks());
+        Assert.assertEquals(expectedCurrentTricksPlayer3, player3.getCurrentTricks());
+        Assert.assertEquals(expectedCurrentTricksPlayer4, player4.getCurrentTricks());
     }
 }
