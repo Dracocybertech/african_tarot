@@ -368,7 +368,7 @@ public class Game {
     * \param int numberRound
          * @throws BadNumberOfRoundException 
         */
-        public void round(int numberRound) throws BadNumberOfRoundException{
+    public void round(int numberRound) throws BadNumberOfRoundException{
         if (numberRound > ROUND_MAX || numberRound < 0){
             throw new BadNumberOfRoundException("The current number of round must be between "+ROUND_MAX+" and 0.");
         }
