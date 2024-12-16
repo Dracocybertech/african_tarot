@@ -221,6 +221,14 @@ public class Player {
         }
         this.currentTricks = currentTricks;
     }
+
+    /** \brief Add trick
+     	*
+	* addCurrentTricks() : Add one trick to the current trick.
+    */
+    public void addCurrentTricks(){
+       this.currentTricks += 1;
+    }
         
     @Override
     public boolean equals(Object o){

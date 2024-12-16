@@ -176,6 +176,12 @@ public class TestPlayer {
         Assert.assertEquals(player1.getCurrentTricks(), expectedCurrentTricks);
     }
 
+    @Test
+    public void testAddCurrentTricks(){
+        int expectedCurrentTricks = player1.getCurrentTricks()+1;
+        player1.addCurrentTricks();
+        Assert.assertEquals(expectedCurrentTricks, player1.getCurrentTricks());
+    }
     @Test(expected=NegativeTricksValueException.class)
     public void testCurrentTricksNegativeTricksValueException() throws NegativeTricksValueException{
         player1.setCurrentTricks(-1);
