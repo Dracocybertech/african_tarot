@@ -320,7 +320,6 @@ public class Game {
     * evaluateCards(HashMap<Player, Card> cardsPlayed) : Display all cards played this turn.
     * \param HashMap<Player, Card> cardsPlayed
     */
-
     public void evaluateCards(HashMap<Player, Card> cardsPlayed){
         //Display all the cards played for this turn
         for (Map.Entry<Player,Card> entries: cardsPlayed.entrySet()){
@@ -385,8 +384,13 @@ public class Game {
                 playAllPlayersLastRound();
             }
             else {
-                HashMap<Player, Card> cardsPlayed = playAllPlayers();
-                evaluateCards(cardsPlayed);
+                //All players played until they don't have any cards left in their hands
+                for (int turn=0 ; turn < numberRound ; turn ++){
+                    //Players played one card
+                    HashMap<Player, Card> cardsPlayed = playAllPlayers();
+                    //Winner of the trick is displayed
+                    evaluateCards(cardsPlayed);
+                }
             }
         }
         catch(Exception e){
