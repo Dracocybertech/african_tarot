@@ -436,6 +436,12 @@ public class Game {
             }
             //Remove players with 0 life points
             evaluateDeadPlayers();
+
+            //Generate deck for the next round
+            deck.buildDeck();
+            //Shuffle deck
+            deck.shuffle();
+
         }
         catch(Exception e){
             System.out.println(e.getMessage());
