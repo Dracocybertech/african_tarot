@@ -485,12 +485,18 @@ public class Game {
                     System.err.println(e.getMessage());
                 }
             }
-            if (isVictory()){
+            if (isVictory()){         
                 endOfGame = true;
             }
         }
         System.out.println("The game is over.");
-        
+        if (getNumberPlayersAlive() == 1){
+            //The last player alive is the winner
+            Player winner = getPlayer(0);
+            System.out.println("Player " + winner.getName()+" won the game!");
+        } else {
+            System.out.println("This is a tie. No player won this game.");
+        }
     }
 
     /** \brief Condition of victory
