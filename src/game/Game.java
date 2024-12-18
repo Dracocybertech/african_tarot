@@ -188,6 +188,7 @@ public class Game {
     public Card playOnePlayer(Player player){
         //Should be a shallow copy, so any changed made to current player
         //will be reflected in the list of players
+        System.out.println("Player " + player.getName());
         System.out.println("Which card would you like to play ?");
         System.out.println(player.getCards().toString());
         Card cardPlayed = null;
@@ -201,7 +202,10 @@ public class Game {
                 logger.log(Level.WARNING
                 , "The input is not an int."
                 , new InputMismatchException());
-                scanner.next();
+                if (e.getClass() == InputMismatchException.class){
+                    scanner.next();
+                }
+                
             }
         }
         return cardPlayed;
@@ -212,6 +216,7 @@ public class Game {
     * \return Card
     */
     public HashMap<Player, Card> playAllPlayers(){
+        
         HashMap<Player, Card> results = new HashMap<Player, Card>();
         for (Player player: playersAlive.getPlayers()){
             results.put(player, playOnePlayer(player));
@@ -227,6 +232,7 @@ public class Game {
     * \return Boolean
     */
     public Boolean playOnePlayerLastRound(Player player, HashMap<Player, ArrayList<Card>> opponentsCards, HashMap<Player, Boolean> opponentsDecisions){
+        System.out.println("Player "+ player.getName());
         System.out.println("Your opponents have those cards:");
         System.out.println(opponentsCards);
         System.out.println("Those are the decision taken so far:");
@@ -350,7 +356,7 @@ public class Game {
         )).getKey();
 
         //Display the player who won the trick
-        System.out.println("Player "+player.getName() + "won the trick!");
+        System.out.println("Player " + player.getName() + " won the trick!");
         //Add a trick to the those won this round
         player.addCurrentTricks();
     }
@@ -375,7 +381,7 @@ public class Game {
         )).getKey();
 
         //Display the player who won the trick
-        System.out.println("Player "+winner.getName() + "won the trick!");
+        System.out.println("Player "+winner.getName() + " won the trick!");
 
         //Remove life to those who didn't predict right
         for (Map.Entry<Player, Boolean> entries: decisions.entrySet()){
@@ -386,6 +392,7 @@ public class Game {
             //or if any played predicted they would won but didn't
             if (currentPlayer == winner && predictedBet == false 
             || currentPlayer != winner && predictedBet == true){
+                System.out.println("Player "+currentPlayer.getName()+" you lose 1 life point for betting the wrong outcome.");
                 currentPlayer.removeLife(lifePointsRemoved);
             }
         }
@@ -398,10 +405,20 @@ public class Game {
     public void evaluateRound(){
         //Remove lifepoints
         for (Player player: getPlayersAlive()){
+            System.out.println("Player " + player.getName());
+            int betTricks = player.getBetTricks();
+            int currentTricks = player.getCurrentTricks();
+            System.out.println("Bet tricks: "+ betTricks);
+            System.out.println("Current tricks: "+ currentTricks);
             int lifePointsRemoved = Math.abs(player.getBetTricks() - player.getCurrentTricks());
             if (lifePointsRemoved != 0){
+                System.out.println("You lose " + lifePointsRemoved+ " life points.");
                 player.removeLife(lifePointsRemoved);
             }
+
+            //Reset the tricks for the turn
+            player.betTricks = 0;
+            player.currentTricks = 0;
         }
     }
 
@@ -416,7 +433,7 @@ public class Game {
         if (playersDead.size() != 0){
             for (Player player: playersDead){
                 System.out.println("Player "+ player.getName()+
-                "has 0 life points! They can't play anymore.");
+                " has 0 life points! They can't play anymore.");
             }
         }
     }
@@ -436,14 +453,15 @@ public class Game {
             //Distribute cards to every player
             distributeCards(numberRound);
 
-            //Every player can bet the number of tricks they think they will win
-            betTricks(numberRound);
-
             //Case of the last round where players have one card
             if (numberRound == 1){
-                playAllPlayersLastRound();
+                HashMap<Player, Boolean> decisions = playAllPlayersLastRound();
+                evaluateCardsLastRound(decisions);
             }
             else {
+                //Every player can bet the number of tricks they think they will win
+                betTricks(numberRound);
+
                 //All players played until they don't have any cards left in their hands
                 for (int turn=0 ; turn < numberRound ; turn ++){
                     //Players played one card
@@ -451,6 +469,7 @@ public class Game {
                     //Winner of the trick is displayed
                     evaluateCards(cardsPlayed);
                 }
+                evaluateRound();
             }
             //Remove players with 0 life points
             evaluateDeadPlayers();
@@ -480,25 +499,33 @@ public class Game {
             for (int numberRound = ROUND_MAX ; numberRound > 0 ; numberRound --){
                 try{
                     round(numberRound);
+                    if (isVictory()){         
+                        endOfGame = true;
+                        break;
+                    }
                 }
                 catch(Exception e){
                     System.err.println(e.getMessage());
                 }
             }
-            if (isVictory()){         
-                endOfGame = true;
-            }
         }
         System.out.println("The game is over.");
         if (getNumberPlayersAlive() == 1){
             //The last player alive is the winner
-            Player winner = getPlayer(0);
+            Player winner = getPlayersAlive().getFirst();
             System.out.println("Player " + winner.getName()+" won the game!");
         } else {
             System.out.println("This is a tie. No player won this game.");
         }
     }
 
+    /** \brief Winner of the game
+    * getWinner() : Return the winner of the current game.
+    * \return Player
+    */
+    public Player getWinner(){
+        return getPlayersAlive().getFirst();
+    }
     /** \brief Condition of victory
     * isVictory() : Return true if there is only one with life points, or no more players with lifepoints in case all players 
     * lose their life points at the same time.
