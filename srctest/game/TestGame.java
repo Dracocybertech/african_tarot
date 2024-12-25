@@ -259,7 +259,7 @@ public class TestGame {
     @Test
     public void testPlayOnePlayer() throws NotEnoughCardsInDeckException, TooManyCardsException, RemovingTooManyCards, BadNumberOfPlayersException{
         //Invalid and valid input
-        String simulatedInput = "String & 1";
+        String simulatedInput = "String & 1 1";
         initGameWithInput(simulatedInput);
 
         //Distribute cards to every player
@@ -278,7 +278,23 @@ public class TestGame {
         //Check if the card is no longer in the hand of the player
         Assert.assertFalse(game.getPlayer(indexPlayer).containsCard(cardPlayed));
 
+        //Test if the fool card is stored by the game
+        ArrayList<Card> cards = new ArrayList<Card>();
+        cards.add(fool);
+        player1.setCards(cards);
 
+        //It works because every player1 is a shallow copy inside the list in the game
+        cardExpected = player1.getCard(indexCard);
+        cardPlayed = game.playOnePlayer(player1);
+
+        //Check if the card returned is the card played 
+        Assert.assertEquals(cardExpected, cardPlayed);
+        //Check if the card is no longer in the hand of the player
+        Assert.assertFalse(game.getPlayer(indexPlayer).containsCard(cardPlayed));
+        //Check if the fool card and the player is stored by the game
+        HashMap<Player, Card> expectedFoolPlayer = new HashMap<Player, Card>();
+        expectedFoolPlayer.put(player1, fool);
+        Assert.assertEquals(game.getFoolPlayer(), expectedFoolPlayer);
     }
 
     @Test
