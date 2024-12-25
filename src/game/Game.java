@@ -239,13 +239,10 @@ public class Game {
                 logger.log(Level.WARNING
                 , "The input is not an int."
                 , new InputMismatchException());
-                if (e.getClass() == InputMismatchException.class){
                     scanner.next();
-                }
-                
             }
         }
-        clearTerminal();
+        enterWait(" to go to the next player.");
         return cardPlayed;
     }
 
@@ -299,6 +296,7 @@ public class Game {
                 , new InputMismatchException());
             }
         }
+        enterWait(" to go to the next player.");
         return decision;
     }
 
@@ -354,7 +352,6 @@ public class Game {
             while(!isDone){
                 try{
                     int betTricks = scanner.nextInt();
-                    System.out.println("betTricks "+betTricks);
                     if (totalBet + betTricks == numberRound){
                         System.out.println("The total of the bets can't be equal"+ 
                         " to the number of cards distributed per player.");
@@ -375,7 +372,7 @@ public class Game {
                     , new InputMismatchException ());
                 }
             }
-            clearTerminal();
+            enterWait(" to go to the next player.");
         }
     }
 
@@ -425,6 +422,8 @@ public class Game {
 
         //Reset the player who played the fool
         getFoolPlayer().clear();
+
+        enterWait(" to launch the next turn.");
     }
 
     /** \brief Print evaluateCards
@@ -467,7 +466,7 @@ public class Game {
         )).getKey();
 
         //Display the player who won the trick
-        System.out.println("Player "+winner.getName() + " won the trick!");
+        printWinnerTurn(winner);
 
         //Remove life to those who didn't predict right
         for (Map.Entry<Player, Boolean> entries: decisions.entrySet()){
@@ -481,6 +480,7 @@ public class Game {
                 System.out.println("Player "+currentPlayer.getName()+" you lose 1 life point for betting the wrong outcome.");
                 currentPlayer.removeLife(lifePointsRemoved);
             }
+            enterWait(" to launch the next round.");
         }
     }
 
@@ -632,7 +632,30 @@ public class Game {
         System.out.print("\033\143");
     }
 
-    
+    /** \brief Wait for enter input
+     	*
+	* enterWait(String message) : Wait for the user to use the input enter for any action specified in the message. 
+    * Once it's done, clear the terminal.
+    */
+    public void enterWait(String message){
+        System.out.println("Press enter"+message);
+        try{
+            System.in.read();
+            //Clear the buffer in case the input has anything 
+            if (scanner.hasNextLine()) {
+                scanner.nextLine();
+            }
+        }
+        catch(Exception e){
+            System.err.println("Error while reading input: "+e.getMessage());
+        }
+        //Clear the buffer in case the input has anything 
+        if (scanner.hasNextLine()) {
+            scanner.nextLine();
+        }
+        clearTerminal();
+    }
+
     /** \brief toString
      	*
 	* toString() : Return the string representation of a Deck.
