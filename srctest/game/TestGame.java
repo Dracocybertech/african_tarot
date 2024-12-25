@@ -39,6 +39,7 @@ public class TestGame {
     Card card2;
     Card card3;
     Card card4;
+    Card fool;
     ArrayList<Card> cardsList;
 
     @Before
@@ -60,6 +61,7 @@ public class TestGame {
             card2 = new Card("2",2);
             card3 = new Card("3",3);
             card4 = new Card("4",4);
+            fool = new Card("Fool",0);
         }
         catch(Exception e){
             System.out.println(e.getMessage());
@@ -189,6 +191,19 @@ public class TestGame {
     }
 
     @Test
+    public void testGetFoolPlayer(){
+        Assert.assertEquals(game.getFoolPlayer(), new HashMap<Player, Card>());
+    }
+
+    @Test
+    public void testSetFoolPlayer(){
+        game.setFoolPlayer(player1, fool);
+        HashMap<Player, Card> expectedFoolPlayer = new HashMap<Player, Card>();
+        expectedFoolPlayer.put(player1, fool);
+        Assert.assertEquals(game.getFoolPlayer(), expectedFoolPlayer);
+    }
+
+    @Test
     public void testCreatePlayer(){
         //Invalid and valid input
         String simulatedInput = "PlayerWithANameTooLong Player1";
@@ -262,6 +277,8 @@ public class TestGame {
         Assert.assertEquals(cardExpected, cardPlayed);
         //Check if the card is no longer in the hand of the player
         Assert.assertFalse(game.getPlayer(indexPlayer).containsCard(cardPlayed));
+
+
     }
 
     @Test
@@ -295,7 +312,7 @@ public class TestGame {
     @Test
     public void testPlayOnePlayerLastRound(){
         //Valid input
-        initGameWithInput("1");
+        initGameWithInput("1 1");
         HashMap<Player, ArrayList<Card>> opponentsCards = new HashMap<Player, ArrayList<Card>>();
 
         ArrayList<Card> card1List = new ArrayList<Card>();

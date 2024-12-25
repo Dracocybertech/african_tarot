@@ -26,6 +26,8 @@ public class Game {
     private PlayerGroup playersAlive;
     private Scanner scanner;
     private Deck deck;
+    //Store the player who played the fool card
+    private HashMap<Player, Card> foolPlayer;
     
     public static int NUMBER_PLAYERS = 4;
     public static int ROUND_MAX = 5;
@@ -43,6 +45,7 @@ public class Game {
         deck = new Deck();
         deck.buildDeck();
         deck.shuffle();
+        foolPlayer = new HashMap<Player, Card>();
     }
 
     /** \brief Getter players
@@ -124,6 +127,25 @@ public class Game {
         return this.deck.getSize();
     }
 
+    /** \brief Getter Player who played the Fool card
+        *
+    * getFoolPlayer() : Return the player who played the Fool for the current turn and the card.
+    * \return HashMap<Player, Card>
+    */
+    public HashMap<Player, Card> getFoolPlayer(){
+        return this.foolPlayer;
+    }
+
+    /** \brief Setter Player who played the Fool card
+        *
+    * setFoolPlayer(Player player, Card cardFool) : Set the player who played the Fool for the current turn and the card.
+    * \param Player player
+    * \param Card cardFool
+    */
+    public void setFoolPlayer(Player player, Card cardFool){
+        this.foolPlayer.put(player, cardFool);
+    }
+
     /** \brief Create a Player
         *
     * createPlayer() : Allow the user to create a new Player with a specific name.
@@ -196,6 +218,10 @@ public class Game {
             try{
                 int indexCard = scanner.nextInt();
                 cardPlayed = player.removeCard(indexCard);
+                //If the player played the Fool
+                if(cardPlayed.getValue() == 0){
+                    setFoolPlayer(player, cardPlayed);
+                }
             }
             catch(Exception e){
                 System.err.println("The card can't be played.");
@@ -208,6 +234,7 @@ public class Game {
                 
             }
         }
+        System.out.print("\033\143");
         return cardPlayed;
     }
 
