@@ -259,6 +259,9 @@ public class TestGame {
     @Test
     public void testPlayOnePlayer() throws NotEnoughCardsInDeckException, TooManyCardsException, RemovingTooManyCards, BadNumberOfPlayersException{
         //Invalid and valid input
+        //String & are the invalid inputs
+        //The first 1 is a random card played but the first card the player has to make sure they can play at least a card
+        //The 2nd 1 is for the fool test part
         String simulatedInput = "String & 1 1";
         initGameWithInput(simulatedInput);
 
@@ -508,6 +511,32 @@ public class TestGame {
         game.evaluateCards(cardsPlayed);
 
         //Check if the player who won this turn got +1 in they tricks
+        Assert.assertEquals(expectedCurrentTricksPlayer1, player1.getCurrentTricks());
+        Assert.assertEquals(expectedCurrentTricksPlayer2, player2.getCurrentTricks());
+        Assert.assertEquals(expectedCurrentTricksPlayer3, player3.getCurrentTricks());
+        Assert.assertEquals(expectedCurrentTricksPlayer4, player4.getCurrentTricks());
+    
+        //Test in case the fool glot played this turn
+        //Invalid and valid inputs
+        //3 string & are invalid input
+        //22 is a valid input
+        initGameWithInput("3 string & 22");
+
+        //Player1 plays the fool
+        cardsPlayed.remove(player1);
+        cardsPlayed.put(player1, fool);
+
+        game.setFoolPlayer(player1, fool);
+        
+        expectedCurrentTricksPlayer1 = player1.getCurrentTricks() + 1;
+        expectedCurrentTricksPlayer2 = player2.getCurrentTricks();
+        expectedCurrentTricksPlayer3 = player3.getCurrentTricks();
+        expectedCurrentTricksPlayer4 = player4.getCurrentTricks();
+
+        game.evaluateCards(cardsPlayed);
+        
+        //Check if the player who won this turn got +1 in they tricks
+        //Player1 should be the one who won wince they choose 22, the highest value
         Assert.assertEquals(expectedCurrentTricksPlayer1, player1.getCurrentTricks());
         Assert.assertEquals(expectedCurrentTricksPlayer2, player2.getCurrentTricks());
         Assert.assertEquals(expectedCurrentTricksPlayer3, player3.getCurrentTricks());

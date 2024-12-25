@@ -3,6 +3,7 @@ package game;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Map;
@@ -31,7 +32,13 @@ public class Game {
     
     public static int NUMBER_PLAYERS = 4;
     public static int ROUND_MAX = 5;
-    
+
+    public enum FoolValues {
+        MIN_VALUE,
+        MAX_VALUE,
+    }
+    public EnumMap<FoolValues, Integer> FoolValuesMap  = new EnumMap<FoolValues, Integer>(FoolValues.class);
+
     // Create a Logger 
     Logger logger = Logger.getLogger(Game.class.getName()); 
 
@@ -46,6 +53,8 @@ public class Game {
         deck.buildDeck();
         deck.shuffle();
         foolPlayer = new HashMap<Player, Card>();
+        FoolValuesMap.put(FoolValues.MIN_VALUE, 0);
+        FoolValuesMap.put(FoolValues.MAX_VALUE, 22);
     }
 
     /** \brief Getter players
@@ -377,6 +386,33 @@ public class Game {
             System.out.println("Player "+ entries.getKey().getName() +" Card: "+ entries.getValue().getValue());
         }
 
+        //If any player played the fool this turn, they need to choose its value
+        if (!getFoolPlayer().isEmpty()){
+            for(Map.Entry<Player, Card> entry: getFoolPlayer().entrySet()){
+                Player player = entry.getKey();
+                Card card = entry.getValue();
+
+                System.out.println("Player "+ player.getName() + ": you played the card "+card.getName());
+                System.out.println("Enter its value: 0 or 22.");
+                boolean isValid = false;
+                while(!isValid){
+                    try{
+                        int value = scanner.nextInt();
+                        if (FoolValuesMap.containsValue(value)){
+                            card.setValue(value);
+                            isValid = true;
+                        }
+                    }
+                    catch(Exception e){
+                        System.err.println("You can't choose any other value other than 0 or 22.");
+                        //Skip to the next entry
+                        scanner.next();
+                    }
+                }
+            }
+        }
+
+        System.out.println("cardsPlayed: "+cardsPlayed);
         //Get the player who won the trick
         Player player = Collections.max(cardsPlayed.entrySet(), Map.Entry.comparingByValue(
             Comparator.comparing(Card::getValue)
@@ -386,6 +422,9 @@ public class Game {
         System.out.println("Player " + player.getName() + " won the trick!");
         //Add a trick to the those won this round
         player.addCurrentTricks();
+
+        //Reset the player who played the fool
+        getFoolPlayer().clear();
     }
 
     /** \brief Evaluate the cards for the last round
