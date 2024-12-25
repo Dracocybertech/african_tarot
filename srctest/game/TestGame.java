@@ -312,7 +312,7 @@ public class TestGame {
     @Test
     public void testPlayOnePlayerLastRound(){
         //Valid input
-        initGameWithInput("1 1");
+        initGameWithInput("1");
         HashMap<Player, ArrayList<Card>> opponentsCards = new HashMap<Player, ArrayList<Card>>();
 
         ArrayList<Card> card1List = new ArrayList<Card>();
