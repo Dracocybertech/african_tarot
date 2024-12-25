@@ -168,6 +168,7 @@ public class Game {
                 String userName = scanner.next();  // Read user input
                 System.out.println("userName : " + userName);
                 player = new Player(userName);
+                clearTerminal();
             }
             catch(PlayerNameTooLongException e){
                 System.err.println("The name of the player is too long.");
@@ -220,11 +221,12 @@ public class Game {
         //Should be a shallow copy, so any changed made to current player
         //will be reflected in the list of players
         System.out.println("Player " + player.getName());
-        System.out.println("Which card would you like to play ?");
-        System.out.println(player.getCards().toString());
         Card cardPlayed = null;
+
         while (cardPlayed == null){
             try{
+                System.out.println("Which card would you like to play ?");
+                System.out.println(player.getCards().toString());
                 int indexCard = scanner.nextInt();
                 cardPlayed = player.removeCard(indexCard);
                 //If the player played the Fool
@@ -243,7 +245,7 @@ public class Game {
                 
             }
         }
-        System.out.print("\033\143");
+        clearTerminal();
         return cardPlayed;
     }
 
@@ -373,18 +375,17 @@ public class Game {
                     , new InputMismatchException ());
                 }
             }
-       }
+            clearTerminal();
+        }
     }
 
     /** \brief Evaluate the cards
-    * evaluateCards(HashMap<Player, Card> cardsPlayed) : Display all cards played this turn.
+    * evaluateCards(HashMap<Player, Card> cardsPlayed) : Evaluate which player won this turn. If any player played the Fool,
+    * they choose its value. Cards played this round are displayed.
     * \param HashMap<Player, Card> cardsPlayed
     */
     public void evaluateCards(HashMap<Player, Card> cardsPlayed){
-        //Display all the cards played for this turn
-        for (Map.Entry<Player,Card> entries: cardsPlayed.entrySet()){
-            System.out.println("Player "+ entries.getKey().getName() +" Card: "+ entries.getValue().getValue());
-        }
+        printCardsPlayed(cardsPlayed);
 
         //If any player played the fool this turn, they need to choose its value
         if (!getFoolPlayer().isEmpty()){
@@ -412,19 +413,38 @@ public class Game {
             }
         }
 
-        System.out.println("cardsPlayed: "+cardsPlayed);
         //Get the player who won the trick
         Player player = Collections.max(cardsPlayed.entrySet(), Map.Entry.comparingByValue(
             Comparator.comparing(Card::getValue)
         )).getKey();
 
-        //Display the player who won the trick
-        System.out.println("Player " + player.getName() + " won the trick!");
+        printWinnerTurn(player);
+
         //Add a trick to the those won this round
         player.addCurrentTricks();
 
         //Reset the player who played the fool
         getFoolPlayer().clear();
+    }
+
+    /** \brief Print evaluateCards
+    * printEvaluateCards(HashMap<Player, Card> cardsPlayed) : Print all cards played this turn.
+    * \param HashMap<Player, Card> cardsPlayed
+    */
+    private void printCardsPlayed(HashMap<Player, Card> cardsPlayed){
+        //Display all the cards played for this turn
+        for (Map.Entry<Player,Card> entries: cardsPlayed.entrySet()){
+            System.out.println("Player "+ entries.getKey().getName() +" Card: "+ entries.getValue().getValue());
+        }
+    }
+
+    /** \brief Print winner
+    * printWinnerRound(HashMap<Player, Card> cardsPlayed) : Print the player winner of this turn
+    * \param HashMap<Player, Card> cardsPlayed
+    */
+    private void printWinnerTurn(Player player){
+        //Display the player who won the trick
+        System.out.println("Player " + player.getName() + " won the trick!");
     }
 
     /** \brief Evaluate the cards for the last round
@@ -604,6 +624,15 @@ public class Game {
         return false;
     }
 
+    /** \brief Clear terminal
+     	*
+	* clearTerminal() : Pseudo clear the terminal
+    */
+    public void clearTerminal(){
+        System.out.print("\033\143");
+    }
+
+    
     /** \brief toString
      	*
 	* toString() : Return the string representation of a Deck.
