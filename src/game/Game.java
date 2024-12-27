@@ -343,7 +343,10 @@ public class Game {
     public void betTricks(int numberRound){
         //The total of the bets can't be equal to the number of cards distributed per player
         int totalBet = 0;
+        //Count the number of player to know who is the last player
+        int numberPlayer = 0;
         for(Player player: this.getPlayersAlive()){
+            numberPlayer += 1;
             playerTransition(player);
             System.out.println(player.getCards());
             System.out.println("How many tricks do you want to bet?");
@@ -352,7 +355,7 @@ public class Game {
             while(!isDone){
                 try{
                     int betTricks = scanner.nextInt();
-                    if (totalBet + betTricks == numberRound){
+                    if (totalBet + betTricks == numberRound && numberPlayer ==this.getNumberPlayersAlive()){
                         System.out.println("The total of the bets can't be equal"+ 
                         " to the number of cards distributed per player.");
                     }
