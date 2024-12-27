@@ -263,6 +263,8 @@ public class Game {
             }
             numberCard += 1;
         }
+        //The input return to the beginning
+        System.out.println("");
     }
 
     /** \brief All players play
@@ -488,7 +490,7 @@ public class Game {
     private void printCardsPlayed(HashMap<Player, Card> cardsPlayed){
         //Display all the cards played for this turn
         for (Map.Entry<Player,Card> entries: cardsPlayed.entrySet()){
-            System.out.println("Player "+ entries.getKey().getName() +" Card: "+ entries.getValue().getValue());
+            System.out.println("Player "+ entries.getKey().getName() +" Card: "+ entries.getValue().getName());
         }
     }
 
