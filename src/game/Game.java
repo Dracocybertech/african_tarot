@@ -217,7 +217,7 @@ public class Game {
     * \param Player player
     * \return Card
     */
-    public Card playOnePlayer(Player player){
+    public Card playOnePlayer(Player player, HashMap<Player, Card> cardsPlayed){
         //Should be a shallow copy, so any changed made to current player
         //will be reflected in the list of players
         playerTransition(player);
@@ -226,6 +226,10 @@ public class Game {
         System.out.println("Life points: "+ player.getLife());
         separatorPrint();
 
+        System.out.println("Cards currently played: ");
+        printCardsPlayed(cardsPlayed);
+        separatorPrint();
+        
         while (cardPlayed == null){
             try{
                 System.out.println("Which card would you like to play ?");
@@ -257,7 +261,7 @@ public class Game {
         
         HashMap<Player, Card> results = new HashMap<Player, Card>();
         for (Player player: playersAlive.getPlayers()){
-            results.put(player, playOnePlayer(player));
+            results.put(player, playOnePlayer(player, results));
         }
         return results;
     }
