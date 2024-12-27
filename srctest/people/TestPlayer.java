@@ -18,11 +18,13 @@ import people.TooManyCardsException;
 
 public class TestPlayer {
     
+    Card cardFool;
     Player player1;
     Player player2;
 
     @Before 
-    public void beforeTest() throws CardException, PlayerNameTooLongException{
+    public void beforeTest() throws CardException, PlayerNameTooLongException, CardNameTooLongException{
+        cardFool = new Card("Fool",Card.MAX_VALUE);
         player1 = new Player();
         player2 = new Player("Player2");
     }
@@ -68,17 +70,15 @@ public class TestPlayer {
 
     @Test
     public void testContainsCard() throws CardException, CardNameTooLongException{
-        Card card0 = new Card("Fool",0);
-        player1.addCard(card0);
-        Assert.assertTrue(player1.containsCard(card0));
+        player1.addCard(cardFool);
+        Assert.assertTrue(player1.containsCard(cardFool));
     }
 
     @Test
-    public void testGetCard() throws CardException, CardNameTooLongException{
-        Card card0 = new Card("Fool",0);
-        player1.addCard(card0);
+    public void testGetCard(){
+        player1.addCard(cardFool);
         Card cardPlayer1 = player1.getCard(0);
-        Assert.assertEquals(cardPlayer1, card0);
+        Assert.assertEquals(cardPlayer1, cardFool);
     }
 
     @Test
@@ -88,10 +88,9 @@ public class TestPlayer {
 
     @Test
     public void testSetCards() throws TooManyCardsException, CardException, CardNameTooLongException{
-        Card card0 = new Card("Fool",0);
         Card card1 = new Card("1",1);
         ArrayList<Card> cardsPlayer1 = new ArrayList<Card>(2);
-        cardsPlayer1.add(card0);
+        cardsPlayer1.add(cardFool);
         cardsPlayer1.add(card1);
 
         player1.setCards(cardsPlayer1);
@@ -100,10 +99,9 @@ public class TestPlayer {
 
     @Test(expected=TooManyCardsException.class)
     public void testTooManyCardsException() throws TooManyCardsException, CardException, CardNameTooLongException{
-        Card card0 = new Card("Fool",0);
         ArrayList<Card> cardsPlayer1 = new ArrayList<Card>(Player.CARDS_MAX);
         for(int i = 0; i < Player.CARDS_MAX + 1 ; i++){
-            cardsPlayer1.add(card0);
+            cardsPlayer1.add(cardFool);
         }
         player1.setCards(cardsPlayer1);
     }
@@ -115,17 +113,15 @@ public class TestPlayer {
 
     @Test
     public void addCard() throws CardException, CardNameTooLongException{
-        Card card0 = new Card("Fool",0);
-        player1.addCard(card0);
-        Assert.assertTrue(player1.getCards().contains(card0));
+        player1.addCard(cardFool);
+        Assert.assertTrue(player1.getCards().contains(cardFool));
     }
 
     @Test
     public void removeCard() throws CardException, CardNameTooLongException{
-        Card card0 = new Card("Fool",0);
-        player1.addCard(card0);
+        player1.addCard(cardFool);
         Card cardRemoved = player1.removeCard(1);
-        Assert.assertEquals(card0, cardRemoved);
+        Assert.assertEquals(cardFool, cardRemoved);
     }
 
     @Test(expected=IndexOutOfBoundsException.class)
