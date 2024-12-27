@@ -220,7 +220,7 @@ public class Game {
     public Card playOnePlayer(Player player){
         //Should be a shallow copy, so any changed made to current player
         //will be reflected in the list of players
-        System.out.println("Player " + player.getName());
+        playerTransition(player);
         Card cardPlayed = null;
 
         while (cardPlayed == null){
@@ -267,7 +267,7 @@ public class Game {
     * \return Boolean
     */
     public Boolean playOnePlayerLastRound(Player player, HashMap<Player, ArrayList<Card>> opponentsCards, HashMap<Player, Boolean> opponentsDecisions){
-        System.out.println("Player "+ player.getName());
+        playerTransition(player);
         System.out.println("Your opponents have those cards:");
         System.out.println(opponentsCards);
         System.out.println("Those are the decision taken so far:");
@@ -344,7 +344,7 @@ public class Game {
         //The total of the bets can't be equal to the number of cards distributed per player
         int totalBet = 0;
         for(Player player: this.getPlayersAlive()){
-            System.out.println("Player "+ player.getName());
+            playerTransition(player);
             System.out.println(player.getCards());
             System.out.println("How many tricks do you want to bet?");
             System.out.println("Current total bet: "+totalBet);
@@ -655,6 +655,16 @@ public class Game {
             scanner.nextLine();
         }
         clearTerminal();
+    }
+
+    /** \brief Wait for player
+     	*
+	* playerTransition(Player player) : Wait for the player to press enter before printing any information regarding they cards
+    * Once it's done, clear the terminal.
+    */
+    public void playerTransition(Player player){
+        System.out.println(player.getName()+" it's your turn");
+        enterWait("");
     }
 
     /** \brief toString
