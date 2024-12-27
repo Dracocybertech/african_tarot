@@ -223,6 +223,9 @@ public class Game {
         playerTransition(player);
         Card cardPlayed = null;
 
+        System.out.println("Life points: "+ player.getLife());
+        separatorPrint();
+
         while (cardPlayed == null){
             try{
                 System.out.println("Which card would you like to play ?");
@@ -537,7 +540,7 @@ public class Game {
                 System.out.println("You lose " + lifePointsRemoved+ " life points.");
                 player.removeLife(lifePointsRemoved);
             }
-
+            
             separatorPrint();
 
             //Reset the tricks for the turn
