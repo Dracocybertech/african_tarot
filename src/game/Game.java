@@ -229,11 +229,11 @@ public class Game {
         System.out.println("Cards currently played: ");
         printCardsPlayed(cardsPlayed);
         separatorPrint();
-        
+
         while (cardPlayed == null){
             try{
                 System.out.println("Which card would you like to play ?");
-                System.out.println(player.getCards().toString());
+                printCardsPlayer(player.getCards());
                 int indexCard = scanner.nextInt();
                 cardPlayed = player.removeCard(indexCard);
                 //If the player played the Fool
@@ -251,6 +251,18 @@ public class Game {
         }
         enterWait(" to go to the next player.");
         return cardPlayed;
+    }
+
+    private void printCardsPlayer(ArrayList<Card> cards){
+        //Number of the card
+        int numberCard = 1;
+        for(Card card: cards){
+            System.out.print(card + " [" + numberCard + "]");
+            if (numberCard != cards.size()){
+                System.out.print(" | ");
+            }
+            numberCard += 1;
+        }
     }
 
     /** \brief All players play
