@@ -501,10 +501,11 @@ public class Game {
                 System.out.println("You lose " + lifePointsRemoved+ " life points.");
                 player.removeLife(lifePointsRemoved);
             }
-
+            System.out.println("-----------------------------------");
             //Reset the tricks for the turn
             player.betTricks = 0;
             player.currentTricks = 0;
+            enterWait(" to launch next round.");
         }
     }
 
