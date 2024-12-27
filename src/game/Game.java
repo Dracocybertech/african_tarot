@@ -300,6 +300,8 @@ public class Game {
         return decision;
     }
 
+
+
     /** \brief All players play the last round
     * playAllPlayersLastRound() : All players must bet if they win or lose this round.
     * \return HashMap<Player, Boolean>
@@ -616,6 +618,7 @@ public class Game {
     public Player getWinner(){
         return getPlayersAlive().getFirst();
     }
+    
     /** \brief Condition of victory
     * isVictory() : Return true if there is only one with life points, or no more players with lifepoints in case all players 
     * lose their life points at the same time.
