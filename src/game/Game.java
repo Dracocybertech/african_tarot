@@ -508,8 +508,8 @@ public class Game {
             //Reset the tricks for the turn
             player.betTricks = 0;
             player.currentTricks = 0;
-            enterWait(" to launch next round.");
         }
+        enterWait(" to launch next round.");
     }
 
     /** \brief Evaluate the players life points
