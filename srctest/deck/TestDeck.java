@@ -18,6 +18,7 @@ import deck.RemovingTooManyCards;
 
 public class TestDeck {
 
+    Card card0;
     Deck deck;
     Deck shuffledDeck;
     Deck builtDeck;
@@ -28,6 +29,7 @@ public class TestDeck {
         shuffledDeck = new Deck();
         builtDeck = new Deck();
         builtDeck.buildDeck();
+        card0 = new Card("Fool",22);
     }
     @After
     public void afterTest(){ 
@@ -51,8 +53,7 @@ public class TestDeck {
     }
 
     @Test
-    public void testGetCompleteDeck() throws CardException, CardNameTooLongException{
-        Card card0 = new Card("Fool",0);
+    public void testGetCompleteDeck(){
         deck.addCard(card0);
 
         ArrayList<Card> deckExpected = new ArrayList<Card>(1);
@@ -62,15 +63,13 @@ public class TestDeck {
     }
 
     @Test
-    public void testAddCard() throws CardException, CardNameTooLongException{
-        Card card0 = new Card("Fool",0);
+    public void testAddCard(){
         deck.addCard(card0);
         Assert.assertTrue(deck.getCompleteDeck().contains(card0));
     }
 
     @Test
-    public void testGetCard() throws CardException, CardNameTooLongException {
-        Card card0 = new Card("Fool",0);
+    public void testGetCard(){
         deck.addCard(card0);
         Assert.assertEquals(deck.getCard(0),card0);
     }

@@ -5,10 +5,12 @@ public class Card {
 
     public static final int MAX_NAME = 8;
 
-    //Min value of a trump card aka the fool
-    static final public int MIN_VALUE = 0;
-    //Max value of a trump card aka the 21 (other than the fool)
-    static final public int MAX_VALUE = 21;
+    //Min value of a trump card
+    static final public int MIN_VALUE = 1;
+    //Max value of a trump card aka the 22 with the fool
+    //Max value is set at the fool as this is the default value for this card 
+    //for the last round
+    static final public int MAX_VALUE = 22;
 
     /** \brief Constructor of Card
      	*
@@ -31,7 +33,7 @@ public class Card {
             throw new CardNameTooLongException("The name of the card is over 8 characters.");
         }
         if (value < MIN_VALUE || value > MAX_VALUE){
-            throw new CardException("The value of the card is > 21 or < 0. Use one between 0 and 21.");
+            throw new CardException("The value of the card is > 22 or < 1. Use one between 1 and 22.");
         }
         this.name = name;
         this.value = value;

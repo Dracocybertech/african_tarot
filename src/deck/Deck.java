@@ -22,7 +22,7 @@ public class Deck {
         this.completeDeck.clear();
         try{
             for(int value = Card.MIN_VALUE; value < Card.MAX_VALUE ; value++ ){ 
-                if (value == Card.MIN_VALUE){
+                if (value == Card.MAX_VALUE){
                     completeDeck.add(new Card("Fool",value));
                 }
                 else {

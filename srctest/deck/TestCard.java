@@ -22,7 +22,7 @@ public class TestCard {
 	@Before 
 	public void beforeTest() throws CardException, CardNameTooLongException{
 		card1 = new Card();
-		card2 = new Card("Fool", 0);
+		card2 = new Card("Fool", 22);
 		card3 = new Card(String.valueOf(1).toString(), 1);
 	}
 	@After
@@ -57,17 +57,17 @@ public class TestCard {
 	@Test
 	public void testGetValue() {
 		assertEquals(card1.getValue(), 0);
-		assertEquals(card2.getValue(), 0);
+		assertEquals(card2.getValue(), 22);
 		assertEquals(card3.getValue(), 1);
 	}
 
 	@Test (expected=CardException.class) 
 	public void testWrongValueAtCreation() throws CardException, CardNameTooLongException{
-		card4 = new Card("WrongV", -1);
+		card4 = new Card("WrongV", Card.MIN_VALUE - 1);
 	}
 	@Test (expected=CardException.class) 
 	public void testWrongValueAtCreation2() throws CardException, CardNameTooLongException{
-		card5 = new Card("WrongV", 22);
+		card5 = new Card("WrongV", Card.MAX_VALUE + 1);
 	}
 	
 	@Test
@@ -76,7 +76,7 @@ public class TestCard {
 		Assert.assertTrue(card4.equals(card1));
 		Assert.assertTrue(card1.equals(card4));
 
-		card5 = new Card("Fool", 0);
+		card5 = new Card("Fool", 22);
 		Assert.assertTrue(card5.equals(card2));
 		Assert.assertTrue(card2.equals(card5));
 
