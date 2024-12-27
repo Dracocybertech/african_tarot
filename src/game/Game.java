@@ -164,7 +164,7 @@ public class Game {
         Player player = null;
         while(player == null){
             try{
-                System.out.println("Entrez un nom.");
+                System.out.println("Enter a name (max 8 chars).");
                 String userName = scanner.next();  // Read user input
                 System.out.println("userName : " + userName);
                 player = new Player(userName);
