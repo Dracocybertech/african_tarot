@@ -309,8 +309,8 @@ public class Game {
             //Print the cards of the  player
             System.out.println(playerName + ": "+cards);
         }
-        //Separator
-        System.out.println("--------------------");
+
+        separatorPrint();
 
         if (!opponentsDecisions.isEmpty()){
             System.out.println("Those are the decision taken so far:");
@@ -537,7 +537,9 @@ public class Game {
                 System.out.println("You lose " + lifePointsRemoved+ " life points.");
                 player.removeLife(lifePointsRemoved);
             }
-            System.out.println("-----------------------------------");
+
+            separatorPrint();
+
             //Reset the tricks for the turn
             player.betTricks = 0;
             player.currentTricks = 0;
@@ -702,6 +704,14 @@ public class Game {
     public void playerTransition(Player player){
         System.out.println(player.getName()+" it's your turn");
         enterWait("");
+    }
+
+    /** \brief Print separator
+     	*
+	* separatorPrint(): Print separator.
+    */
+    public void separatorPrint(){
+        System.out.println("--------------------");
     }
 
     /** \brief toString
