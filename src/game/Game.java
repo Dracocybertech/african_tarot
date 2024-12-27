@@ -268,24 +268,19 @@ public class Game {
     */
     public Boolean playOnePlayerLastRound(Player player, HashMap<Player, ArrayList<Card>> opponentsCards, HashMap<Player, Boolean> opponentsDecisions){
         playerTransition(player);
-        System.out.println("Your opponents have those cards:");
-        System.out.println(opponentsCards);
-        System.out.println("Those are the decision taken so far:");
-        System.out.println(opponentsDecisions);
+        printLastRound(opponentsCards, opponentsDecisions);
         System.out.println("Do you bet that you win or lose this round?");
-        System.out.println("Enter 0 for win, 1 for lose.");
+        
         Boolean decision = null;
         while (decision == null){
             try{
+                System.out.println("Enter 0 for win, 1 for lose.");
                 int input = scanner.nextInt();
                 if (input == 0){
                     decision = true;
                 }
                 else if (input == 1){
                     decision = false;
-                }
-                else {
-                    System.err.println("Choose an number between 1 or 2.");
                 }
             }
             catch(Exception e){
@@ -300,7 +295,43 @@ public class Game {
         return decision;
     }
 
+    /** \brief Print last round info
+    * printLastRound(HashMap<Player, ArrayList<Card>> opponentsCards, HashMap<Player, Boolean> opponentsDecisions): 
+    * Print cards and decisions taken by the opponents of the current player.
+    * \param HashMap<Player, ArrayList<Card>> opponentsCards
+    * \param HashMap<Player, Boolean> opponentsDecisions
+    */
+    private void printLastRound(HashMap<Player, ArrayList<Card>> opponentsCards, HashMap<Player, Boolean> opponentsDecisions){
+        System.out.println("Your opponents have those cards:");
+        for (Map.Entry<Player, ArrayList<Card>> entries: opponentsCards.entrySet()){
+            String playerName = entries.getKey().getName();
+            ArrayList<Card> cards = entries.getValue();
+            //Print the cards of the  player
+            System.out.println(playerName + ": "+cards);
+        }
+        //Separator
+        System.out.println("--------------------");
 
+        if (!opponentsDecisions.isEmpty()){
+            System.out.println("Those are the decision taken so far:");
+            for (Map.Entry<Player, Boolean> entries: opponentsDecisions.entrySet()){
+                String playerName = entries.getKey().getName();
+                System.out.println(playerName + ": "+ conversionBoolWinLose(entries.getValue()));
+            }
+        }
+    }
+
+    /** \brief Convert boolean to win or lose word
+    * conversionBoolWinLose(boolean decision): Return 'win' if true, 'lose' otherwise.
+    * \param boolean decision
+    * \return String
+    */
+    private String conversionBoolWinLose(boolean decision){
+        if (decision) {
+            return "win";
+        }
+        return "lose";
+    }
 
     /** \brief All players play the last round
     * playAllPlayersLastRound() : All players must bet if they win or lose this round.
@@ -485,8 +516,8 @@ public class Game {
                 System.out.println("Player "+currentPlayer.getName()+" you lose 1 life point for betting the wrong outcome.");
                 currentPlayer.removeLife(lifePointsRemoved);
             }
-            enterWait(" to launch the next round.");
         }
+        enterWait(" to launch the next round.");
     }
 
     /** \brief Evaluate the round
