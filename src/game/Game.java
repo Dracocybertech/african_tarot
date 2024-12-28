@@ -168,15 +168,16 @@ public class Game {
                 String userName = scanner.next();  // Read user input
                 System.out.println("userName : " + userName);
                 player = new Player(userName);
-                clearTerminal();
+                if (this.players.hasPlayer(player)){
+                    System.err.println("This name is already used. Please choose another one.");
+                    player = null;
+                }
             }
             catch(PlayerNameTooLongException e){
                 System.err.println("The name of the player is too long.");
-                logger.log(Level.WARNING
-                , "The length of the string is > "+ Player.NAME_MAX + "."
-                , new PlayerNameTooLongException());
             }
         }
+        clearTerminal();
         return player;
     }
 

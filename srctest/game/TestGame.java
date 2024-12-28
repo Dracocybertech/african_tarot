@@ -32,6 +32,7 @@ public class TestGame {
     Player player2;
     Player player3;
     Player player4;
+    Player player5;
     ArrayList<Player> players;
     PlayerGroup playerGroup;
 
@@ -50,6 +51,7 @@ public class TestGame {
         player2 = new Player("Player2");
         player3 = new Player("Player3");
         player4 = new Player("Player4");
+        player5 = new Player("Player5");
         players.add(player1);
         players.add(player2);
         players.add(player3);
@@ -207,11 +209,19 @@ public class TestGame {
     @Test
     public void testCreatePlayer(){
         //Invalid and valid input
-        String simulatedInput = "PlayerWithANameTooLong Player1";
+        //PlayerWithANameTooLong is invalid because it raised PlayerNameTooLongException
+        //Player1 is invalid because a player already has this name
+        //Player5 is a valid name because no one has the name and itas not raising any exception
+        String simulatedInput = "PlayerWithANameTooLong Player1 Player5 \n";
         initGameWithInput(simulatedInput);
 
-        //Check if player1 was created
-        Assert.assertTrue(game.getPlayers().contains(player1));
+        Player newPlayer = game.createPlayer();
+        
+        System.out.println(game.getPlayers());
+
+        //Check if player5 was created
+        Assert.assertEquals(player5, newPlayer);
+        Assert.assertNotEquals(player1, newPlayer);
     }
 
     @Test
@@ -588,7 +598,7 @@ public class TestGame {
 
         //\n is for the enter input at the end of the function
         initGameWithInput("\n");
-        
+
         game.evaluateCardsLastRound(decisions);
 
         //Check if the player loose life points if theyr predicted wrong
