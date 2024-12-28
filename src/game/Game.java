@@ -93,13 +93,22 @@ public class Game {
 
     /** \brief Getter player
         *
-    * getPlayer() : Return the a specific player
+    * getPlayer(int index) : Return the a specific player
     * \return Player
     */
     public Player getPlayer(int index){
         return this.players.getPlayer(index);
     }
     
+    /** \brief Getter player alive
+        *
+    * getPlayerAlive(int index) : Return the a specific player
+    * \return Player
+    */
+    public Player getPlayerAlive(int index){
+        return this.playersAlive.getPlayer(index);
+    }
+
     /** \brief Number players
         *
     * getNumberPlayers() : Return the number of total players in the game.
@@ -621,6 +630,8 @@ public class Game {
             //Shuffle deck
             deck.shuffle();
 
+            //The next player become the new player who begin the round
+            rotatingPlayers();
         }
         catch(Exception e){
             System.err.println(e.getMessage());
@@ -628,6 +639,14 @@ public class Game {
                     , "Error while processing the round"
                     , new Exception (e.getMessage()));
         }
+    }
+
+    /** \brief Rotating players
+    * rotatingPlayers() : Rotate players between round so the next player becomes the one who begin the round.
+    */
+    public void rotatingPlayers(){
+        //Only players stil alive needed to be rotated
+        this.playersAlive.rotatingPlayers();
     }
 
     /** \brief Start the game

@@ -624,6 +624,22 @@ public class TestGame {
     }
 
     @Test
+    public void testRotatingPlayers(){
+        int lastIndex = game.getNumberPlayers() - 1;
+
+        Player firstPlayer = game.getPlayerAlive(0);
+        Player secondPlayer = game.getPlayerAlive(1);
+        Player lastPlayer = game.getPlayerAlive(lastIndex);
+
+        game.rotatingPlayers();
+
+        Assert.assertEquals(secondPlayer, game.getPlayerAlive(0));
+        Assert.assertNotEquals(firstPlayer, game.getPlayerAlive(0));
+        Assert.assertEquals(firstPlayer, game.getPlayerAlive(lastIndex));
+        Assert.assertNotEquals(lastPlayer, game.getPlayerAlive(lastIndex));
+    }
+
+    @Test
     public void testIsVictory(){
         //Check that the victory condition is not achieved yet
         Assert.assertFalse(game.isVictory());
