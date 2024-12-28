@@ -102,6 +102,15 @@ public class PlayerGroup {
         this.players.remove(player);
     }
 
+    /** \brief Has player
+        *
+    * hasPlayer(Player player) : Return true if the list contains a specific player.
+    * \return Player
+    */
+    public boolean hasPlayer(Player player){
+        return this.players.contains(player);
+    }
+
     /** \brief If a list of players is alive
      	*
 	* isAlive() : Return true is all the players have more than 0 life point.

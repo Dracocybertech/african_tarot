@@ -122,6 +122,13 @@ public class TestPlayerGroup {
     }
 
     @Test
+    public void testHasPlayer() throws PlayerNameTooLongException{
+        Assert.assertTrue(players.hasPlayer(player1));
+        Player player5 = new Player("Player5");
+        Assert.assertFalse(players.hasPlayer(player5));
+    }
+
+    @Test
     public void testIsAlive(){
         Assert.assertTrue(players.isAlive());
         players.getPlayer(0).removeLife(Player.MAX_LIFE);
