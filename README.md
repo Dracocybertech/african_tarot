@@ -5,7 +5,7 @@ Every player starts with 10 life points. Each turn, players need to predict the 
 
 This game is entirely playable through the terminal console.
 
-# Usage
+# Installation
 1. Clone the repo 
 ```git clone https://github.com/Dracocybertech/african_tarot.git```
 2. Install Java latest JDK depending of your OS : https://www.oracle.com/fr/java/technologies/downloads/.
@@ -18,7 +18,7 @@ javac -classpath ./classes -sourcepath ./src -d ./classes ./src/*.java
 ```
 In the folder **/classes**, there should be files with the extension .class, one for each java file in **/src**.
 
-# Installation
+# Usage
 Once the java files have been compiled:
 
 1. Go to the root of the projet
@@ -36,4 +36,4 @@ This section explain how to run the differents tests with Visual Studio Code. Fe
 3. In the list of the tests, click on the play button of the tests you want to run.
 
 # Licence
-Distributed under the MIT License. See LICENSE.txt for more information.
+Distributed under the MIT License. See [LICENSE](./LICENSE) for more information.
