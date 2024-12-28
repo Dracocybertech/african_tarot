@@ -170,6 +170,19 @@ public class TestGame {
     }
 
     @Test
+    public void testGetPlayer(){
+        Player firstPlayer = game.getPlayer(0);
+        Assert.assertEquals(firstPlayer, player1);
+    }
+
+    @Test
+    public void testGetPlayerAlive(){
+        Player firstPlayer = game.getPlayer(0);
+        Assert.assertEquals(firstPlayer, player1);
+        Assert.assertTrue(firstPlayer.isAlive());
+    }
+
+    @Test
     public void testGetNumberPlayers(){
         Assert.assertEquals(game.getNumberPlayers(), Game.NUMBER_PLAYERS);
     }
