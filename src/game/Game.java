@@ -504,8 +504,10 @@ public class Game {
     * \param HashMap<Player, Card> cardsPlayed
     */
     private void printWinnerTurn(Player player){
+        separatorPrint();
         //Display the player who won the trick
         System.out.println("Player " + player.getName() + " won the trick!");
+        separatorPrint();
     }
 
     /** \brief Evaluate the cards for the last round
@@ -586,7 +588,9 @@ public class Game {
                 System.out.println("Player "+ player.getName()+
                 " has 0 life points! They can't play anymore.");
             }
+            enterWait(" to launch next round");
         }
+
     }
 
     /** \brief Round process
@@ -629,9 +633,6 @@ public class Game {
             deck.buildDeck();
             //Shuffle deck
             deck.shuffle();
-
-            //The next player become the new player who begin the round
-            rotatingPlayers();
         }
         catch(Exception e){
             System.err.println(e.getMessage());
@@ -669,6 +670,9 @@ public class Game {
                     System.err.println(e.getMessage());
                 }
             }
+            
+            //The next player become the new player who begin the round
+            rotatingPlayers();
         }
         System.out.println("The game is over.");
         if (getNumberPlayersAlive() == 1){
