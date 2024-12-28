@@ -61,9 +61,10 @@ public class TestGame {
             card2 = new Card("2",2);
             card3 = new Card("3",3);
             card4 = new Card("4",4);
-            fool = new Card("Fool",0);
+            fool = new Card("Fool",22);
         }
         catch(Exception e){
+            System.out.println("Error while beforeTest testGame");
             System.out.println(e.getMessage());
         }
         cardsList = new ArrayList<Card>();
@@ -262,7 +263,8 @@ public class TestGame {
         //String & are the invalid inputs
         //The first 1 is a random card played but the first card the player has to make sure they can play at least a card
         //The 2nd 1 is for the fool test part
-        String simulatedInput = "String & 1 1";
+        //\n is for the enter input everytime it's needed
+        String simulatedInput = "\n \n String & 1 \n \n 1 \n \r";
         initGameWithInput(simulatedInput);
 
         //Distribute cards to every player
@@ -272,9 +274,15 @@ public class TestGame {
 
         int indexCard = 0;
         int indexPlayer = 0;
+
+        //Only created to allow playOnePlayer to run as needed as parameter
+        //Does not matter which value is inside and is not used for testing purpose
+        HashMap<Player, Card> cardsPlayed = new HashMap<Player, Card>();
+        cardsPlayed.put(player2, card2);
+
         //It works because every player1 is a shallow copy inside the list in the game
         Card cardExpected = player1.getCard(indexCard);
-        Card cardPlayed = game.playOnePlayer(player1);
+        Card cardPlayed = game.playOnePlayer(player1, cardsPlayed);
 
         //Check if the card returned is the card played 
         Assert.assertEquals(cardExpected, cardPlayed);
@@ -288,7 +296,7 @@ public class TestGame {
 
         //It works because every player1 is a shallow copy inside the list in the game
         cardExpected = player1.getCard(indexCard);
-        cardPlayed = game.playOnePlayer(player1);
+        cardPlayed = game.playOnePlayer(player1, cardsPlayed);
 
         //Check if the card returned is the card played 
         Assert.assertEquals(cardExpected, cardPlayed);
@@ -302,7 +310,9 @@ public class TestGame {
 
     @Test
     public void testPlayAllPlayers() throws NotEnoughCardsInDeckException, TooManyCardsException, RemovingTooManyCards, BadNumberOfPlayersException{
-        String simulatedInput = "1 1 1 1";
+        //Every player played the first card in their hand with the input 1
+        //\n is for the enter input everytime it's needed
+        String simulatedInput = "\n \n 1 \n \n 1 \n \n 1 \n \n 1 \n";
         initGameWithInput(simulatedInput);
 
         //Give one specific card to every player
@@ -331,7 +341,7 @@ public class TestGame {
     @Test
     public void testPlayOnePlayerLastRound(){
         //Valid input
-        initGameWithInput("1");
+        initGameWithInput("\n \n 1 \n");
         HashMap<Player, ArrayList<Card>> opponentsCards = new HashMap<Player, ArrayList<Card>>();
 
         ArrayList<Card> card1List = new ArrayList<Card>();
@@ -357,7 +367,7 @@ public class TestGame {
         Assert.assertEquals(decisionTaken, decisionExpected);
 
         //Invalid and valid inputs
-        initGameWithInput("3 string & 1");
+        initGameWithInput("\n \n 3 string & 1 \n");
         decisionTaken = game.playOnePlayerLastRound(player2, opponentsCards,opponentsDecisions);
 
         //Check if the decision the player took is the one returned
@@ -388,7 +398,12 @@ public class TestGame {
 
         initPlayersCards();
         //Invalid and valid inputs
-        initGameWithInput("3 string & 0 2 string & 1 1 1");
+        // 3 string & are invalid input
+        // 0 is a valid input
+        // 2 string & are invalid input
+        //1 is a valid input
+        //\n is for simulating enter input
+        initGameWithInput("\n \n 3 string & 0 \n \n 2 string & 1 \n \n 1 \n \n 1 \n");
         HashMap<Player, Boolean> results = game.playAllPlayersLastRound();
 
         for(Map.Entry<Player,Boolean> entry :resultsExpected.entrySet()){
@@ -410,10 +425,13 @@ public class TestGame {
         int numberRound = 5;
 
         //Invalid and valid inputs
-        String input = expectedBetPlayer1 + " string & " 
-        + expectedBetPlayer2 + " "
-        + expectedBetPlayer3 + " "
-        + expectedBetPlayer4;
+        // string & are invalid input
+        //any integers is a valid input
+        String input = "\n \n " +
+        expectedBetPlayer1 + " \n \n string & " 
+        + expectedBetPlayer2 + " \n \n "
+        + expectedBetPlayer3 + "\n \n"
+        + expectedBetPlayer4 + "\n";
         initGameWithInput(input);
         
         game.betTricks(numberRound);
@@ -426,11 +444,11 @@ public class TestGame {
 
         //Valid inputs but total is equal to the number of cards distributed
         int wrongValue = 1;
-        input = expectedBetPlayer1 + " string & " 
-        + expectedBetPlayer2 + " "
-        + expectedBetPlayer3 + " "
-        + wrongValue +  " "
-        + expectedBetPlayer4;
+        input = "\n \n" + expectedBetPlayer1 + " \n \n string & " 
+        + expectedBetPlayer2 + "\n \n "
+        + expectedBetPlayer3 + "\n \n "
+        + wrongValue +  "\n \n "
+        + expectedBetPlayer4 + "\n";
         initGameWithInput(input);
         game.betTricks(numberRound);
 
@@ -469,6 +487,10 @@ public class TestGame {
             System.out.println("Error for testEvaluate: "+ e.getLocalizedMessage());
         }
         
+        //This input is needed for the enter input as the end of evaluateRound
+        String input = "\n";
+        initGameWithInput(input);
+
         game.evaluateRound();
         
         //Check if players loose life if prediction was wrong
@@ -508,6 +530,9 @@ public class TestGame {
         int expectedCurrentTricksPlayer2 = player2.getCurrentTricks();
         int expectedCurrentTricksPlayer3 = player3.getCurrentTricks();
         int expectedCurrentTricksPlayer4 = player4.getCurrentTricks()+1;
+
+        //\n is for the enter input at the end of the function
+        initGameWithInput("\n");
         game.evaluateCards(cardsPlayed);
 
         //Check if the player who won this turn got +1 in they tricks
@@ -516,11 +541,12 @@ public class TestGame {
         Assert.assertEquals(expectedCurrentTricksPlayer3, player3.getCurrentTricks());
         Assert.assertEquals(expectedCurrentTricksPlayer4, player4.getCurrentTricks());
     
-        //Test in case the fool glot played this turn
+        //Test in case the fool got played this turn
         //Invalid and valid inputs
         //3 string & are invalid input
         //22 is a valid input
-        initGameWithInput("3 string & 22");
+        //\n is for the enter input at the end of the function
+        initGameWithInput("3 string & 22 \n");
 
         //Player1 plays the fool
         cardsPlayed.remove(player1);
@@ -560,6 +586,9 @@ public class TestGame {
         int expectedLifePointsPlayer3 = player3.getLife() -1;
         int expectedLifePointsPlayer4 = player4.getLife();
 
+        //\n is for the enter input at the end of the function
+        initGameWithInput("\n");
+        
         game.evaluateCardsLastRound(decisions);
 
         //Check if the player loose life points if theyr predicted wrong

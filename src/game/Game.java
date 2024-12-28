@@ -237,16 +237,14 @@ public class Game {
                 int indexCard = scanner.nextInt();
                 cardPlayed = player.removeCard(indexCard);
                 //If the player played the Fool
-                if(cardPlayed.getValue() == 0){
+                if(cardPlayed.getValue() == Card.MAX_VALUE){
                     setFoolPlayer(player, cardPlayed);
                 }
             }
             catch(Exception e){
                 System.err.println("The card can't be played.");
-                logger.log(Level.WARNING
-                , "The input is not an int."
-                , new InputMismatchException());
-                    scanner.next();
+                //Skip the next input to allow the function to wait for the next one
+                scanner.next();
             }
         }
         enterWait(" to go to the next player.");
@@ -424,9 +422,6 @@ public class Game {
 
                     //Skip to the next input
                     scanner.next();
-                    logger.log(Level.WARNING
-                    , "The input is not a int"
-                    , new InputMismatchException ());
                 }
             }
             enterWait(" to go to the next player.");
@@ -710,10 +705,11 @@ public class Game {
         catch(Exception e){
             System.err.println("Error while reading input: "+e.getMessage());
         }
-        //Clear the buffer in case the input has anything 
+        
+/*         //Clear the buffer in case the input has anything 
         if (scanner.hasNextLine()) {
             scanner.nextLine();
-        }
+        } */
         clearTerminal();
     }
 
