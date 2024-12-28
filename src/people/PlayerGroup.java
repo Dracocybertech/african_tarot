@@ -141,6 +141,13 @@ public class PlayerGroup {
         return deadPlayers;
     }
 
+    /** \brief Rotating players
+    * rotatingPlayers() : Rotate players between round so the next player becomes the one who begin the round.
+    */
+    public void rotatingPlayers(){
+        this.players.addLast(players.removeFirst());
+    }
+
     @Override
     public boolean equals(Object o){
         if (o == this){

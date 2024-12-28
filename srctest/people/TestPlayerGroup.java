@@ -16,8 +16,10 @@ public class TestPlayerGroup {
     
     PlayerGroup players;
     static int NUMBER_PLAYERS = 4;
-    Player player1 ;
-    Player player2 ;
+    Player player1;
+    Player player2;
+    Player player3;
+    Player player4;
     ArrayList<Player> playersList;
 
     @Before
@@ -25,8 +27,8 @@ public class TestPlayerGroup {
         players = new PlayerGroup(NUMBER_PLAYERS);
         player1 = new Player("Player1");
         player2 = new Player("Player2");
-        Player player3 = new Player("Player3");
-        Player player4 = new Player("Player4");
+        player3 = new Player("Player3");
+        player4 = new Player("Player4");
         playersList = new ArrayList<Player>(NUMBER_PLAYERS);
         playersList.add(player1);
         playersList.add(player2);
@@ -158,6 +160,22 @@ public class TestPlayerGroup {
 
         Assert.assertEquals(playersAliveExpected, playersAlive);
         Assert.assertEquals(playersDeadExpected, playersDead);
+    }
+
+    @Test
+    public void testRotatingPlayer(){
+        int lastIndex = players.getNumberPlayers() - 1;
+
+        Player firstPlayer = players.getPlayer(0);
+        Player secondPlayer = players.getPlayer(1);
+        Player lastPlayer = players.getPlayer(lastIndex);
+
+        players.rotatingPlayers();
+
+        Assert.assertEquals(secondPlayer, players.getPlayer(0));
+        Assert.assertNotEquals(firstPlayer, players.getPlayer(0));
+        Assert.assertEquals(firstPlayer, players.getPlayer(lastIndex));
+        Assert.assertNotEquals(lastPlayer, players.getPlayer(lastIndex));
     }
 
     @Test
