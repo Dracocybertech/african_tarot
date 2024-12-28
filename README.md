@@ -28,6 +28,15 @@ Once the java files have been compiled:
 java -classpath ./classes/ Main
 ```
 
+# Tree structure
+
+```bash
+├───doc #javadoc and rules of african tarot
+├───lib #external libraries (Ex: hamcrest, junit etc)
+├───src #source code
+└───srctest #automated TU/TI tests
+```
+
 # Contributing
 ## Testing
 This section explain how to run the differents tests with Visual Studio Code. Feel free to use other tools to compile and run them!
