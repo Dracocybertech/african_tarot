@@ -23,7 +23,7 @@ public class TestCard {
 	public void beforeTest() throws CardException, CardNameTooLongException {
 		card1 = new Card();
 		card2 = new Card("Fool", 22);
-		card3 = new Card(String.valueOf(1).toString(), 1);
+		card3 = new Card(String.valueOf(1), 1);
 	}
 
 	@After
