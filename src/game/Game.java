@@ -428,7 +428,7 @@ public class Game {
      */
     public Map<Player, List<Card>> buildOpponentsCards(Player currentPlayer, PlayerGroup playersAlive) {
         HashMap<Player, List<Card>> opponentsCards = new HashMap<>();
-        PlayerGroup opponents = playersAlive.clone();
+        PlayerGroup opponents = playersAlive.copy(playersAlive);
         opponents.removePlayer(currentPlayer);
         for (Player player : opponents.getPlayers()) {
             opponentsCards.put(player, player.getCards());

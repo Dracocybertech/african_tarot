@@ -189,7 +189,7 @@ public class TestPlayerGroup {
 
     @Test
     public void testClone() {
-        PlayerGroup playersClone = players.clone();
+        PlayerGroup playersClone = players.copy(players);
         Assert.assertEquals(players, playersClone);
         playersClone.addPlayer(player1);
         Assert.assertNotEquals(players, playersClone);

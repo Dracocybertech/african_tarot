@@ -28,13 +28,13 @@ public class PlayerGroup {
      */
     public PlayerGroup(String[] namePlayers) throws PlayerNameTooLongException {
         try {
-            this.players = new ArrayList<Player>(namePlayers.length);
+            this.players = new ArrayList<>(namePlayers.length);
             for (int i = 0; i < namePlayers.length; i++) {
                 this.players.add(new Player(namePlayers[i]));
             }
         } catch (PlayerNameTooLongException e) {
             System.out.println(e.getMessage());
-            if (this.players != null && this.players.size() != 0) {
+            if (this.players != null && this.players.isEmpty()) {
                 this.players.clear();
             }
         }
@@ -168,30 +168,18 @@ public class PlayerGroup {
 
     @Override
     public boolean equals(Object o) {
-        if (o == this) {
-            return true;
-        }
-        if (o == null || o.getClass() != this.getClass()) {
-            return false;
-        }
-        if (o.hashCode() == this.hashCode()) {
-            return true;
-        }
-        return false;
+        return o == this 
+        || ( o instanceof PlayerGroup playerGroup && playerGroup.hashCode() == this.hashCode());
     }
 
     /**
-     * \brief Deep clone
+     * \brief Copy
      *
-     * clone() : Return a deep clone of a PlayerGroup
+     * copy(PlayerGroup playerGroup) : Return a copy of the player group.
      * \return PlayerGroup
      */
-    @Override
-    public PlayerGroup clone() {
-        ArrayList<Player> players;
-        players = new ArrayList<Player>(this.players);
-        PlayerGroup playerGroup = new PlayerGroup(players);
-        return playerGroup;
+    public PlayerGroup copy(PlayerGroup playerGroup) {
+        return new PlayerGroup(playerGroup.getPlayers());
     }
 
     /**
@@ -211,11 +199,11 @@ public class PlayerGroup {
      * \return String
      */
     public String toString() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (Player player : this.players) {
-            result += player.toString();
-            result += "\n";
+            result.append(player.toString());
+            result.append("\n");
         }
-        return result;
+        return result.toString();
     }
 }
