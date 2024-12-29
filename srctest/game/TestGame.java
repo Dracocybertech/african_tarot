@@ -47,7 +47,7 @@ public class TestGame {
     @Before
     public void beforeTest() throws PlayerNameTooLongException, BadNumberOfPlayersException {
         game = new Game();
-        players = new ArrayList<Player>(Game.NUMBER_PLAYERS);
+        players = new ArrayList<>(Game.NUMBER_PLAYERS);
         player1 = new Player("Player1");
         player2 = new Player("Player2");
         player3 = new Player("Player3");
@@ -69,7 +69,7 @@ public class TestGame {
             System.out.println("Error while beforeTest testGame");
             System.out.println(e.getMessage());
         }
-        cardsList = new ArrayList<Card>();
+        cardsList = new ArrayList<>();
         cardsList.add(card1);
         cardsList.add(card2);
         cardsList.add(card3);
@@ -94,7 +94,7 @@ public class TestGame {
         game = new Game();
 
         try {
-            ArrayList<Player> listPlayer = new ArrayList<Player>();
+            ArrayList<Player> listPlayer = new ArrayList<>();
             listPlayer.add(player1);
             listPlayer.add(player2);
             listPlayer.add(player3);
@@ -131,12 +131,12 @@ public class TestGame {
 
     @Test
     public void testSetPlayers()
-            throws PlayerNameTooLongException, BadNumberOfPlayersException, NegativeLifeValueException {
-        ArrayList<Player> playersTest = new ArrayList<Player>(2);
+            throws BadNumberOfPlayersException, NegativeLifeValueException {
+        ArrayList<Player> playersTest = new ArrayList<>(2);
         playersTest.add(player1);
         player2.setLife(0);
         playersTest.add(player2);
-        ArrayList<Player> playersAliveTest = new ArrayList<Player>(1);
+        ArrayList<Player> playersAliveTest = new ArrayList<>(1);
         playersAliveTest.add(player1);
         game.setPlayers(playersTest);
 
@@ -147,7 +147,7 @@ public class TestGame {
 
     @Test(expected = BadNumberOfPlayersException.class)
     public void testBadNumberOfPlayersException() throws BadNumberOfPlayersException {
-        ArrayList<Player> playersTest = new ArrayList<Player>(Game.NUMBER_PLAYERS);
+        ArrayList<Player> playersTest = new ArrayList<>(Game.NUMBER_PLAYERS);
         // Add an extra player to go over the limit of max players
         for (int i = 0; i < Game.NUMBER_PLAYERS + 1; i++) {
             playersTest.add(player1);
@@ -164,11 +164,11 @@ public class TestGame {
         // right one
         // even with dead players
         player1.setLife(0);
-        ArrayList<Player> playersTest = new ArrayList<Player>(2);
+        ArrayList<Player> playersTest = new ArrayList<>(2);
         playersTest.add(player1);
         playersTest.add(player2);
         game.setPlayers(playersTest);
-        ArrayList<Player> playersAliveExpected = new ArrayList<Player>(1);
+        ArrayList<Player> playersAliveExpected = new ArrayList<>(1);
         playersAliveExpected.add(player2);
         Assert.assertEquals(playersAliveExpected, game.getPlayersAlive());
     }
@@ -218,7 +218,7 @@ public class TestGame {
     @Test
     public void testSetFoolPlayer() {
         game.setFoolPlayer(player1, fool);
-        HashMap<Player, Card> expectedFoolPlayer = new HashMap<Player, Card>();
+        HashMap<Player, Card> expectedFoolPlayer = new HashMap<>();
         expectedFoolPlayer.put(player1, fool);
         Assert.assertEquals(game.getFoolPlayer(), expectedFoolPlayer);
     }
@@ -258,14 +258,14 @@ public class TestGame {
         Assert.assertEquals(game.getNumberPlayersAlive(), Game.NUMBER_PLAYERS);
 
         // Check that players and playersAlive are two distincts lists
-        List<Player> players = game.getPlayers();
+        List<Player> playersTest = game.getPlayers();
         List<Player> playersAlive = game.getPlayersAlive();
         // Modify one list and not the other
         playersAlive.add(player1);
 
         // Check if both lists are different now that there is a changment on one of
         // them and not the other
-        Assert.assertNotEquals(players, playersAlive);
+        Assert.assertNotEquals(playersTest, playersAlive);
     }
 
     @Test
@@ -309,7 +309,7 @@ public class TestGame {
 
         // Only created to allow playOnePlayer to run as needed as parameter
         // Does not matter which value is inside and is not used for testing purpose
-        HashMap<Player, Card> cardsPlayed = new HashMap<Player, Card>();
+        HashMap<Player, Card> cardsPlayed = new HashMap<>();
         cardsPlayed.put(player2, card2);
 
         // It works because every player1 is a shallow copy inside the list in the game
@@ -322,7 +322,7 @@ public class TestGame {
         Assert.assertFalse(game.getPlayer(indexPlayer).containsCard(cardPlayed));
 
         // Test if the fool card is stored by the game
-        ArrayList<Card> cards = new ArrayList<Card>();
+        ArrayList<Card> cards = new ArrayList<>();
         cards.add(fool);
         player1.setCards(cards);
 
@@ -335,7 +335,7 @@ public class TestGame {
         // Check if the card is no longer in the hand of the player
         Assert.assertFalse(game.getPlayer(indexPlayer).containsCard(cardPlayed));
         // Check if the fool card and the player is stored by the game
-        HashMap<Player, Card> expectedFoolPlayer = new HashMap<Player, Card>();
+        HashMap<Player, Card> expectedFoolPlayer = new HashMap<>();
         expectedFoolPlayer.put(player1, fool);
         Assert.assertEquals(game.getFoolPlayer(), expectedFoolPlayer);
     }
@@ -351,7 +351,7 @@ public class TestGame {
         initPlayersCards();
 
         int indexCard = 0;
-        HashMap<Player, Card> cardExpected = new HashMap<Player, Card>();
+        HashMap<Player, Card> cardExpected = new HashMap<>();
         // Each player should play the only card they have in their hand
         for (Player player : players) {
             cardExpected.put(player, player.getCard(indexCard));
@@ -459,11 +459,8 @@ public class TestGame {
         // Invalid and valid inputs
         // string & are invalid input
         // any integers is a valid input
-        String input = "\n \n " +
-                expectedBetPlayer1 + " \n \n string & "
-                + expectedBetPlayer2 + " \n \n "
-                + expectedBetPlayer3 + "\n \n"
-                + expectedBetPlayer4 + "\n";
+        String input = String.format("%n %n %s %n %n string & %s %n %n %s %n %n %s %n",
+        expectedBetPlayer1, expectedBetPlayer2, expectedBetPlayer3, expectedBetPlayer4);
         initGameWithInput(input);
 
         game.betTricks(numberRound);
@@ -476,11 +473,8 @@ public class TestGame {
 
         // Valid inputs but total is equal to the number of cards distributed
         int wrongValue = 1;
-        input = "\n \n" + expectedBetPlayer1 + " \n \n string & "
-                + expectedBetPlayer2 + "\n \n "
-                + expectedBetPlayer3 + "\n \n "
-                + wrongValue + "\n \n "
-                + expectedBetPlayer4 + "\n";
+        input = String.format("%n %n %s %n %n string & %s %n %n %s %n %n %s %n %n %s %n",
+        expectedBetPlayer1, expectedBetPlayer2, expectedBetPlayer3, wrongValue, expectedBetPlayer4);
         initGameWithInput(input);
         game.betTricks(numberRound);
 
@@ -528,8 +522,8 @@ public class TestGame {
         Assert.assertEquals(player1.getLife(), player1Life);
         Assert.assertEquals(player2.getLife(), player2Life);
         Assert.assertEquals(player3.getLife(), player3Life);
-        Assert.assertEquals(player4.getLife(), player4Life - (Math.abs(wrongBet - currentTricks)));
-        wrongBet = Player.MAX_LIFE + currentTricks;
+        int expectedLifePlayer4 = player4Life - (Math.abs(wrongBet - currentTricks));
+        Assert.assertEquals(player4.getLife(), expectedLifePlayer4);
         // Case where a player has 0 life points
         wrongBet = Player.MAX_LIFE + currentTricks;
         try {
@@ -550,7 +544,7 @@ public class TestGame {
 
     @Test
     public void testEvaluateCards() {
-        HashMap<Player, Card> cardsPlayed = new HashMap<Player, Card>();
+        HashMap<Player, Card> cardsPlayed = new HashMap<>();
         cardsPlayed.put(player1, card1);
         cardsPlayed.put(player2, card2);
         cardsPlayed.put(player3, card3);
@@ -602,7 +596,7 @@ public class TestGame {
     @Test
     public void testEvaluateCardsLastRound() {
         initPlayersCards();
-        HashMap<Player, Boolean> decisions = new HashMap<Player, Boolean>();
+        HashMap<Player, Boolean> decisions = new HashMap<>();
         decisions.put(player1, false);
         decisions.put(player2, false);
         // Wrong prediction
@@ -669,7 +663,7 @@ public class TestGame {
             player1.setLife(0);
             player2.setLife(0);
             player3.setLife(0);
-            ArrayList<Player> playersTest = new ArrayList<Player>();
+            ArrayList<Player> playersTest = new ArrayList<>();
             playersTest.add(player1);
             playersTest.add(player2);
             playersTest.add(player3);
