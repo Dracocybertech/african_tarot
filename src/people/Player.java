@@ -279,9 +279,9 @@ public class Player {
     }
 
     /**
-     * \brief Deep clone
+     * \brief Copy
      *
-     * clone() : Return a deep clone of a Player
+     * copy(Player player) : Return a copy of the player.
      * \return Player
      */
     public Player copy(Player player) {
