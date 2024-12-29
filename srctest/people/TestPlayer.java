@@ -69,7 +69,7 @@ public class TestPlayer {
     }
 
     @Test
-    public void testContainsCard() throws CardException, CardNameTooLongException {
+    public void testContainsCard() {
         player1.addCard(cardFool);
         Assert.assertTrue(player1.containsCard(cardFool));
     }
@@ -82,14 +82,14 @@ public class TestPlayer {
     }
 
     @Test
-    public void testGetCards() throws NegativeLifeValueException {
+    public void testGetCards() {
         Assert.assertTrue(player1.getCards().equals(new ArrayList<Card>(0)));
     }
 
     @Test
     public void testSetCards() throws TooManyCardsException, CardException, CardNameTooLongException {
         Card card1 = new Card("1", 1);
-        ArrayList<Card> cardsPlayer1 = new ArrayList<Card>(2);
+        ArrayList<Card> cardsPlayer1 = new ArrayList<>(2);
         cardsPlayer1.add(cardFool);
         cardsPlayer1.add(card1);
 
@@ -98,8 +98,8 @@ public class TestPlayer {
     }
 
     @Test(expected = TooManyCardsException.class)
-    public void testTooManyCardsException() throws TooManyCardsException, CardException, CardNameTooLongException {
-        ArrayList<Card> cardsPlayer1 = new ArrayList<Card>(Player.CARDS_MAX);
+    public void testTooManyCardsException() throws TooManyCardsException {
+        ArrayList<Card> cardsPlayer1 = new ArrayList<>(Player.CARDS_MAX);
         for (int i = 0; i < Player.CARDS_MAX + 1; i++) {
             cardsPlayer1.add(cardFool);
         }
@@ -112,13 +112,13 @@ public class TestPlayer {
     }
 
     @Test
-    public void addCard() throws CardException, CardNameTooLongException {
+    public void addCard() {
         player1.addCard(cardFool);
         Assert.assertTrue(player1.getCards().contains(cardFool));
     }
 
     @Test
-    public void removeCard() throws CardException, CardNameTooLongException {
+    public void removeCard() {
         player1.addCard(cardFool);
         Card cardRemoved = player1.removeCard(1);
         Assert.assertEquals(cardFool, cardRemoved);
@@ -135,7 +135,8 @@ public class TestPlayer {
         int previousLife = player1.getLife();
         int lifePointsRemoved = 1;
         player1.removeLife(lifePointsRemoved);
-        Assert.assertEquals(player1.getLife(), previousLife - lifePointsRemoved);
+        int expectedLifePlayer1 = previousLife - lifePointsRemoved;
+        Assert.assertEquals(player1.getLife(), expectedLifePlayer1);
 
         // Remove more life points than the player has
         lifePointsRemoved = player1.getLife() + 1;
