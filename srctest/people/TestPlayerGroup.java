@@ -8,29 +8,32 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import people.NegativeLifeValueException;
 import people.Player;
 import people.PlayerNameTooLongException;
 import people.PlayerGroup;
 
 public class TestPlayerGroup {
 
+    static final int NUMBER_PLAYERS = 4;
+    static final String NAME_PLAYER1 = "Player1";
+
     PlayerGroup players;
-    static int NUMBER_PLAYERS = 4;
+
     Player player1;
     Player player2;
     Player player3;
     Player player4;
+
     ArrayList<Player> playersList;
 
     @Before
     public void beforeTest() throws PlayerNameTooLongException {
         players = new PlayerGroup(NUMBER_PLAYERS);
-        player1 = new Player("Player1");
+        player1 = new Player(NAME_PLAYER1);
         player2 = new Player("Player2");
         player3 = new Player("Player3");
         player4 = new Player("Player4");
-        playersList = new ArrayList<Player>(NUMBER_PLAYERS);
+        playersList = new ArrayList<>(NUMBER_PLAYERS);
         playersList.add(player1);
         playersList.add(player2);
         playersList.add(player3);
@@ -52,22 +55,22 @@ public class TestPlayerGroup {
         PlayerGroup playersTestEmpty = new PlayerGroup(numberPlayers);
         Assert.assertEquals(playersTestEmpty.getNumberPlayers(), 0);
 
-        String namePlayer = "Player1";
+        String namePlayer = NAME_PLAYER1;
         numberPlayers = 1;
         String[] namePlayers = { namePlayer };
         // Create the players with a array of string
         PlayerGroup playersWithString = new PlayerGroup(namePlayers);
 
         // Create the arrayList we expect to have in PlayerGroup
-        ArrayList<Player> playersExpected = new ArrayList<Player>(numberPlayers);
-        Player player1 = new Player(namePlayer);
-        playersExpected.add(player1);
+        ArrayList<Player> playersExpected = new ArrayList<>(numberPlayers);
+        Player player1Test = new Player(namePlayer);
+        playersExpected.add(player1Test);
 
         Assert.assertTrue(playersExpected.equals(playersWithString.getPlayers()));
 
         // Create the players with a list of players
-        ArrayList<Player> playersToCreate = new ArrayList<Player>(numberPlayers);
-        playersToCreate.add(player1);
+        ArrayList<Player> playersToCreate = new ArrayList<>(numberPlayers);
+        playersToCreate.add(player1Test);
         PlayerGroup playersWithArray = new PlayerGroup(playersToCreate);
 
         Assert.assertTrue(playersExpected.equals(playersWithArray.getPlayers()));
@@ -75,24 +78,24 @@ public class TestPlayerGroup {
 
     @Test
     public void testGetPlayers() {
-        List<Player> playersList = players.getPlayers();
+        List<Player> playersListTest = players.getPlayers();
 
-        Assert.assertEquals(playersList.size(), NUMBER_PLAYERS);
+        Assert.assertEquals(playersListTest.size(), NUMBER_PLAYERS);
     }
 
     @Test
     public void testSetPlayers() {
-        ArrayList<Player> playersTest = new ArrayList<Player>(1);
+        ArrayList<Player> playersTest = new ArrayList<>(1);
         playersTest.add(player1);
         players.setPlayers(playersTest);
-        ArrayList<Player> playersExpected = new ArrayList<Player>(1);
+        ArrayList<Player> playersExpected = new ArrayList<>(1);
         playersExpected.add(player1);
         Assert.assertEquals(players.getPlayers(), playersExpected);
     }
 
     @Test
     public void testGetPlayer() {
-        ArrayList<Player> playersTest = new ArrayList<Player>(1);
+        ArrayList<Player> playersTest = new ArrayList<>(1);
         playersTest.add(player1);
         players.setPlayers(playersTest);
         Player playerExpected = players.getPlayer(0);
@@ -140,8 +143,8 @@ public class TestPlayerGroup {
     }
 
     @Test
-    public void testRemoveDeadPlayers() throws PlayerNameTooLongException, NegativeLifeValueException {
-        ArrayList<Player> playersTest = new ArrayList<Player>();
+    public void testRemoveDeadPlayers() {
+        ArrayList<Player> playersTest = new ArrayList<>();
         playersTest.add(player1);
         playersTest.add(player2);
         players.setPlayers(playersTest);
@@ -150,8 +153,8 @@ public class TestPlayerGroup {
         players.getPlayer(0).removeLife(lifePoints);
         player1.removeLife(lifePoints);
 
-        ArrayList<Player> playersAliveExpected = new ArrayList<Player>();
-        ArrayList<Player> playersDeadExpected = new ArrayList<Player>();
+        ArrayList<Player> playersAliveExpected = new ArrayList<>();
+        ArrayList<Player> playersDeadExpected = new ArrayList<>();
 
         playersAliveExpected.add(player2);
         playersDeadExpected.add(player1);
@@ -181,7 +184,7 @@ public class TestPlayerGroup {
 
     @Test
     public void testEquals() throws PlayerNameTooLongException {
-        String[] namePlayers = { "Player1", "Player2" };
+        String[] namePlayers = { NAME_PLAYER1, "Player2" };
         PlayerGroup players1 = new PlayerGroup(namePlayers);
         PlayerGroup players2 = new PlayerGroup(namePlayers);
         Assert.assertEquals(players1, players2);
