@@ -58,7 +58,7 @@ public class TestDeck {
     public void testGetCompleteDeck() {
         deck.addCard(card0);
 
-        ArrayList<Card> deckExpected = new ArrayList<Card>(1);
+        ArrayList<Card> deckExpected = new ArrayList<>(1);
         deckExpected.add(card0);
 
         Assert.assertTrue(deckExpected.equals(deck.getCompleteDeck()));
@@ -79,14 +79,14 @@ public class TestDeck {
     @Test
     public void testRemoveCard() {
         int index = 0;
-        Card card0 = builtDeck.getCard(index);
+        Card cardExpected = builtDeck.getCard(index);
         Card cardRemoved = builtDeck.removeCard(index);
-        Assert.assertEquals(card0, cardRemoved);
+        Assert.assertEquals(cardExpected, cardRemoved);
     }
 
     @Test
     public void testRemoveCards() throws RemovingTooManyCards {
-        ArrayList<Card> cardsExpected = new ArrayList<Card>(2);
+        ArrayList<Card> cardsExpected = new ArrayList<>(2);
         cardsExpected.add(builtDeck.getCard(builtDeck.getCompleteDeck().size() - 1));
         cardsExpected.add(builtDeck.getCard(builtDeck.getCompleteDeck().size() - 2));
         List<Card> cardsRemoved = builtDeck.removeCards(2);
