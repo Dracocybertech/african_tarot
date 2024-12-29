@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.hamcrest.core.IsInstanceOf;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.hamcrest.MatcherAssert;
 
@@ -88,7 +89,7 @@ public class TestDeck {
         ArrayList<Card> cardsExpected = new ArrayList<Card>(2);
         cardsExpected.add(builtDeck.getCard(builtDeck.getCompleteDeck().size() - 1));
         cardsExpected.add(builtDeck.getCard(builtDeck.getCompleteDeck().size() - 2));
-        ArrayList<Card> cardsRemoved = builtDeck.removeCards(2);
+        List<Card> cardsRemoved = builtDeck.removeCards(2);
 
         Assert.assertTrue(cardsRemoved.equals(cardsExpected));
     }

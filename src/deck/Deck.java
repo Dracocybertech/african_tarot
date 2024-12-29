@@ -109,14 +109,14 @@ public class Deck {
      * @throws RemovingTooManyCards
      */
 
-    public ArrayList<Card> removeCards(int numberCards) throws RemovingTooManyCards {
+    public List<Card> removeCards(int numberCards) throws RemovingTooManyCards {
         if (numberCards > this.completeDeck.size()) {
             throw new RemovingTooManyCards("You can't remove more cards than the deck currently has.");
         }
         // deckSize needs to be static during the removal, otherwise we will jump over a
         // card everytime we remove one
         int deckSize = this.completeDeck.size();
-        ArrayList<Card> removedCards = new ArrayList<Card>(numberCards);
+        ArrayList<Card> removedCards = new ArrayList<>(numberCards);
         for (int i = 0; i < numberCards; i++) {
             // Remove the last card
             removedCards.add(this.removeCard(deckSize - i - 1));
@@ -132,14 +132,8 @@ public class Deck {
      */
     @Override
     public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (o == null || this.getClass() != o.getClass())
-            return false;
-        if (((Deck) o).hashCode() == this.hashCode()) {
-            return true;
-        }
-        return false;
+        return o == this || 
+        (this.getClass() == o.getClass() && ((Deck) o).hashCode() == this.hashCode());
     }
 
     /**
@@ -159,11 +153,11 @@ public class Deck {
      * \return String
      */
     public String toString() {
-        String result = "Deck \n";
+        StringBuilder result = new StringBuilder("Deck \n");
 
         for (Card card : completeDeck) {
-            result += "Name : " + card.getName() + "Value : " + card.getValue();
+            result.append("Name : " + card.getName() + "Value : " + card.getValue());
         }
-        return result;
+        return result.toString();
     }
 }
