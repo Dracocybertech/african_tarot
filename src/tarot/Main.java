@@ -1,3 +1,4 @@
+package tarot;
 import java.util.Scanner;
 
 import game.Game;
