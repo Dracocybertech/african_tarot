@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -30,15 +31,17 @@ public class Game {
     // Store the player who played the fool card
     private HashMap<Player, Card> foolPlayer;
 
-    public static int NUMBER_PLAYERS = 4;
-    public static int ROUND_MAX = 5;
+    public static final int NUMBER_PLAYERS = 4;
+    public static final int ROUND_MAX = 5;
+    
+    public static final String GO_NEXT_PLAYER = " to go to next player.";
 
     public enum FoolValues {
         MIN_VALUE,
         MAX_VALUE,
     }
 
-    public EnumMap<FoolValues, Integer> FoolValuesMap = new EnumMap<FoolValues, Integer>(FoolValues.class);
+    private static final Map<FoolValues, Integer> FoolValuesMap = new EnumMap<>(FoolValues.class);
 
     // Create a Logger
     Logger logger = Logger.getLogger(Game.class.getName());
@@ -54,7 +57,7 @@ public class Game {
         deck = new Deck();
         deck.buildDeck();
         deck.shuffle();
-        foolPlayer = new HashMap<Player, Card>();
+        foolPlayer = new HashMap<>();
         FoolValuesMap.put(FoolValues.MIN_VALUE, 0);
         FoolValuesMap.put(FoolValues.MAX_VALUE, 22);
     }
@@ -65,7 +68,7 @@ public class Game {
      * getPlayers() : Return the list of the players in the game.
      * \return ArrayList<Player>
      */
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return this.players.getPlayers();
     }
 
@@ -80,12 +83,12 @@ public class Game {
      * 
      * @throws BadNumberOfPlayersException
      */
-    public void setPlayers(ArrayList<Player> players) throws BadNumberOfPlayersException {
+    public void setPlayers(List<Player> players) throws BadNumberOfPlayersException {
         if (players.size() > NUMBER_PLAYERS) {
             throw new BadNumberOfPlayersException("The number of player must be less or equal than :" + NUMBER_PLAYERS);
         }
         this.players.setPlayers(players);
-        this.playersAlive.setPlayers(new ArrayList<Player>(players));
+        this.playersAlive.setPlayers(new ArrayList<>(players));
         this.playersAlive.removeDeadPlayers();
     }
 
@@ -95,7 +98,7 @@ public class Game {
      * getPlayersAlive() : Return the list of the players alive in the game.
      * \return ArrayList<Player>
      */
-    public ArrayList<Player> getPlayersAlive() {
+    public List<Player> getPlayersAlive() {
         return this.playersAlive.getPlayers();
     }
 
@@ -166,7 +169,7 @@ public class Game {
      * and the card.
      * \return HashMap<Player, Card>
      */
-    public HashMap<Player, Card> getFoolPlayer() {
+    public Map<Player, Card> getFoolPlayer() {
         return this.foolPlayer;
     }
 
@@ -252,7 +255,7 @@ public class Game {
      * \param Player player
      * \return Card
      */
-    public Card playOnePlayer(Player player, HashMap<Player, Card> cardsPlayed) {
+    public Card playOnePlayer(Player player, Map<Player, Card> cardsPlayed) {
         // Should be a shallow copy, so any changed made to current player
         // will be reflected in the list of players
         playerTransition(player);
@@ -281,7 +284,7 @@ public class Game {
                 scanner.next();
             }
         }
-        enterWait(" to go to the next player.");
+        enterWait(GO_NEXT_PLAYER);
         return cardPlayed;
     }
 
@@ -304,9 +307,9 @@ public class Game {
      * playAllPlayers() : All players must play one card from their hand.
      * \return Card
      */
-    public HashMap<Player, Card> playAllPlayers() {
+    public Map<Player, Card> playAllPlayers() {
 
-        HashMap<Player, Card> results = new HashMap<Player, Card>();
+        HashMap<Player, Card> results = new HashMap<>();
         for (Player player : playersAlive.getPlayers()) {
             results.put(player, playOnePlayer(player, results));
         }
@@ -325,8 +328,8 @@ public class Game {
      * Boolean> opponentsDecisions
      * \return Boolean
      */
-    public Boolean playOnePlayerLastRound(Player player, HashMap<Player, ArrayList<Card>> opponentsCards,
-            HashMap<Player, Boolean> opponentsDecisions) {
+    public Boolean playOnePlayerLastRound(Player player, Map<Player, ArrayList<Card>> opponentsCards,
+            Map<Player, Boolean> opponentsDecisions) {
         playerTransition(player);
         printLastRound(opponentsCards, opponentsDecisions);
         System.out.println("Do you bet that you win or lose this round?");
@@ -359,8 +362,8 @@ public class Game {
      * \param HashMap<Player, ArrayList<Card>> opponentsCards
      * \param HashMap<Player, Boolean> opponentsDecisions
      */
-    private void printLastRound(HashMap<Player, ArrayList<Card>> opponentsCards,
-            HashMap<Player, Boolean> opponentsDecisions) {
+    private void printLastRound(Map<Player, ArrayList<Card>> opponentsCards,
+            Map<Player, Boolean> opponentsDecisions) {
         System.out.println("Your opponents have those cards:");
         for (Map.Entry<Player, ArrayList<Card>> entries : opponentsCards.entrySet()) {
             String playerName = entries.getKey().getName();
@@ -400,14 +403,14 @@ public class Game {
      * round.
      * \return HashMap<Player, Boolean>
      */
-    public HashMap<Player, Boolean> playAllPlayersLastRound() {
-        HashMap<Player, Boolean> results = new HashMap<Player, Boolean>();
-        HashMap<Player, Boolean> opponentsDecisions = new HashMap<Player, Boolean>();
+    public Map<Player, Boolean> playAllPlayersLastRound() {
+        HashMap<Player, Boolean> results = new HashMap<>();
+        HashMap<Player, Boolean> opponentsDecisions = new HashMap<>();
         // According to the rules, the turn where players have one card
         // is special: players must bet if they win or lose and not a number of trick
         // they would win by the end of the round
         for (Player player : this.playersAlive.getPlayers()) {
-            HashMap<Player, ArrayList<Card>> opponentsCards = buildOpponentsCards(player, this.playersAlive);
+            Map<Player, ArrayList<Card>> opponentsCards = buildOpponentsCards(player, this.playersAlive);
             Boolean decision = playOnePlayerLastRound(player, opponentsCards, opponentsDecisions);
             opponentsDecisions.put(player, decision);
             results.put(player, decision);
@@ -423,8 +426,8 @@ public class Game {
      * \param Player currentPlayer, PlayerGroup opponentsPlayers
      * \return HashMap<Player, Card>
      */
-    public HashMap<Player, ArrayList<Card>> buildOpponentsCards(Player currentPlayer, PlayerGroup playersAlive) {
-        HashMap<Player, ArrayList<Card>> opponentsCards = new HashMap<Player, ArrayList<Card>>();
+    public Map<Player, ArrayList<Card>> buildOpponentsCards(Player currentPlayer, PlayerGroup playersAlive) {
+        HashMap<Player, ArrayList<Card>> opponentsCards = new HashMap<>();
         PlayerGroup opponents = playersAlive.clone();
         opponents.removePlayer(currentPlayer);
         for (Player player : opponents.getPlayers()) {
@@ -483,7 +486,7 @@ public class Game {
      * they choose its value. Cards played this round are displayed.
      * \param HashMap<Player, Card> cardsPlayed
      */
-    public void evaluateCards(HashMap<Player, Card> cardsPlayed) {
+    public void evaluateCards(Map<Player, Card> cardsPlayed) {
         printCardsPlayed(cardsPlayed);
 
         // If any player played the fool this turn, they need to choose its value
@@ -492,7 +495,7 @@ public class Game {
                 Player player = entry.getKey();
                 Card card = entry.getValue();
 
-                System.out.println("Player " + player.getName() + ": you played the card " + card.getName());
+                System.out.println(String.format("Player %s : you played the card %s", player.getName(), card.getName()));
                 System.out.println("Enter its value: 0 or 22.");
                 boolean isValid = false;
                 while (!isValid) {
@@ -532,10 +535,10 @@ public class Game {
      * played this turn.
      * \param HashMap<Player, Card> cardsPlayed
      */
-    private void printCardsPlayed(HashMap<Player, Card> cardsPlayed) {
+    private void printCardsPlayed(Map<Player, Card> cardsPlayed) {
         // Display all the cards played for this turn
         for (Map.Entry<Player, Card> entries : cardsPlayed.entrySet()) {
-            System.out.println("Player " + entries.getKey().getName() + " Card: " + entries.getValue().getName());
+            System.out.println(String.format("Player %s Card: %s", entries.getKey().getName(), entries.getValue().getName()));
         }
     }
 
@@ -548,7 +551,7 @@ public class Game {
     private void printWinnerTurn(Player player) {
         separatorPrint();
         // Display the player who won the trick
-        System.out.println("Player " + player.getName() + " won the trick!");
+        System.out.println(String.format("Player %s won the trick!", player.getName()));
         separatorPrint();
     }
 
@@ -559,12 +562,12 @@ public class Game {
      * Display the winner of the trick. Remove life points according to the bet.
      * \param HashMap<Player, Boolean> decisions
      */
-    public void evaluateCardsLastRound(HashMap<Player, Boolean> decisions) {
-        HashMap<Player, Card> cardsPlayed = new HashMap<Player, Card>();
+    public void evaluateCardsLastRound(Map<Player, Boolean> decisions) {
+        HashMap<Player, Card> cardsPlayed = new HashMap<>();
         // Display all the cards the players have this turn
         for (Player player : getPlayersAlive()) {
             Card cardCurrent = player.getCard(0);
-            System.out.println("Player " + player.getName() + " Card: " + cardCurrent);
+            System.out.println(String.format("Player %s  Card: %s", player.getName(), cardCurrent));
             cardsPlayed.put(player, cardCurrent);
         }
 
@@ -582,10 +585,9 @@ public class Game {
             Boolean predictedBet = entries.getValue();
             // If the player is the winner but didn't predict that they would won
             // or if any played predicted they would won but didn't
-            if (currentPlayer == winner && predictedBet == false
-                    || currentPlayer != winner && predictedBet == true) {
-                System.out.println(
-                        "Player " + currentPlayer.getName() + " you lose 1 life point for betting the wrong outcome.");
+            if ((currentPlayer == winner && !predictedBet)
+                    || (currentPlayer != winner && predictedBet)) {
+                System.out.println(String.format("Player %s  you lose 1 life point for betting the wrong outcome.", currentPlayer.getName()));
                 currentPlayer.removeLife(lifePointsRemoved);
             }
         }
@@ -601,7 +603,7 @@ public class Game {
     public void evaluateRound() {
         // Remove lifepoints
         for (Player player : getPlayersAlive()) {
-            System.out.println("Player " + player.getName());
+            System.out.println(String.format("Player %s", player.getName()));
             int betTricks = player.getBetTricks();
             int currentTricks = player.getCurrentTricks();
             System.out.println("Bet tricks: " + betTricks);
@@ -628,10 +630,10 @@ public class Game {
      */
     public void evaluateDeadPlayers() {
         // Remove players who reach 0 life points
-        ArrayList<Player> playersDead = playersAlive.removeDeadPlayers();
+        List<Player> playersDead = playersAlive.removeDeadPlayers();
 
         // If any player reach 0 life points
-        if (playersDead.size() != 0) {
+        if (playersDead.isEmpty()) {
             for (Player player : playersDead) {
                 System.out.println("Player " + player.getName() +
                         " has 0 life points! They can't play anymore.");
@@ -662,7 +664,7 @@ public class Game {
 
             // Case of the last round where players have one card
             if (numberRound == 1) {
-                HashMap<Player, Boolean> decisions = playAllPlayersLastRound();
+                Map<Player, Boolean> decisions = playAllPlayersLastRound();
                 evaluateCardsLastRound(decisions);
             } else {
                 // Every player can bet the number of tricks they think they will win
@@ -671,7 +673,7 @@ public class Game {
                 // All players played until they don't have any cards left in their hands
                 for (int turn = 0; turn < numberRound; turn++) {
                     // Players played one card
-                    HashMap<Player, Card> cardsPlayed = playAllPlayers();
+                    Map<Player, Card> cardsPlayed = playAllPlayers();
                     // Winner of the trick is displayed
                     evaluateCards(cardsPlayed);
                 }
@@ -751,11 +753,7 @@ public class Game {
      * lose their life points at the same time.
      */
     public boolean isVictory() {
-        if (getNumberPlayersAlive() == 1 || getNumberPlayersAlive() == 0) {
-            return true;
-        }
-        // If there is more than one player with life points
-        return false;
+        return getNumberPlayersAlive() == 1 || getNumberPlayersAlive() == 0;
     }
 
     /**
@@ -786,12 +784,6 @@ public class Game {
             System.err.println("Error while reading input: " + e.getMessage());
         }
 
-        /*
-         * //Clear the buffer in case the input has anything
-         * if (scanner.hasNextLine()) {
-         * scanner.nextLine();
-         * }
-         */
         clearTerminal();
     }
 

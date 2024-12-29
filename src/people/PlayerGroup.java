@@ -1,10 +1,11 @@
 package people;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerGroup {
 
-    ArrayList<Player> players;
+    List<Player> players;
 
     /**
      * \brief Constructor of Player
@@ -13,7 +14,7 @@ public class PlayerGroup {
      * \param int numberPlayers
      */
     public PlayerGroup(int numberPlayers) {
-        this.players = new ArrayList<Player>(numberPlayers);
+        this.players = new ArrayList<>(numberPlayers);
     }
 
     /**
@@ -45,8 +46,8 @@ public class PlayerGroup {
      * PlayerGroup() : Fill the list with a pre existing list if players.
      * \param ArrayList<Player> players
      */
-    public PlayerGroup(ArrayList<Player> players) {
-        this.players = new ArrayList<Player>(players.size());
+    public PlayerGroup(List<Player> players) {
+        this.players = new ArrayList<>(players.size());
         for (Player player : players) {
             this.players.add(player);
         }
@@ -58,7 +59,7 @@ public class PlayerGroup {
      * getPlayers() : Return the players.
      * \return ArrayList<Player>
      */
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return this.players;
     }
 
@@ -68,7 +69,7 @@ public class PlayerGroup {
      * setPlayers(ArrayList<Player> players) : Set the new list of players.
      * \param ArrayList<Player> players
      */
-    public void setPlayers(ArrayList<Player> players) {
+    public void setPlayers(List<Player> players) {
         this.players = players;
     }
 
@@ -145,8 +146,8 @@ public class PlayerGroup {
      * return them
      * \return Players
      */
-    public ArrayList<Player> removeDeadPlayers() {
-        ArrayList<Player> deadPlayers = new ArrayList<Player>();
+    public List<Player> removeDeadPlayers() {
+        ArrayList<Player> deadPlayers = new ArrayList<>();
         for (Player player : this.players) {
             if (!player.isAlive()) {
                 deadPlayers.add(player);

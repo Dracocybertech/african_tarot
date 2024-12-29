@@ -1,6 +1,7 @@
 package srctest.people;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -74,7 +75,7 @@ public class TestPlayerGroup {
 
     @Test
     public void testGetPlayers() {
-        ArrayList<Player> playersList = players.getPlayers();
+        List<Player> playersList = players.getPlayers();
 
         Assert.assertEquals(playersList.size(), NUMBER_PLAYERS);
     }
@@ -155,8 +156,8 @@ public class TestPlayerGroup {
         playersAliveExpected.add(player2);
         playersDeadExpected.add(player1);
 
-        ArrayList<Player> playersDead = players.removeDeadPlayers();
-        ArrayList<Player> playersAlive = players.getPlayers();
+        List<Player> playersDead = players.removeDeadPlayers();
+        List<Player> playersAlive = players.getPlayers();
 
         Assert.assertEquals(playersAliveExpected, playersAlive);
         Assert.assertEquals(playersDeadExpected, playersDead);

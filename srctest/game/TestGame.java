@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.After;
@@ -25,7 +26,7 @@ import people.TooManyCardsException;
 
 public class TestGame {
 
-    private final InputStream originalSystemIn = System.in;
+    private  static final InputStream originalSystemIn = System.in;
     private ByteArrayInputStream testIn;
     Game game;
     Player player1;
@@ -257,8 +258,8 @@ public class TestGame {
         Assert.assertEquals(game.getNumberPlayersAlive(), Game.NUMBER_PLAYERS);
 
         // Check that players and playersAlive are two distincts lists
-        ArrayList<Player> players = game.getPlayers();
-        ArrayList<Player> playersAlive = game.getPlayersAlive();
+        List<Player> players = game.getPlayers();
+        List<Player> playersAlive = game.getPlayersAlive();
         // Modify one list and not the other
         playersAlive.add(player1);
 
@@ -288,8 +289,7 @@ public class TestGame {
     }
 
     @Test
-    public void testPlayOnePlayer() throws NotEnoughCardsInDeckException, TooManyCardsException, RemovingTooManyCards,
-            BadNumberOfPlayersException {
+    public void testPlayOnePlayer() throws NotEnoughCardsInDeckException, TooManyCardsException, RemovingTooManyCards {
         // Invalid and valid input
         // String & are the invalid inputs
         // The first 1 is a random card played but the first card the player has to make
@@ -341,8 +341,7 @@ public class TestGame {
     }
 
     @Test
-    public void testPlayAllPlayers() throws NotEnoughCardsInDeckException, TooManyCardsException, RemovingTooManyCards,
-            BadNumberOfPlayersException {
+    public void testPlayAllPlayers() {
         // Every player played the first card in their hand with the input 1
         // \n is for the enter input everytime it's needed
         String simulatedInput = "\n \n 1 \n \n 1 \n \n 1 \n \n 1 \n";
@@ -359,7 +358,7 @@ public class TestGame {
         }
 
         // Every player play one card
-        HashMap<Player, Card> cardPlayed = game.playAllPlayers();
+        Map<Player, Card> cardPlayed = game.playAllPlayers();
 
         // Check if the card returned is the card played
         Assert.assertEquals(cardExpected, cardPlayed);
@@ -411,7 +410,7 @@ public class TestGame {
     public void testBuildOpponentsCards() {
         initPlayersCards();
         // Cards opponents have in their hands
-        HashMap<Player, ArrayList<Card>> opponentsCards = game.buildOpponentsCards(player1, playerGroup);
+        Map<Player, ArrayList<Card>> opponentsCards = game.buildOpponentsCards(player1, playerGroup);
 
         // Check if among the cards, there is not the card of the player displayed
         Assert.assertFalse(opponentsCards.containsKey(player1));
@@ -437,7 +436,7 @@ public class TestGame {
         // 1 is a valid input
         // \n is for simulating enter input
         initGameWithInput("\n \n 3 string & 0 \n \n 2 string & 1 \n \n 1 \n \n 1 \n");
-        HashMap<Player, Boolean> results = game.playAllPlayersLastRound();
+        Map<Player, Boolean> results = game.playAllPlayersLastRound();
 
         for (Map.Entry<Player, Boolean> entry : resultsExpected.entrySet()) {
             Boolean resultValue = results.get(entry.getKey());
@@ -632,15 +631,15 @@ public class TestGame {
     @Test
     public void testEvaluateDeadPlayers() throws NegativeLifeValueException {
         // List of players alive before the evaluation
-        ArrayList<Player> playersAlive = game.getPlayersAlive();
-        ArrayList<Player> players = game.getPlayers();
+        List<Player> playersAlive = game.getPlayersAlive();
+        List<Player> playerstest = game.getPlayers();
 
         // Let player4 the player who got 0 life points at the end of the round
         player4.setLife(0);
         game.evaluateDeadPlayers();
 
         // Check if player4 is removed from the list of players alive
-        Assert.assertNotEquals(playersAlive, players);
+        Assert.assertNotEquals(playersAlive, playerstest);
         Assert.assertFalse(playersAlive.contains(player4));
     }
 
