@@ -1,10 +1,10 @@
 package people;
 
 public class NegativeLifeValueException extends Exception {
-    public NegativeLifeValueException(){
+    public NegativeLifeValueException() {
     }
 
-    public NegativeLifeValueException(String msg){
-       super(msg); 
+    public NegativeLifeValueException(String msg) {
+        super(msg);
     }
 }

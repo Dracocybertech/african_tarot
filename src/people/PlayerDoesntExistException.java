@@ -1,10 +1,10 @@
 package people;
 
-public class PlayerDoesntExistException extends Exception{
-    public PlayerDoesntExistException(){
+public class PlayerDoesntExistException extends Exception {
+    public PlayerDoesntExistException() {
     }
 
-    public PlayerDoesntExistException(String msg){
-       super(msg); 
+    public PlayerDoesntExistException(String msg) {
+        super(msg);
     }
 }

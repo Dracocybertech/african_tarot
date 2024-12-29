@@ -24,36 +24,37 @@ public class TestDeck {
     Deck builtDeck;
 
     @Before
-    public void beforeTest() throws CardException, CardNameTooLongException{
+    public void beforeTest() throws CardException, CardNameTooLongException {
         deck = new Deck();
         shuffledDeck = new Deck();
         builtDeck = new Deck();
         builtDeck.buildDeck();
-        card0 = new Card("Fool",22);
+        card0 = new Card("Fool", 22);
     }
+
     @After
-    public void afterTest(){ 
+    public void afterTest() {
         System.out.println("Test Deck over");
     }
 
     @Test
-    public void testBuildDeck(){
+    public void testBuildDeck() {
         deck.buildDeck();
-        for(Card card: deck.completeDeck){
+        for (Card card : deck.getCompleteDeck()) {
             MatcherAssert.assertThat(card, IsInstanceOf.instanceOf(Card.class));
             Assert.assertTrue(card.getValue() >= Card.MIN_VALUE && card.getValue() <= Card.MAX_VALUE);
         }
     }
 
     @Test
-    public void testShuffleDeck(){
+    public void testShuffleDeck() {
         shuffledDeck.buildDeck();
         shuffledDeck.shuffle();
         Assert.assertFalse(deck.equals(shuffledDeck));
     }
 
     @Test
-    public void testGetCompleteDeck(){
+    public void testGetCompleteDeck() {
         deck.addCard(card0);
 
         ArrayList<Card> deckExpected = new ArrayList<Card>(1);
@@ -63,19 +64,19 @@ public class TestDeck {
     }
 
     @Test
-    public void testAddCard(){
+    public void testAddCard() {
         deck.addCard(card0);
         Assert.assertTrue(deck.getCompleteDeck().contains(card0));
     }
 
     @Test
-    public void testGetCard(){
+    public void testGetCard() {
         deck.addCard(card0);
-        Assert.assertEquals(deck.getCard(0),card0);
+        Assert.assertEquals(deck.getCard(0), card0);
     }
 
     @Test
-    public void testRemoveCard(){
+    public void testRemoveCard() {
         int index = 0;
         Card card0 = builtDeck.getCard(index);
         Card cardRemoved = builtDeck.removeCard(index);
@@ -83,7 +84,7 @@ public class TestDeck {
     }
 
     @Test
-    public void testRemoveCards() throws RemovingTooManyCards{
+    public void testRemoveCards() throws RemovingTooManyCards {
         ArrayList<Card> cardsExpected = new ArrayList<Card>(2);
         cardsExpected.add(builtDeck.getCard(builtDeck.getCompleteDeck().size() - 1));
         cardsExpected.add(builtDeck.getCard(builtDeck.getCompleteDeck().size() - 2));

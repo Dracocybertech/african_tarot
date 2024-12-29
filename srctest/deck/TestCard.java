@@ -18,15 +18,16 @@ public class TestCard {
 	Card card3;
 	Card card4;
 	Card card5;
-	
-	@Before 
-	public void beforeTest() throws CardException, CardNameTooLongException{
+
+	@Before
+	public void beforeTest() throws CardException, CardNameTooLongException {
 		card1 = new Card();
 		card2 = new Card("Fool", 22);
 		card3 = new Card(String.valueOf(1).toString(), 1);
 	}
+
 	@After
-	public void afterTest(){ 
+	public void afterTest() {
 		System.out.println("Test Card over");
 	}
 
@@ -43,11 +44,11 @@ public class TestCard {
 		assertEquals(card1.getName(), "NewName1");
 	}
 
-	@Test (expected=CardNameTooLongException.class) 
-	public void testBadNameCard() throws CardException, CardNameTooLongException{
-		card4 = new Card("A name that is way too long",0);
+	@Test(expected = CardNameTooLongException.class)
+	public void testBadNameCard() throws CardException, CardNameTooLongException {
+		card4 = new Card("A name that is way too long", 0);
 	}
-	
+
 	@Test
 	public void testSetValue() {
 		card1.setValue(7);
@@ -61,17 +62,18 @@ public class TestCard {
 		assertEquals(card3.getValue(), 1);
 	}
 
-	@Test (expected=CardException.class) 
-	public void testWrongValueAtCreation() throws CardException, CardNameTooLongException{
+	@Test(expected = CardException.class)
+	public void testWrongValueAtCreation() throws CardException, CardNameTooLongException {
 		card4 = new Card("WrongV", Card.MIN_VALUE - 1);
 	}
-	@Test (expected=CardException.class) 
-	public void testWrongValueAtCreation2() throws CardException, CardNameTooLongException{
+
+	@Test(expected = CardException.class)
+	public void testWrongValueAtCreation2() throws CardException, CardNameTooLongException {
 		card5 = new Card("WrongV", Card.MAX_VALUE + 1);
 	}
-	
+
 	@Test
-	public void testEquals() throws CardException, CardNameTooLongException{
+	public void testEquals() throws CardException, CardNameTooLongException {
 		card4 = new Card();
 		Assert.assertTrue(card4.equals(card1));
 		Assert.assertTrue(card1.equals(card4));

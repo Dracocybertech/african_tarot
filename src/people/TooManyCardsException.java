@@ -1,10 +1,10 @@
 package people;
 
 public class TooManyCardsException extends Exception {
-    public TooManyCardsException(){
+    public TooManyCardsException() {
     }
 
-    public TooManyCardsException(String msg){
-       super(msg); 
+    public TooManyCardsException(String msg) {
+        super(msg);
     }
 }
