@@ -222,7 +222,7 @@ public class Game {
             players.addPlayer(player);
             // To have a distinct list of alive players, we need to create a new instance of
             // player
-            playersAlive.addPlayer(player.clone());
+            playersAlive.addPlayer(player.copy(player));
         }
     }
 
@@ -288,7 +288,7 @@ public class Game {
         return cardPlayed;
     }
 
-    private void printCardsPlayer(ArrayList<Card> cards) {
+    private void printCardsPlayer(List<Card> cards) {
         // Number of the card
         int numberCard = 1;
         for (Card card : cards) {
@@ -328,7 +328,7 @@ public class Game {
      * Boolean> opponentsDecisions
      * \return Boolean
      */
-    public Boolean playOnePlayerLastRound(Player player, Map<Player, ArrayList<Card>> opponentsCards,
+    public Boolean playOnePlayerLastRound(Player player, Map<Player, List<Card>> opponentsCards,
             Map<Player, Boolean> opponentsDecisions) {
         playerTransition(player);
         printLastRound(opponentsCards, opponentsDecisions);
@@ -362,12 +362,12 @@ public class Game {
      * \param HashMap<Player, ArrayList<Card>> opponentsCards
      * \param HashMap<Player, Boolean> opponentsDecisions
      */
-    private void printLastRound(Map<Player, ArrayList<Card>> opponentsCards,
+    private void printLastRound(Map<Player, List<Card>> opponentsCards,
             Map<Player, Boolean> opponentsDecisions) {
         System.out.println("Your opponents have those cards:");
-        for (Map.Entry<Player, ArrayList<Card>> entries : opponentsCards.entrySet()) {
+        for (Map.Entry<Player, List<Card>> entries : opponentsCards.entrySet()) {
             String playerName = entries.getKey().getName();
-            ArrayList<Card> cards = entries.getValue();
+            List<Card> cards = entries.getValue();
             // Print the cards of the player
             System.out.println(playerName + ": " + cards);
         }
@@ -410,7 +410,7 @@ public class Game {
         // is special: players must bet if they win or lose and not a number of trick
         // they would win by the end of the round
         for (Player player : this.playersAlive.getPlayers()) {
-            Map<Player, ArrayList<Card>> opponentsCards = buildOpponentsCards(player, this.playersAlive);
+            Map<Player, List<Card>> opponentsCards = buildOpponentsCards(player, this.playersAlive);
             Boolean decision = playOnePlayerLastRound(player, opponentsCards, opponentsDecisions);
             opponentsDecisions.put(player, decision);
             results.put(player, decision);
@@ -426,8 +426,8 @@ public class Game {
      * \param Player currentPlayer, PlayerGroup opponentsPlayers
      * \return HashMap<Player, Card>
      */
-    public Map<Player, ArrayList<Card>> buildOpponentsCards(Player currentPlayer, PlayerGroup playersAlive) {
-        HashMap<Player, ArrayList<Card>> opponentsCards = new HashMap<>();
+    public Map<Player, List<Card>> buildOpponentsCards(Player currentPlayer, PlayerGroup playersAlive) {
+        HashMap<Player, List<Card>> opponentsCards = new HashMap<>();
         PlayerGroup opponents = playersAlive.clone();
         opponents.removePlayer(currentPlayer);
         for (Player player : opponents.getPlayers()) {
@@ -617,8 +617,13 @@ public class Game {
             separatorPrint();
 
             // Reset the tricks for the turn
-            player.betTricks = 0;
-            player.currentTricks = 0;
+            try{
+                player.setBetTricks(0);
+                player.setCurrentTricks(0);
+            }
+            catch(Exception e){
+                System.err.println(e.getMessage());
+            }
         }
         enterWait(" to launch next round.");
     }

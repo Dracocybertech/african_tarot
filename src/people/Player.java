@@ -1,19 +1,20 @@
 package people;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import deck.Card;
 
 public class Player {
-    public final static int NAME_MAX = 8;
-    public final static int CARDS_MAX = 5;
-    public final static int MAX_LIFE = 10;
+    public static final int NAME_MAX = 8;
+    public static final int CARDS_MAX = 5;
+    public static final int MAX_LIFE = 10;
 
-    public int life;
-    public ArrayList<Card> cards;
-    public String name;
-    public int currentTricks;
-    public int betTricks;
+    private int life;
+    private List<Card> cards;
+    private String name;
+    private int currentTricks;
+    private int betTricks;
 
     /**
      * \brief Constructor of Player
@@ -23,7 +24,7 @@ public class Player {
     public Player() {
         this.name = "";
         this.life = MAX_LIFE;
-        this.cards = new ArrayList<Card>(CARDS_MAX);
+        this.cards = new ArrayList<>(CARDS_MAX);
         this.betTricks = 0;
         this.currentTricks = 0;
     }
@@ -42,7 +43,7 @@ public class Player {
         }
         this.name = name;
         this.life = MAX_LIFE;
-        this.cards = new ArrayList<Card>(CARDS_MAX);
+        this.cards = new ArrayList<>(CARDS_MAX);
         this.betTricks = 0;
         this.currentTricks = 0;
     }
@@ -147,7 +148,7 @@ public class Player {
      * getCards() : Return the cards of the player.
      * \return ArrayList<Card> cards
      */
-    public ArrayList<Card> getCards() {
+    public List<Card> getCards() {
         return this.cards;
     }
 
@@ -159,7 +160,7 @@ public class Player {
      * 
      * @throws TooManyCardsException
      */
-    public void setCards(ArrayList<Card> cards) throws TooManyCardsException {
+    public void setCards(List<Card> cards) throws TooManyCardsException {
         if (cards.size() > CARDS_MAX) {
             throw new TooManyCardsException("Players can only have " + CARDS_MAX + " cards at max in their hands.");
         }
@@ -262,16 +263,9 @@ public class Player {
 
     @Override
     public boolean equals(Object o) {
-        if (o == this) {
-            return true;
-        }
-        if (o == null || o.getClass() != this.getClass()) {
-            return false;
-        }
-        if (o.hashCode() == this.hashCode()) {
-            return true;
-        }
-        return false;
+        return o == this 
+        || o instanceof Player player
+        && player.hashCode() == this.hashCode();
     }
 
     /**
@@ -290,12 +284,17 @@ public class Player {
      * clone() : Return a deep clone of a Player
      * \return Player
      */
-    @Override
-    public Player clone() {
-        Player playerCloned = new Player();
-        playerCloned.life = this.life;
-        playerCloned.cards = this.cards;
-        playerCloned.name = this.name;
+    public Player copy(Player player) {
+        Player playerCloned =  new Player();
+        try {
+            playerCloned.setLife(player.getLife());
+            playerCloned.setCards(player.getCards());
+            playerCloned.setName(player.getName());
+        }
+        catch(Exception e){
+            System.err.println(e.getStackTrace());
+        }
+        
         return playerCloned;
     }
 

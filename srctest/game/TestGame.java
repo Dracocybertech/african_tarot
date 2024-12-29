@@ -374,15 +374,15 @@ public class TestGame {
     public void testPlayOnePlayerLastRound() {
         // Valid input
         initGameWithInput("\n \n 1 \n");
-        HashMap<Player, ArrayList<Card>> opponentsCards = new HashMap<Player, ArrayList<Card>>();
+        HashMap<Player, List<Card>> opponentsCards = new HashMap<>();
 
-        ArrayList<Card> card1List = new ArrayList<Card>();
+        ArrayList<Card> card1List = new ArrayList<>();
         card1List.add(card1);
-        ArrayList<Card> card2List = new ArrayList<Card>();
+        ArrayList<Card> card2List = new ArrayList<>();
         card1List.add(card2);
-        ArrayList<Card> card3List = new ArrayList<Card>();
+        ArrayList<Card> card3List = new ArrayList<>();
         card1List.add(card3);
-        ArrayList<Card> card4List = new ArrayList<Card>();
+        ArrayList<Card> card4List = new ArrayList<>();
         card1List.add(card4);
 
         opponentsCards.put(player1, card1List);
@@ -390,7 +390,7 @@ public class TestGame {
         opponentsCards.put(player3, card3List);
         opponentsCards.put(player4, card4List);
 
-        HashMap<Player, Boolean> opponentsDecisions = new HashMap<Player, Boolean>();
+        HashMap<Player, Boolean> opponentsDecisions = new HashMap<>();
         opponentsDecisions.put(player1, true);
         Boolean decisionTaken = game.playOnePlayerLastRound(player2, opponentsCards, opponentsDecisions);
         Boolean decisionExpected = false;
@@ -410,7 +410,7 @@ public class TestGame {
     public void testBuildOpponentsCards() {
         initPlayersCards();
         // Cards opponents have in their hands
-        Map<Player, ArrayList<Card>> opponentsCards = game.buildOpponentsCards(player1, playerGroup);
+        Map<Player, List<Card>> opponentsCards = game.buildOpponentsCards(player1, playerGroup);
 
         // Check if among the cards, there is not the card of the player displayed
         Assert.assertFalse(opponentsCards.containsKey(player1));
@@ -422,7 +422,7 @@ public class TestGame {
 
     @Test
     public void testPlayAllPlayersLastRound() {
-        HashMap<Player, Boolean> resultsExpected = new HashMap<Player, Boolean>();
+        HashMap<Player, Boolean> resultsExpected = new HashMap<>();
         resultsExpected.put(player1, true);
         resultsExpected.put(player2, false);
         resultsExpected.put(player3, false);

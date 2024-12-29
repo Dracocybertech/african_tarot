@@ -186,7 +186,7 @@ public class TestPlayer {
 
     @Test
     public void testClone() throws NegativeLifeValueException {
-        Player player1Cloned = player1.clone();
+        Player player1Cloned = player1.copy(player1);
         Assert.assertEquals(player1Cloned, player1);
         player1Cloned.setLife(player1.getLife() + 1);
         Assert.assertNotEquals(player1Cloned, player1);
